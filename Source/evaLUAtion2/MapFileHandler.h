@@ -3,7 +3,9 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "Vector2Dpair.h"
 #include "MapFileHandler.generated.h"
+
 
 UCLASS()
 class EVALUATION2_API AMapFileHandler : public AActor
@@ -21,6 +23,6 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 
 	UFUNCTION(BlueprintCallable, Category = "FilesHandling")
-	bool SaveMapFile(FString filename, FString SaveText);
+	bool SaveMapFile(FString filename, TArray<FVector2Dpair> walls);
 	
 };

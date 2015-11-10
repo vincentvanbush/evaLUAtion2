@@ -2,7 +2,9 @@
 
 #include "evaLUAtion2.h"
 #include "MapFileHandler.h"
-
+#include <iostream>
+#include <sstream>
+using namespace	std;
 
 // Sets default values
 AMapFileHandler::AMapFileHandler()
@@ -26,10 +28,23 @@ void AMapFileHandler::Tick( float DeltaTime )
 
 }
 
-bool AMapFileHandler::SaveMapFile(FString filename, FString SaveText)
+bool AMapFileHandler::SaveMapFile(FString filename, TArray<FVector2Dpair> walls)
 {
 	FString SaveDirectory = "D:\\" + filename;
-	//FString SaveText = "dupa";
+	string SaveText = "";
+	stringstream ss(stringstream::in | stringstream::out);
+	ss << 0 << "\n" << 0 << "\n\n" << 1000 << " " << 1000 << "\n";
 
-	return FFileHelper::SaveStringToFile(SaveText, *SaveDirectory);
+
+
+	int WallsNumber = walls.Num();
+	for (int i = 0; i < WallsNumber; i++) {
+		ss << 0 << " ";
+		ss << walls[i].Acoord.X << " " << walls[i].Acoord.Y << " ";
+		ss << walls[i].Bcoord.X << " " << walls[i].Bcoord.Y << " ";
+		ss << 1 << " " << 0 << "\n";
+	}
+
+	SaveText = ss.str();
+	return FFileHelper::SaveStringToFile(FString (SaveText.c_str()), *SaveDirectory);
 }
