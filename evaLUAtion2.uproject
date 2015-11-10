@@ -2,5 +2,15 @@
 	"FileVersion": 3,
 	"EngineAssociation": "4.9",
 	"Category": "",
-	"Description": ""
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "evaLUAtion2",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		}
+	]
 }
