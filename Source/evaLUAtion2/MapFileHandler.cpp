@@ -28,21 +28,61 @@ void AMapFileHandler::Tick( float DeltaTime )
 
 }
 
-bool AMapFileHandler::SaveMapFile(FString filename, TArray<FVector2Dpair> walls)
+bool AMapFileHandler::SaveMapFile(
+	FString filename, 
+	TArray<FVector2Dpair> walls,
+	TArray<FPowerupInfo> powerups
+	)
 {
 	FString SaveDirectory = "D:\\" + filename;
 	string SaveText = "";
 	stringstream ss(stringstream::in | stringstream::out);
-	ss << 0 << "\n" << 0 << "\n\n" << 1000 << " " << 1000 << "\n";
-
-
-
 	int WallsNumber = walls.Num();
+	int PowerupsNumber = powerups.Num();
+	int WaypointPowerups = 0;
+	int WaypointCounter = 0;
+	for (int i = 0; i < PowerupsNumber; i++) {
+		if (powerups[i].type != 5) {
+			WaypointPowerups++;
+		}
+	}
+	ss << WaypointPowerups << "\n";
+	for (int i = 0; i < PowerupsNumber; i++) {
+		if (powerups[i].type != 5) {
+			ss << "Index: " << WaypointCounter << " PosX: " << powerups[i].coord.X << " PosY: " << powerups[i].coord.Y << "\n";
+			WaypointCounter++;
+		}
+	}
+
+	ss << 0 << "\n\n" << 100 << " " << 100 << "\n";
+
 	for (int i = 0; i < WallsNumber; i++) {
 		ss << 0 << " ";
 		ss << walls[i].Acoord.X << " " << walls[i].Acoord.Y << " ";
 		ss << walls[i].Bcoord.X << " " << walls[i].Bcoord.Y << " ";
 		ss << 1 << " " << 0 << "\n";
+	}
+
+	WaypointCounter = 0;
+	for (int i = 0; i < PowerupsNumber; i++) {
+		if (powerups[i].type != -1) { //nie jest waypointem
+			ss << powerups[i].type << " " << 0 << " ";
+			ss << powerups[i].coord.X << " " << powerups[i].coord.Y << " ";
+			if (powerups[i].type != 4 && powerups[i].type != 5) {
+				ss << 0 << " " << WaypointCounter << "\n";
+				WaypointCounter++;
+			}
+			else if (powerups[i].type == 4) {
+				ss << 0 << " " << 0 << " " << WaypointCounter << "\n";
+				WaypointCounter++;
+			}
+			else if (powerups[i].type == 5) {
+				ss << 0 << " " << -1 << "\n";
+			}
+		} else {
+			WaypointCounter++;
+		}
+		
 	}
 
 	SaveText = ss.str();

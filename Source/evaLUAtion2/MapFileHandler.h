@@ -4,6 +4,7 @@
 
 #include "GameFramework/Actor.h"
 #include "Vector2Dpair.h"
+#include "PowerupInfo.h"
 #include "MapFileHandler.generated.h"
 
 
@@ -23,6 +24,10 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 
 	UFUNCTION(BlueprintCallable, Category = "FilesHandling")
-	bool SaveMapFile(FString filename, TArray<FVector2Dpair> walls);
+	bool SaveMapFile(
+		FString filename, 
+		TArray<FVector2Dpair> walls,
+		TArray<FPowerupInfo> powerups
+	);
 	
 };
