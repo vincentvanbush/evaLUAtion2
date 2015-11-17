@@ -36,9 +36,7 @@ public:
 		TArray<int32> &MapSize,
 		TArray<FVector2D> &WaypointsCoords,
 		TArray<FVector2Dpair> &WallsCoords,
-		FString &text,
-		float &a,
-		float b
+		TArray<FPowerupInfo> &PowerupsCoords
 	);
 	
 };

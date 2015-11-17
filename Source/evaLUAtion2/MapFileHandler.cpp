@@ -94,9 +94,7 @@ void AMapFileHandler::LoadMapFile(
 	TArray<int32> &MapSize,
 	TArray<FVector2D> &WaypointsCoords,
 	TArray<FVector2Dpair> &WallsCoords,
-	FString &text,
-	float &a,
-	float b
+	TArray<FPowerupInfo> &PowerupsCoords
 	)
 {
 	FString LoadDirectory = "D:\\test1.txt";
@@ -106,11 +104,6 @@ void AMapFileHandler::LoadMapFile(
 	stringstream ss(stringstream::in | stringstream::out);
 	ss << LoadedText;
 
-	//const int BUFFSIZE = 200;
-	//char buff[BUFFSIZE];
-
-
-	//float temp;
 	string temp;
 	int ObjectType;
 	int WallsCounter = 0;
@@ -135,6 +128,7 @@ void AMapFileHandler::LoadMapFile(
 	MapSize.Add(MapCoord);
 
 	FVector2Dpair VecPair;
+	FPowerupInfo Powerup;
 	while (ss) {
 		ss >> ObjectType;
 		if (ObjectType == 0) {
@@ -147,12 +141,14 @@ void AMapFileHandler::LoadMapFile(
 			ss >> temp >> temp;
 		}
 		else if (ObjectType == 4) {
-			ss >> temp >> temp >> temp >> temp >> temp >> temp;
+			ss >> temp >> Powerup.coord.X >> Powerup.coord.Y >> temp >> temp >> temp;
+			Powerup.type = 4;
+			PowerupsCoords.Add(Powerup);
 		}
-		else {
-			ss >> temp >> temp >> temp >> temp >> temp;
+		else if (ObjectType == 6 || ObjectType == 7 || ObjectType == 8 || ObjectType == 9) {
+			ss >> temp >> Powerup.coord.X >> Powerup.coord.Y >> temp >> temp;
+			Powerup.type = ObjectType;
+			PowerupsCoords.Add(Powerup);
 		}
 	}
-
-	text = FString(temp.c_str());
 }
