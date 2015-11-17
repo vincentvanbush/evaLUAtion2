@@ -96,6 +96,7 @@ bool AMapFileHandler::SaveMapFile(
 }
 
 void AMapFileHandler::LoadMapFile(
+	FString filename,
 	TArray<int32> &MapSize,
 	TArray<FVector2D> &WaypointsCoords,
 	TArray<FVector2Dpair> &WallsCoords,
@@ -107,7 +108,7 @@ void AMapFileHandler::LoadMapFile(
 	if (!VerifyOrCreateGameDirectory(LoadDirectory))
 		return;
 
-	LoadDirectory += "test1.txt";
+	LoadDirectory += filename;
 	FString loaded;
 	FFileHelper::LoadFileToString(loaded, *LoadDirectory);
 	string LoadedText(TCHAR_TO_UTF8(*loaded));

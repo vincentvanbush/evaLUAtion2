@@ -32,6 +32,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "FilesHandling")
 	void LoadMapFile(
+		FString filename,
 		TArray<int32> &MapSize,
 		TArray<FVector2D> &WaypointsCoords,
 		TArray<FVector2Dpair> &WallsCoords,
