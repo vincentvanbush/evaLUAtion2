@@ -35,7 +35,12 @@ bool AMapFileHandler::SaveMapFile(
 	TArray<FPowerupInfo> powerups
 	)
 {
-	FString SaveDirectory = "D:\\" + filename;
+	// Verify that the game's directory exists in the user's home folder.
+	FString TestDir;
+	if (!VerifyOrCreateGameDirectory(TestDir))
+		return false;
+	
+	FString SaveDirectory = TestDir + filename;
 	string SaveText = "";
 	stringstream ss(stringstream::in | stringstream::out);
 	int WallsNumber = walls.Num();
@@ -99,7 +104,12 @@ void AMapFileHandler::LoadMapFile(
 	float b
 	)
 {
-	FString LoadDirectory = "D:\\test1.txt";
+	// Verify that the game's directory exists in the user's home folder.
+	FString LoadDirectory;
+	if (!VerifyOrCreateGameDirectory(LoadDirectory))
+		return;
+
+	LoadDirectory += "test1.txt";
 	FString loaded;
 	FFileHelper::LoadFileToString(loaded, *LoadDirectory);
 	string LoadedText(TCHAR_TO_UTF8(*loaded));

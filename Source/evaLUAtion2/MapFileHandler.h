@@ -7,7 +7,6 @@
 #include "PowerupInfo.h"
 #include "MapFileHandler.generated.h"
 
-
 UCLASS()
 class EVALUATION2_API AMapFileHandler : public AActor
 {
@@ -42,3 +41,26 @@ public:
 	);
 	
 };
+
+/** Verify that the evaLUAtion2 directory in user's home folder exists.
+    If not, try to create it. Returns false if there's an error, true otherwise. */
+static FORCEINLINE bool VerifyOrCreateGameDirectory(FString& Path)
+{
+	FString TestDir = FPlatformProcess::UserDir();
+	TestDir += "evaLUAtion2/";
+
+	//Directory Exists?
+	if (!FPlatformFileManager::Get().GetPlatformFile().DirectoryExists(*TestDir))
+	{
+		FPlatformFileManager::Get().GetPlatformFile().CreateDirectory(*TestDir);
+
+		if (!FPlatformFileManager::Get().GetPlatformFile().DirectoryExists(*TestDir))
+		{
+			return false;
+			//~~~~~~~~~~~~~~
+		}
+	}
+
+	Path = TestDir;
+	return true;
+}
