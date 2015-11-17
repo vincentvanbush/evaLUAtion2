@@ -25,9 +25,20 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "FilesHandling")
 	bool SaveMapFile(
-		FString filename, 
+		FString filename,
+		TArray<int32> MapSize,
 		TArray<FVector2Dpair> walls,
 		TArray<FPowerupInfo> powerups
+	);
+
+	UFUNCTION(BlueprintCallable, Category = "FilesHandling")
+	void LoadMapFile(
+		TArray<int32> &MapSize,
+		TArray<FVector2D> &WaypointsCoords,
+		TArray<FVector2Dpair> &WallsCoords,
+		FString &text,
+		float &a,
+		float b
 	);
 	
 };

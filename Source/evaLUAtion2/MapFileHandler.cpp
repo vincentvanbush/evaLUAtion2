@@ -30,6 +30,7 @@ void AMapFileHandler::Tick( float DeltaTime )
 
 bool AMapFileHandler::SaveMapFile(
 	FString filename, 
+	TArray<int32> MapSize,
 	TArray<FVector2Dpair> walls,
 	TArray<FPowerupInfo> powerups
 	)
@@ -54,7 +55,7 @@ bool AMapFileHandler::SaveMapFile(
 		}
 	}
 
-	ss << 0 << "\n\n" << 100 << " " << 100 << "\n";
+	ss << 0 << "\n\n" << MapSize[0] << " " << MapSize[1] << "\n";
 
 	for (int i = 0; i < WallsNumber; i++) {
 		ss << 0 << " ";
@@ -87,4 +88,71 @@ bool AMapFileHandler::SaveMapFile(
 
 	SaveText = ss.str();
 	return FFileHelper::SaveStringToFile(FString (SaveText.c_str()), *SaveDirectory);
+}
+
+void AMapFileHandler::LoadMapFile(
+	TArray<int32> &MapSize,
+	TArray<FVector2D> &WaypointsCoords,
+	TArray<FVector2Dpair> &WallsCoords,
+	FString &text,
+	float &a,
+	float b
+	)
+{
+	FString LoadDirectory = "D:\\test1.txt";
+	FString loaded;
+	FFileHelper::LoadFileToString(loaded, *LoadDirectory);
+	string LoadedText(TCHAR_TO_UTF8(*loaded));
+	stringstream ss(stringstream::in | stringstream::out);
+	ss << LoadedText;
+
+	//const int BUFFSIZE = 200;
+	//char buff[BUFFSIZE];
+
+
+	//float temp;
+	string temp;
+	int ObjectType;
+	int WallsCounter = 0;
+
+	int NumberOfLines;
+	FVector2D Vec;
+	ss >> NumberOfLines;
+	for (int i = 0; i < NumberOfLines; i++) {
+		ss >> temp >> temp >> temp >> Vec.X >> temp >> Vec.Y;
+		WaypointsCoords.Add(Vec);
+	}
+	
+	ss >> NumberOfLines;
+	for (int i = 0; i < NumberOfLines; i++) {
+		ss >> temp >> temp >> temp >> temp >> temp >> temp >> temp >> temp >> temp >> temp;
+	}
+	
+	int32 MapCoord;
+	ss >> MapCoord;
+	MapSize.Add(MapCoord);
+	ss >> MapCoord;
+	MapSize.Add(MapCoord);
+
+	FVector2Dpair VecPair;
+	while (ss) {
+		ss >> ObjectType;
+		if (ObjectType == 0) {
+			ss >> VecPair.Acoord.X;
+			ss >> VecPair.Acoord.Y;
+			ss >> VecPair.Bcoord.X;
+			ss >> VecPair.Bcoord.Y;
+			WallsCoords.Add(VecPair);
+			WallsCounter++;
+			ss >> temp >> temp;
+		}
+		else if (ObjectType == 4) {
+			ss >> temp >> temp >> temp >> temp >> temp >> temp;
+		}
+		else {
+			ss >> temp >> temp >> temp >> temp >> temp;
+		}
+	}
+
+	text = FString(temp.c_str());
 }
