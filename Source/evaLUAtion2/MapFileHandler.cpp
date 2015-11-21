@@ -38,7 +38,7 @@ bool AMapFileHandler::SaveMapFile(
 {
 	// Verify that the game's directory exists in the user's home folder.
 	FString TestDir;
-	if (!VerifyOrCreateGameDirectory(TestDir))
+	if (!VerifyMapsDirectory(TestDir))
 		return false;
 	
 	FString SaveDirectory = TestDir + filename;
@@ -106,7 +106,7 @@ bool AMapFileHandler::LoadMapFile(
 {
 	// Verify that the game's directory exists in the user's home folder.
 	FString LoadDirectory;
-	if (!VerifyOrCreateGameDirectory(LoadDirectory))
+	if (!VerifyMapsDirectory(LoadDirectory))
 		return false;
 
 	LoadDirectory += filename;
@@ -171,9 +171,8 @@ bool AMapFileHandler::LoadMapFile(
 
 TArray<FString> AMapFileHandler::GetMapsInFolder()
 {
-	// UVictoryFileFunctions::GetFiles()
-	FString Dir = FPlatformProcess::UserDir();
-	Dir += "evaLUAtion2/Maps/";
+	FString Dir;
+	VerifyMapsDirectory(Dir);
 
 	TArray<FString> Names;
 	UVictoryFileFunctions::GetFiles(Dir, Names, false, "emf");
