@@ -165,6 +165,9 @@ bool AMapFileHandler::LoadMapFile(
 			Powerup.type = ObjectType;
 			PowerupsCoords.Add(Powerup);
 		}
+		else if (ObjectType == 5 || ObjectType == 10) {
+			ss >> temp >> temp >> temp >> temp >> temp;
+		}
 	}
 	return true;
 }
