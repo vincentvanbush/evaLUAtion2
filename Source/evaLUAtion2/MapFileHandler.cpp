@@ -3,8 +3,7 @@
 #include "evaLUAtion2.h"
 #include "MapFileHandler.h"
 #include "VictoryFileFunctions.h"
-#include <iostream>
-#include <sstream>
+
 using namespace	std;
 
 // Sets default values
@@ -96,6 +95,98 @@ bool AMapFileHandler::SaveMapFile(
 	return FFileHelper::SaveStringToFile(FString (SaveText.c_str()), *SaveDirectory);
 }
 
+bool AMapFileHandler::ValidateMapFile(string Map) {
+	stringstream ss(stringstream::in | stringstream::out);
+	stringstream line(stringstream::in | stringstream::out);
+	const int BUFFSIZE = 256;
+	char buff[BUFFSIZE];
+	int NumberOfLines;
+	string sTemp;
+	float fTemp;
+	int iTemp;
+	
+	ss << Map;
+	ss.getline(buff, BUFFSIZE);
+	line << buff;
+	line >> NumberOfLines;
+	if (line.fail())
+		return false;
+	for (int i = 0; i < NumberOfLines; i++) {
+		ss.getline(buff, BUFFSIZE);
+		line << buff;
+
+		line >> sTemp >> iTemp >> sTemp >> fTemp >> sTemp >> fTemp;
+		if (line.fail())
+			return false;
+		line >> sTemp;
+		if (!line.eof())
+			return false;
+		line.clear();
+	}
+
+	ss.getline(buff, BUFFSIZE);
+	line << buff;
+	line >> NumberOfLines;
+	if (line.fail())
+		return false;
+	for (int i = 0; i < NumberOfLines; i++) {
+		ss.getline(buff, BUFFSIZE);
+		line << buff;
+
+		line >> sTemp >> iTemp >> sTemp >> iTemp >> sTemp >> fTemp >> sTemp >> iTemp >> sTemp >> iTemp;
+		if (line.fail())
+			return false;
+		line >> sTemp;
+		if (!line.eof())
+			return false;
+		line.clear();
+	}
+
+	ss.getline(buff, BUFFSIZE);
+	line << buff;
+	line >> sTemp;
+	if (!line.eof())
+		return false;
+	line.clear();
+
+	ss.getline(buff, BUFFSIZE);
+	line << buff;
+	line >> iTemp >> iTemp;
+	if (line.fail())
+		return false;
+	line >> sTemp;
+	if (!line.eof())
+		return false;
+	line.clear();
+
+	while (ss.getline(buff, BUFFSIZE)) {
+		line << buff;
+
+		line >> iTemp;
+		if (line.fail())
+			return false;
+		if (iTemp == 0 || iTemp == 4) {
+			line >> fTemp >> fTemp >> fTemp >> fTemp >> fTemp >> fTemp;
+			if (line.fail())
+				return false;
+			line >> sTemp;
+			if (!line.eof())
+				return false;
+		}
+		else if (iTemp == 5 || iTemp == 6 || iTemp == 7 || iTemp == 8 || iTemp == 9) {
+			line >> fTemp >> fTemp >> fTemp >> fTemp >> fTemp;
+			if (line.fail())
+				return false;
+			line >> sTemp;
+			if (!line.eof())
+				return false;
+		}
+		line.clear();
+	}
+
+	return true;
+}
+
 bool AMapFileHandler::LoadMapFile(
 	FString filename,
 	TArray<int32> &MapSize,
@@ -116,8 +207,13 @@ bool AMapFileHandler::LoadMapFile(
 
 	// TODO: Make this fail-safe. I mean, validate the input.
 	string LoadedText(TCHAR_TO_UTF8(*loaded));
+
+	if (!ValidateMapFile(LoadedText))
+		return false;
+
 	stringstream ss(stringstream::in | stringstream::out);
 	ss << LoadedText;
+
 
 	string temp;
 	int ObjectType;

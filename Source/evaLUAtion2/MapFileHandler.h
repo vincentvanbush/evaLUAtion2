@@ -5,6 +5,8 @@
 #include "GameFramework/Actor.h"
 #include "Vector2Dpair.h"
 #include "PowerupInfo.h"
+#include <iostream>
+#include <sstream>
 #include "MapFileHandler.generated.h"
 
 UCLASS()
@@ -41,6 +43,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "FilesHandling")
 	TArray<FString> GetMapsInFolder();
+
+	bool ValidateMapFile(std::string Map);
 
 };
 
