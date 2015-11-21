@@ -46,10 +46,10 @@ public:
 
 /** Verify that the evaLUAtion2 directory in user's home folder exists.
 If not, try to create it. Returns false if there's an error, true otherwise. */
-static FORCEINLINE bool VerifyOrCreateGameDirectory(FString& Path)
+static FORCEINLINE bool VerifyOrCreateGameDirectory(FString Folder, FString& OutFullPath)
 {
 	FString TestDir = FPlatformProcess::UserDir();
-	TestDir += "evaLUAtion2/Maps/";
+	TestDir += Folder;
 
 	//Directory Exists?
 	if (!FPlatformFileManager::Get().GetPlatformFile().DirectoryExists(*TestDir))
@@ -63,6 +63,21 @@ static FORCEINLINE bool VerifyOrCreateGameDirectory(FString& Path)
 		}
 	}
 
-	Path = TestDir;
+	OutFullPath = TestDir;
+	return true;
+}
+
+static FORCEINLINE bool VerifyMapsDirectory(FString &OutMapDirPath)
+{
+	FString RetPath;
+
+	if (!VerifyOrCreateGameDirectory(FString("evaLUAtion2/"), RetPath))
+		return false;
+
+	if (!VerifyOrCreateGameDirectory(FString("evaLUAtion2/Maps/"), RetPath))
+		return false;
+
+	OutMapDirPath = RetPath;
+
 	return true;
 }
