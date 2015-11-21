@@ -2,6 +2,7 @@
 
 #include "evaLUAtion2.h"
 #include "MapFileHandler.h"
+#include "VictoryFileFunctions.h"
 #include <iostream>
 #include <sstream>
 using namespace	std;
@@ -95,7 +96,7 @@ bool AMapFileHandler::SaveMapFile(
 	return FFileHelper::SaveStringToFile(FString (SaveText.c_str()), *SaveDirectory);
 }
 
-void AMapFileHandler::LoadMapFile(
+bool AMapFileHandler::LoadMapFile(
 	FString filename,
 	TArray<int32> &MapSize,
 	TArray<FVector2D> &WaypointsCoords,
@@ -106,11 +107,14 @@ void AMapFileHandler::LoadMapFile(
 	// Verify that the game's directory exists in the user's home folder.
 	FString LoadDirectory;
 	if (!VerifyOrCreateGameDirectory(LoadDirectory))
-		return;
+		return false;
 
 	LoadDirectory += filename;
 	FString loaded;
-	FFileHelper::LoadFileToString(loaded, *LoadDirectory);
+	if (!FFileHelper::LoadFileToString(loaded, *LoadDirectory))
+		return false;
+
+	// TODO: Make this fail-safe. I mean, validate the input.
 	string LoadedText(TCHAR_TO_UTF8(*loaded));
 	stringstream ss(stringstream::in | stringstream::out);
 	ss << LoadedText;
@@ -162,4 +166,17 @@ void AMapFileHandler::LoadMapFile(
 			PowerupsCoords.Add(Powerup);
 		}
 	}
+	return true;
+}
+
+TArray<FString> AMapFileHandler::GetMapsInFolder()
+{
+	// UVictoryFileFunctions::GetFiles()
+	FString Dir = FPlatformProcess::UserDir();
+	Dir += "evaLUAtion2/Maps/";
+
+	TArray<FString> Names;
+	UVictoryFileFunctions::GetFiles(Dir, Names, false, "emf");
+
+	return Names;
 }
