@@ -6,7 +6,7 @@ ActorInfo::ActorInfo(AEvaCharacter * character) : name(character->getName()) {
 	setDirection(character->getDirection());
 	setPosition(character->getPosition());
 	setTeam(character->team);
-	setWeaponType(character->getCurrentWeapon());
+	setWeaponType(character->currentWeapon);
 	setHealth(character->health);
 	setArmour(character->armour);
 }

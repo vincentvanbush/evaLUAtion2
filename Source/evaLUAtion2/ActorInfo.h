@@ -43,10 +43,10 @@ public:
 	const char* getName() {
 		return name.c_str();
 	}
-	Enumerations::WeaponType getWeaponType() {
+	EWeaponType getWeaponType() {
 		return weaponType;
 	}
-	void setWeaponType(Enumerations::WeaponType type) {
+	void setWeaponType(EWeaponType type) {
 		this->weaponType = type;
 	}
 	virtual ~ActorInfo() {}
@@ -60,7 +60,7 @@ protected:
 	Vector4d direction;
 	unsigned short team;
 	int health;
-	Enumerations::WeaponType weaponType;
+	EWeaponType weaponType;
 	
 
 };

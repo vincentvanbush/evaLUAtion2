@@ -33,6 +33,7 @@ void AEvaCharacter::SetupPlayerInputComponent(class UInputComponent* InputCompon
 
 }
 
-Vector4d AEvaCharacter::getLongDestination() {
+Vector4d AEvaCharacter::getLongDestination() 
+{
 	return Vector4d(destination.X, destination.Y, destination.Z);
 }

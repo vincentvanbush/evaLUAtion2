@@ -26,58 +26,71 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
-	UPROPERTY(BlueprintReadWrite)
+	/** the number of frags for the character */
+	UPROPERTY(BlueprintReadWrite, Category = CharacterState)
 		int32 kills;
 
-	UPROPERTY(BlueprintReadWrite)
+	/** the number of frags against the character */
+	UPROPERTY(BlueprintReadWrite, Category = CharacterState)
 		int32 killed;
 
-	UPROPERTY(BlueprintReadWrite)
+	/** the number of character's friend kills */
+	UPROPERTY(BlueprintReadWrite, Category = CharacterState)
 		int32 friendkills;
 
-	UPROPERTY(BlueprintReadWrite)
+	/** character's team identifier */
+	UPROPERTY(BlueprintReadWrite, Category = CharacterState)
 		int32 team;
 
-	UPROPERTY(BlueprintReadWrite)
+	/** character's current destination point */
+	UPROPERTY(BlueprintReadWrite, Category = CharacterState)
 		FVector destination;
 
-	UPROPERTY(BlueprintReadWrite)
+	/** character armour points */
+	UPROPERTY(BlueprintReadWrite, Category = CharacterState)
 		int32 armour;
 
-	UPROPERTY(BlueprintReadWrite)
+	/** character health points */
+	UPROPERTY(BlueprintReadWrite, Category = CharacterState)
 		int32 health;
 
-	UPROPERTY(BlueprintReadWrite)
+	/** character name */
+	UPROPERTY(BlueprintReadWrite, Category = CharacterState)
 		FString name;
+
+	/** ammo[i] represents the current number of i-ty ammo type */
+	UPROPERTY(BlueprintReadWrite, Category = CharacterState)
+		TArray<int32> ammo;
+
+	/** loaded[i] is true if the i-th weapon type is loaded */
+	UPROPERTY(BlueprintReadWrite, Category = CharacterState)
+		TArray<bool> loaded;
 
 	Vector4d getLongDestination();
 
+	// Konwersja pozycji z FVector, pobranej metod¹ GetActorLocation
 	Vector4d getPosition() {
-		return position;
+		return Vector4d(this->GetActorLocation());
 	}
+
 	Vector4d getDirection() {
-		return direction;
+		return Vector4d(this->GetActorRotation().Vector());
 	}
-	Enumerations::WeaponType getCurrentWeapon() {
-		return currentWeapon;
-	}
+
 	std::string getName() {
 		std::string name(TCHAR_TO_UTF8(*name));
 		return name;
 	}
-	void setCurrentWeapon(Enumerations::WeaponType weapon) {
-		currentWeapon = weapon;
-	}
-	void setPosition(Vector4d position) {
-		this->position = position;
-	}
-	void setDirection(Vector4d direction) {
-		this->direction = direction;
-	}
+
+	/** The character's current weapon */
+	UPROPERTY(BlueprintReadWrite, Category = CharacterState)
+		EWeaponType currentWeapon;
+
+	/** The character's current action */
+	UPROPERTY(BlueprintReadWrite, Category = CharacterState)
+		EActionType currentAction;
 
 private:
-	Vector4d position;
-	Vector4d direction;
-	Enumerations::WeaponType currentWeapon;
+
 	
 };

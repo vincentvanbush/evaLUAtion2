@@ -1,29 +1,30 @@
-#ifndef MISC_H
-#define MISC_H
+#pragma once
+
 #include <cassert>
+#include "Misc.generated.h"
 
 #define PI_CONST 3.14159265
 
-/** class grouping most importatnt enumeration types - required by luabind
-*/
-class Enumerations {
-public:
-	enum ActionType {
-		Moving,
-		Shooting,
-		ChangingWeapon,
-		Dying,
-		Reloading,
-		Waiting
-	};
-	enum WeaponType {
-		Chaingun,
-		Railgun,
-		RocketLuncher,
-		Shotgun,
-		WeaponSize
-	};
+
+UENUM(BlueprintType)
+enum class EActionType : uint8 {
+	Moving,
+	Shooting,
+	ChangingWeapon,
+	Dying,
+	Reloading,
+	Waiting
 };
+
+UENUM(BlueprintType)
+enum class EWeaponType : uint8 {
+	Chaingun,
+	Railgun,
+	RocketLuncher,
+	Shotgun,
+	WeaponSize
+};
+
 
 /** 4 dimentional vector class
 */
@@ -40,6 +41,15 @@ struct Vector4d {
 		val[1] = vect.val[1];
 		val[2] = vect.val[2];
 		val[3] = vect.val[3];
+	}
+
+	// TODO: verify if Y and Z are what we want here
+	Vector4d(const FVector &fv)
+	{
+		val[0] = fv.X;
+		val[1] = fv.Y;
+		val[2] = fv.Z;
+		val[3] = 0;
 	}
 
 	double value(int i) {
@@ -122,4 +132,3 @@ struct Vector4d {
 	}
 };
 
-#endif //MISC_H
