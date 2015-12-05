@@ -1,10 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "evaLUAtion2.h"
+#include "Action.h"
 #include "PlayerAgent.h"
 
 
-//Action* decideNextAction(){};			//corresponds to whatToDoNow method
+UAction* UPlayerAgent::decideNextAction(){ return nullptr; };			//corresponds to whatToDoNow method
 
 void UPlayerAgent::selectWeapon(EWeaponType weapon){};
 

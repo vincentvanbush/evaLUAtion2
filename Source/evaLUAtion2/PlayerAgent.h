@@ -3,12 +3,13 @@
 #include "Object.h"
 #include "Misc.h"
 #include "Evacharacter.h"
+#include "Action.h"
 #include "PlayerAgent.generated.h"
 
 /**
- * 
+ *
  */
-UCLASS()
+UCLASS(BlueprintType)
 class EVALUATION2_API UPlayerAgent : public UObject
 {
 	GENERATED_BODY()
@@ -16,10 +17,10 @@ class EVALUATION2_API UPlayerAgent : public UObject
 public:
 	UPROPERTY(BlueprintReadWrite, Category = References)
 		AEvaCharacter* ControlledCharacter;
-	
-	//UFUNCTION(BlueprintCallable, Category = EvaluationActions)		//TODO uncomment after Action class is done
-//		Action* decideNextAction();			//corresponds to whatToDoNow method
-	
+
+	UFUNCTION(BlueprintCallable, Category = EvaluationActions)		//TODO uncomment after Action class is done
+		UAction* decideNextAction();			//corresponds to whatToDoNow method
+
 	UFUNCTION(BlueprintCallable, Category = EvaluationActions)
 		void selectWeapon(EWeaponType weapon);
 
@@ -49,6 +50,5 @@ public:
 
 protected:
 	//TODO add CurrentActorKnowledge
-	//TODO add NextAction
 
 };

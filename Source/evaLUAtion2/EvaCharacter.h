@@ -5,6 +5,7 @@
 // #include "evaLUAtion2.h"
 #include "GameFramework/Character.h"
 #include "Misc.h"
+#include "Action.h"
 #include <string>
 #include "EvaCharacter.generated.h"
 
@@ -88,7 +89,9 @@ public:
 
 	/** The character's current action */
 	UPROPERTY(BlueprintReadWrite, Category = CharacterState)
-		EActionType currentAction;
+		UAction *currentAction;
+
+
 
 private:
 
