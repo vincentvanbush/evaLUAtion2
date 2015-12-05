@@ -91,6 +91,10 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = CharacterState)
 		UAction *currentAction;
 
+	/** The character's next action */
+	UPROPERTY(BlueprintReadWrite, Category = CharacterState)
+		UAction *nextAction;
+
 
 
 private:
