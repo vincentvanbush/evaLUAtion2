@@ -95,6 +95,49 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = CharacterState)
 		UAction *nextAction;
 
+	/** Called when the character has nothing to do or is doing a breakable action.
+		Returns the next action to be performed.
+		Corresponds to Actor::whatToDoNow from old evaLUAtion */
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = EvaluationActions)
+		UAction* decideNextAction();
+
+	/** Change the character's weapon. */
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = EvaluationActions)
+		void selectWeapon(EWeaponType weapon);
+
+	/** Start moving the character in a given direction. */
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = EvaluationActions)
+		void moveDirection(FVector direction);
+
+	/** Start moving the character to a given position. */
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = EvaluationActions)
+		void moveTo(FVector target);
+
+	/** Reload the character's weapon. */
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = EvaluationActions)
+		void reload();
+
+	/** Rotate the character pointing to a given vector. */
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = EvaluationActions)
+		void rotate(FVector direction);
+
+	/** Shoot at a given enemy character. */
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = EvaluationActions)
+		void shootAt(AEvaCharacter* enemy);
+
+	/** Shoot at a given point. */
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = EvaluationActions)
+		void shootAtPoint(FVector vect);
+
+	/** Turn the character into an idle state. */
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = EvaluationActions)
+		void wait();
+
+	/** ??? */
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = EvaluationActions)
+		void continueAction();
+
+
 
 
 private:

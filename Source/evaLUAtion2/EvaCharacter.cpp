@@ -2,7 +2,7 @@
 
 #include "evaLUAtion2.h"
 #include "EvaCharacter.h"
-
+#include "Misc.h"
 
 // Sets default values
 AEvaCharacter::AEvaCharacter()
@@ -16,7 +16,6 @@ AEvaCharacter::AEvaCharacter()
 void AEvaCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -37,3 +36,55 @@ Vector4d AEvaCharacter::getLongDestination()
 {
 	return Vector4d(destination.X, destination.Y, destination.Z);
 }
+
+UAction* AEvaCharacter::decideNextAction_Implementation()
+{
+	// corresponds to whatToDoNow method in old evaLUAtion
+	// TODO: implement here or in BP
+	return nullptr;
+};			
+
+void AEvaCharacter::selectWeapon_Implementation(EWeaponType weapon)
+{
+	// TODO: implement here or in BP
+};
+
+void AEvaCharacter::moveDirection_Implementation(FVector direction)
+{
+	// TODO: implement here or in BP
+};
+
+void AEvaCharacter::moveTo_Implementation(FVector target)
+{
+	// TODO: implement here or in BP
+};
+
+void AEvaCharacter::reload_Implementation()
+{
+	// TODO: implement here or in BP
+};
+
+void AEvaCharacter::rotate_Implementation(FVector direction)
+{
+	// TODO: implement here or in BP
+};
+
+void AEvaCharacter::shootAt_Implementation(AEvaCharacter* enemy)
+{
+	// TODO: implement here or in BP
+};
+
+void AEvaCharacter::shootAtPoint_Implementation(FVector vect)
+{
+	// TODO: implement here or in BP
+};
+
+void AEvaCharacter::wait_Implementation()
+{
+	// TODO: implement here or in BP
+};
+
+void AEvaCharacter::continueAction_Implementation()
+{
+	// TODO: implement here or in BP
+};
