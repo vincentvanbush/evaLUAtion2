@@ -1,26 +1,390 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 using UnrealBuildTool;
+using System.IO;
+using System;
 
 public class evaLUAtion2 : ModuleRules
 {
 	public evaLUAtion2(TargetInfo Target)
 	{
+	    bUseRTTI = true;
+
+        string LuaPath = "D:/work/lib/lua5_1_3_Win32_dll8_lib";
+	    string LuabindPath = "D:/work/lib/luabind-0.9.1";
+	    string BoostPath = "D:/work/lib/boost_1_55_0";
+
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
-		// Uncomment if you are using Slate UI
-		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
-		
-		// Uncomment if you are using online features
-		// PrivateDependencyModuleNames.Add("OnlineSubsystem");
-		// if ((Target.Platform == UnrealTargetPlatform.Win32) || (Target.Platform == UnrealTargetPlatform.Win64))
-		// {
-		//		if (UEBuildConfiguration.bCompileSteamOSS == true)
-		//		{
-		//			DynamicallyLoadedModuleNames.Add("OnlineSubsystemSteam");
-		//		}
-		// }
+	    PublicIncludePaths.AddRange(new string[] {
+            Path.Combine(LuaPath, "include"),
+            LuabindPath,
+            BoostPath
+        });
+
+        PublicAdditionalLibraries.Add("D:/work/lib/lua5_1_3_Win32_dll8_lib/lua5.1.3_64.lib");
+        // PublicAdditionalLibraries.Add("D:/work/lib/lua5_1_3_Win32_dll8_lib/lua51.lib");
+
+	    PublicAdditionalLibraries.Add("D:/work/lib/luabind-0.9.1/lib/Luabind64.lib");
+
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_atomic-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_atomic-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_bzip2-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_bzip2-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_bzip2-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_bzip2-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_chrono-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_chrono-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_chrono-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_chrono-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_context-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_context-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_context-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_context-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_coroutine-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_coroutine-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_coroutine-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_coroutine-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_date_time-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_date_time-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_date_time-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_date_time-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_filesystem-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_filesystem-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_filesystem-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_filesystem-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_graph-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_graph-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_graph-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_graph-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_iostreams-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_iostreams-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_iostreams-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_iostreams-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_locale-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_locale-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_log_setup-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_log_setup-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_log_setup-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_log_setup-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_log-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_log-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_log-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_log-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_c99f-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_c99f-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_c99f-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_c99f-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_c99l-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_c99l-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_c99l-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_c99l-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_c99-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_c99-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_c99-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_c99-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_tr1f-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_tr1f-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_tr1f-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_tr1f-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_tr1l-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_tr1l-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_tr1l-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_tr1l-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_tr1-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_tr1-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_tr1-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_math_tr1-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_prg_exec_monitor-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_prg_exec_monitor-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_prg_exec_monitor-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_prg_exec_monitor-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_program_options-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_program_options-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_program_options-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_program_options-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_python-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_python-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_python-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_python-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_random-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_random-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_random-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_random-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_regex-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_regex-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_regex-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_regex-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_system-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_system-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_system-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_system-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_thread-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_thread-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_timer-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_timer-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_timer-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_timer-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_unit_test_framework-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_unit_test_framework-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_unit_test_framework-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_unit_test_framework-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_wave-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_wave-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_wave-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/boost_wave-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_atomic-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_atomic-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_atomic-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_atomic-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_bzip2-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_bzip2-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_bzip2-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_bzip2-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_bzip2-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_bzip2-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_bzip2-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_bzip2-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_chrono-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_chrono-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_chrono-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_chrono-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_chrono-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_chrono-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_chrono-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_chrono-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_context-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_context-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_context-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_context-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_context-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_context-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_context-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_context-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_coroutine-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_coroutine-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_coroutine-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_coroutine-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_coroutine-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_coroutine-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_coroutine-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_coroutine-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_date_time-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_date_time-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_date_time-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_date_time-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_date_time-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_date_time-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_date_time-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_date_time-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_exception-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_exception-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_exception-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_exception-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_exception-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_exception-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_exception-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_exception-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_filesystem-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_filesystem-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_filesystem-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_filesystem-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_filesystem-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_filesystem-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_filesystem-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_filesystem-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_graph-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_graph-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_graph-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_graph-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_graph-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_graph-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_graph-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_graph-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_iostreams-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_iostreams-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_iostreams-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_iostreams-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_iostreams-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_iostreams-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_iostreams-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_iostreams-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_locale-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_locale-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_locale-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_locale-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_log_setup-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_log_setup-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_log_setup-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_log_setup-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_log_setup-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_log_setup-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_log_setup-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_log_setup-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_log-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_log-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_log-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_log-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_log-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_log-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_log-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_log-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99f-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99f-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99f-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99f-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99f-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99f-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99f-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99f-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99l-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99l-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99l-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99l-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99l-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99l-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99l-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99l-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_c99-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1f-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1f-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1f-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1f-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1f-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1f-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1f-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1f-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1l-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1l-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1l-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1l-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1l-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1l-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1l-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1l-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_math_tr1-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_prg_exec_monitor-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_prg_exec_monitor-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_prg_exec_monitor-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_prg_exec_monitor-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_prg_exec_monitor-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_prg_exec_monitor-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_prg_exec_monitor-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_prg_exec_monitor-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_program_options-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_program_options-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_program_options-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_program_options-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_program_options-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_program_options-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_program_options-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_program_options-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_python-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_python-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_python-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_python-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_python-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_python-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_python-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_python-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_random-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_random-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_random-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_random-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_random-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_random-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_random-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_random-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_regex-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_regex-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_regex-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_regex-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_regex-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_regex-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_regex-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_regex-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_signals-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_signals-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_signals-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_signals-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_signals-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_signals-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_signals-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_signals-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_system-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_system-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_system-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_system-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_system-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_system-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_system-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_system-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_test_exec_monitor-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_test_exec_monitor-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_test_exec_monitor-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_test_exec_monitor-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_test_exec_monitor-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_test_exec_monitor-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_test_exec_monitor-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_test_exec_monitor-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_thread-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_thread-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_thread-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_thread-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_timer-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_timer-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_timer-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_timer-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_timer-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_timer-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_timer-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_timer-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_unit_test_framework-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_unit_test_framework-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_unit_test_framework-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_unit_test_framework-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_unit_test_framework-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_unit_test_framework-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_unit_test_framework-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_unit_test_framework-vc120-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_wave-vc120-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_wave-vc120-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_wave-vc120-mt-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_wave-vc120-mt-gd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_wave-vc120-mt-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_wave-vc120-mt-sgd-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_wave-vc120-s-1_55.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(BoostPath, "libs/lib32-msvc-12.0/libboost_wave-vc120-sgd-1_55.lib"));
+
+
+
+	    // Uncomment if you are using Slate UI
+	    // PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
+
+	    // Uncomment if you are using online features
+	    // PrivateDependencyModuleNames.Add("OnlineSubsystem");
+	    // if ((Target.Platform == UnrealTargetPlatform.Win32) || (Target.Platform == UnrealTargetPlatform.Win64))
+	    // {
+	    //		if (UEBuildConfiguration.bCompileSteamOSS == true)
+	    //		{
+	    //			DynamicallyLoadedModuleNames.Add("OnlineSubsystemSteam");
+	    //		}
+	    // }
 	}
 }

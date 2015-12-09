@@ -5,6 +5,7 @@
 #include "Object.h"
 #include "EvaCharacter.h"
 #include "ActorInfo.h"
+#include <lua.h>
 #include "LuaAgent.generated.h"
 
 /**
@@ -15,12 +16,14 @@ class EVALUATION2_API ULuaAgent : public UActorComponent
 {
 	GENERATED_BODY()
 
+
+	
 public:
 
 	/** Corresponds to old evaLUAtion's constructor of LuaAgent.
 		Should create all the Lua environment, bind classes, etc. */
 	UFUNCTION(BlueprintCallable, Category = "Lua Agent")
-	void Initialize(FString &filename /*, lua_State * pL*/); // TODO: uncomment this when ready
+	void Initialize(FString filename); // TODO: uncomment this when ready
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Lua Agent")
 	bool IsEnabled;
@@ -45,6 +48,8 @@ public:
 	void shootAtPoint(Vector4d vect);
 	void wait();
 	void continueAction();
+
+	static lua_State * createLuaEnv();
 	
 private:
 	
@@ -56,6 +61,9 @@ private:
 	/** Constructs the ActorKnowledge object that should be passed to the Lua script. */
 	// ActorKnowledge *ConstructActorKnowledge();
 	// TODO: uncomment this when ActorKnowledge class is ready
-	
+
+	lua_State *luaEnv;
+	std::string onStartName;
+	std::string whatToName;
 	
 };

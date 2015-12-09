@@ -40,9 +40,8 @@ Vector4d AEvaCharacter::getLongDestination()
 UAction* AEvaCharacter::decideNextAction_Implementation()
 {
 	// corresponds to whatToDoNow method in old evaLUAtion
-	// TODO: implement here or in BP
 	return nullptr;
-};			
+};
 
 void AEvaCharacter::selectWeapon_Implementation(EWeaponType weapon)
 {
