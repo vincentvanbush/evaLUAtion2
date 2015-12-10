@@ -4,6 +4,7 @@
 
 #include "GameFramework/GameState.h"
 #include "Interfaces/PowerupInterface.h"
+#include "EvaCharacter.h"
 #include "EvaGameState.generated.h"
 
 /**
@@ -27,5 +28,10 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = ExistingObjects)
 	TArray<AActor*> Walls; // acculy iz IWallInterface*
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = ExistingObjects)
+	TArray<AEvaCharacter*> Characters;
+
+
 	
 };
