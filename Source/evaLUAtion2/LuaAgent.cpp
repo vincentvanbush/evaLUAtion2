@@ -175,7 +175,7 @@ void ULuaAgent::Initialize(FString filename)
 void ULuaAgent::whatToDo()
 {
 	FString wtn(UTF8_TO_TCHAR(whatToName.c_str()));
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, wtn);
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, "Executing function: " + wtn);
 
 	// Call the function in the lua script.
 	try {
@@ -189,22 +189,33 @@ void ULuaAgent::whatToDo()
 
 void ULuaAgent::onStart()
 {
+	FString osn(UTF8_TO_TCHAR(onStartName.c_str()));
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, "Executing function: " + osn);
 
+	// Call the function in the lua script.
+	try {
+		call_function<void>(luaEnv, onStartName.c_str(), this/* TODO: actorKnowledge, time */);
+	}
+	catch (error& e) {
+		FString errMsg(e.what());
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, errMsg);
+	}
 }
 
 double ULuaAgent::randomDouble()
 {
-	return 0.0;
+	return FMath::FRand();
 }
 
 void ULuaAgent::selectWeapon(EWeaponType weapon)
 {
-	
+	GetControlledCharacter()->selectWeapon(weapon);
 }
 
 void ULuaAgent::moveDirection(Vector4d direction)
 {
-	
+	FVector DirectionFV(direction.val[0], direction.val[1], direction.val[2]);
+	GetControlledCharacter()->moveDirection(DirectionFV);
 }
 
 void ULuaAgent::moveTo(Vector4d target)
@@ -215,30 +226,33 @@ void ULuaAgent::moveTo(Vector4d target)
 
 void ULuaAgent::reload()
 {
-
+	GetControlledCharacter()->reload();
 }
 
 void ULuaAgent::rotate(Vector4d direction)
 {
-
+	FVector RotationFV(direction.val[0], direction.val[1], direction.val[2]);
+	FRotator Rotator = RotationFV.Rotation();
+	GetControlledCharacter()->rotate(Rotator);
 }
 
 void ULuaAgent::shootAt(ActorInfo enemy)
 {
-
+	shootAtPoint(enemy.getPosition()); // TODO maybe use EvaCharacter::shootAt?
 }
 
 void ULuaAgent::shootAtPoint(Vector4d vect)
 {
-
+	FVector ShootFV(vect.val[0], vect.val[1], vect.val[2]);
+	GetControlledCharacter()->shootAtPoint(ShootFV);
 }
 
 void ULuaAgent::wait()
 {
-
+	GetControlledCharacter()->wait();
 }
 
 void ULuaAgent::continueAction()
 {
-
+	GetControlledCharacter()->continueAction();
 }

@@ -1,5 +1,5 @@
-#ifndef NACTOR_INFO_H
-#define NACTOR_INFO_H
+#pragma once
+
 #include <string>
 #include "Misc.h"
 #include "EvaCharacter.h"
@@ -64,5 +64,3 @@ protected:
 	
 
 };
-
-#endif //NACTOR_INFO_H

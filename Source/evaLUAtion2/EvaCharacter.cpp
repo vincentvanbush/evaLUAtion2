@@ -63,7 +63,7 @@ void AEvaCharacter::reload_Implementation()
 	// TODO: implement here or in BP
 };
 
-void AEvaCharacter::rotate_Implementation(FVector direction)
+void AEvaCharacter::rotate_Implementation(FRotator rotation)
 {
 	// TODO: implement here or in BP
 };
@@ -87,3 +87,9 @@ void AEvaCharacter::continueAction_Implementation()
 {
 	// TODO: implement here or in BP
 };
+
+ActorInfo* AEvaCharacter::ConstructActorInfo()
+{
+	ActorInfo *ret = new ActorInfo(this);
+	return ret;
+}

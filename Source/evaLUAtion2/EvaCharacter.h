@@ -6,9 +6,11 @@
 #include "GameFramework/Character.h"
 #include "Misc.h"
 #include "Action.h"
+#include "ActorInfo.h"
 #include <string>
 #include "EvaCharacter.generated.h"
 
+class ActorInfo;
 UCLASS()
 class EVALUATION2_API AEvaCharacter : public ACharacter
 {
@@ -67,6 +69,8 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = CharacterState)
 		TArray<bool> loaded;
 
+	ActorInfo* ConstructActorInfo();
+
 	Vector4d getLongDestination();
 
 	// Konwersja pozycji z FVector, pobranej metod¹ GetActorLocation
@@ -119,7 +123,7 @@ public:
 
 	/** Rotate the character pointing to a given vector. */
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = EvaluationActions)
-		void rotate(FVector direction);
+		void rotate(FRotator rotation);
 
 	/** Shoot at a given enemy character. */
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = EvaluationActions)
