@@ -46,7 +46,7 @@ lua_State * ULuaAgent::createLuaEnv() {
 					value("Shotgun", 3),
 					value("WeaponSize", 4)
 				]
-			/*,
+			,
 				class_<std::vector<ActorInfo> >("vectorOfActorInfo")
 				.def("size", &std::vector<ActorInfo>::size)
 				.def("at", (AtFunctionType)&std::vector<ActorInfo>::at)
@@ -71,7 +71,7 @@ lua_State * ULuaAgent::createLuaEnv() {
 				.def("setDirection", &ActorInfo::setDirection)
 				//			.def("setActionType", &ActorInfo::setActionType)
 				.def("setTeam", &ActorInfo::setTeam)
-				.def("setWeaponType", &ActorInfo::setWeaponType)*/
+				.def("setWeaponType", &ActorInfo::setWeaponType),
 				/*,
 				 TODO uncomment when ready
 				class_<ActorKnowledge>("ActorKnowledge")
@@ -115,18 +115,18 @@ lua_State * ULuaAgent::createLuaEnv() {
 				.def("getNumberOfSpawnPoints", &Navigation::getNumberOfSpawnPoints)
 				.def("getSpawnPoint", &Navigation::getSpawnPoint)
 				.def("getNumberOfPoints", &Navigation::getNumberOfPoints)
-				*/,
+				*/
 				class_<ULuaAgent>("LuaAgent")
-				/*.def("randomDouble", &ULuaAgent::randomDouble)
+				.def("randomDouble", &ULuaAgent::randomDouble)
 				.def("selectWeapon", &ULuaAgent::selectWeapon)
-				.def("moveDirection", &ULuaAgent::moveDirection)*/
+				.def("moveDirection", &ULuaAgent::moveDirection)
 				.def("moveTo", &ULuaAgent::moveTo)
-				/*.def("reload", &ULuaAgent::reload)
+				.def("reload", &ULuaAgent::reload)
 				.def("rotate", &ULuaAgent::rotate)
 				.def("shootAt", &ULuaAgent::shootAt)
 				.def("shootAtPoint", &ULuaAgent::shootAtPoint)
 				.def("wait", &ULuaAgent::wait)
-				.def("continueAction", &ULuaAgent::continueAction)*/
+				.def("continueAction", &ULuaAgent::continueAction)
 				,
 				class_<Vector4d>("Vector4d")
 				.def("value", &Vector4d::value)
@@ -189,7 +189,12 @@ void ULuaAgent::whatToDo()
 
 void ULuaAgent::onStart()
 {
-	
+
+}
+
+double ULuaAgent::randomDouble()
+{
+	return 0.0;
 }
 
 void ULuaAgent::selectWeapon(EWeaponType weapon)
