@@ -2,9 +2,8 @@
 #define NACTOR_INFO_H
 #include <string>
 #include "Misc.h"
-#include "EvaCharacter.h"
 
-//class Actor;
+class AEvaCharacter;
 class ActorInfo
 {
 public:
