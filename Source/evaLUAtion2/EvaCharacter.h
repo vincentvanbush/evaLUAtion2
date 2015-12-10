@@ -2,12 +2,12 @@
 
 #pragma once
 
-// #include "evaLUAtion2.h"
 #include "GameFramework/Character.h"
 #include "Misc.h"
 #include "Action.h"
 #include "ActorInfo.h"
 #include <string>
+#include "ActorInfo.h"
 #include "EvaCharacter.generated.h"
 
 class ActorInfo;
@@ -85,6 +85,11 @@ public:
 	std::string getName() {
 		std::string name(TCHAR_TO_UTF8(*name));
 		return name;
+	}
+
+	ActorInfo getActorInfo() {
+		ActorInfo info(this);
+		return info;
 	}
 
 	/** The character's current weapon */

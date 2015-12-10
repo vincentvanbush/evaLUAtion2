@@ -2,9 +2,8 @@
 
 #include <string>
 #include "Misc.h"
-#include "EvaCharacter.h"
 
-//class Actor;
+class AEvaCharacter;
 class ActorInfo
 {
 public:

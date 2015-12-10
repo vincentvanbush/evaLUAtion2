@@ -1,18 +1,18 @@
 #pragma once
 
-#include "PowerupInfo.generated.h"
+#include "WaypointsConnectionInfo.generated.h"
 
 USTRUCT(BlueprintType)
-struct FPowerupInfo
+struct FWaypointsConnectionInfo
 {
 	GENERATED_USTRUCT_BODY()
 
 	UPROPERTY(BlueprintReadWrite)
-	FVector2D coord;
+	int32 from;
 
 	UPROPERTY(BlueprintReadWrite)
-	int32 type;
+		int32 to;
 
 	UPROPERTY(BlueprintReadWrite)
-	int32 uniqueIndex;
+		float cost;
 };

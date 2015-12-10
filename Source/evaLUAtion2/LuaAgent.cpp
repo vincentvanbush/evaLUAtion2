@@ -14,7 +14,8 @@ extern "C" {
 #include <luabind/operator.hpp>
 #include "Misc.h"
 #include <vector>
-#include "ActorInfo.h"
+//#include "ActorInfo.h"
+#include "ActorKnowledge.h"
 
 #pragma warning(disable: 4541)
 using namespace luabind;
@@ -71,9 +72,9 @@ lua_State * ULuaAgent::createLuaEnv() {
 				.def("setDirection", &ActorInfo::setDirection)
 				//			.def("setActionType", &ActorInfo::setActionType)
 				.def("setTeam", &ActorInfo::setTeam)
-				.def("setWeaponType", &ActorInfo::setWeaponType),
-				/*,
-				 TODO uncomment when ready
+				.def("setWeaponType", &ActorInfo::setWeaponType)
+				,
+				// TODO uncomment when ready
 				class_<ActorKnowledge>("ActorKnowledge")
 				.def("getName", &ActorKnowledge::getName)
 				.def("getPosition", &ActorKnowledge::getPosition)
@@ -83,18 +84,18 @@ lua_State * ULuaAgent::createLuaEnv() {
 				.def("getWeaponType", &ActorKnowledge::getWeaponType)
 				.def("getHealth", &ActorKnowledge::getHealth)
 				.def("getAmmo", &ActorKnowledge::getAmmo)
-				.def("getSeenFriends", &ActorKnowledge::getSeenFriends)
-				.def("getSeenFoes", &ActorKnowledge::getSeenFoes)
-				.def("getEstimatedTimeToReach", &ActorKnowledge::getEstimatedTimeToReach)
+				//.def("getSeenFriends", &ActorKnowledge::getSeenFriends)
+				//.def("getSeenFoes", &ActorKnowledge::getSeenFoes)
+				//.def("getEstimatedTimeToReach", &ActorKnowledge::getEstimatedTimeToReach)
 				.def("getSelf", &ActorKnowledge::getSelf)
-				.def("getNavigation", &ActorKnowledge::getNavigation)
+				//.def("getNavigation", &ActorKnowledge::getNavigation)
 				.def("getArmour", &ActorKnowledge::getArmour)
-				.def("isMoving", &ActorKnowledge::isMoving)
+				//.def("isMoving", &ActorKnowledge::isMoving)
 				.def("isLoaded", &ActorKnowledge::isLoaded)
 				.def("getLongDestination", &ActorKnowledge::getLongDestination)
-				.def("getShortDestination", &ActorKnowledge::getShortDestination)
+				//.def("getShortDestination", &ActorKnowledge::getShortDestination)
 				,
-				class_<Trigger>("Trigger")
+				/*class_<Trigger>("Trigger")
 				.enum_("TriggerType")
 				[
 					value("Weapon", 0),

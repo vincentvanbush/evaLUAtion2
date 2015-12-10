@@ -32,7 +32,9 @@ bool AMapFileHandler::SaveMapFile(
 	FString filename, 
 	TArray<int32> MapSize,
 	TArray<FVector2Dpair> walls,
-	TArray<FPowerupInfo> powerups
+	TArray<FPowerupInfo> powerups,
+	TArray<FWaypointInfo> waypoints,
+	TArray<FWaypointsConnectionInfo> connections
 	)
 {
 	// Verify that the game's directory exists in the user's home folder.
@@ -45,9 +47,22 @@ bool AMapFileHandler::SaveMapFile(
 	stringstream ss(stringstream::in | stringstream::out);
 	int WallsNumber = walls.Num();
 	int PowerupsNumber = powerups.Num();
+	int WaypointsNumber = waypoints.Num();
+	int ConnectionsNumber = connections.Num();
+
+	ss << WaypointsNumber << "\n";
+	for (int i = 0; i < WaypointsNumber; i++) {
+		ss << "Index: " << waypoints[i].uniqueIndex << " PoxX: " << waypoints[i].coord.X << " PoxY: " << waypoints[i].coord.Y << "\n";
+	}
+
+	ss << ConnectionsNumber << "\n";
+	for (int i = 0; i < ConnectionsNumber; i++) {
+		ss << "m_iFrom: " << connections[i].from << " m_iTo: " << connections[i].to << " m_dCost: " << connections[i].cost << " m_iFlags: 0 ID: -1\n";
+	}
+
 	int WaypointPowerups = 0;
 	int WaypointCounter = 0;
-	for (int i = 0; i < PowerupsNumber; i++) {
+	/*for (int i = 0; i < PowerupsNumber; i++) {
 		if (powerups[i].type != 5) {
 			WaypointPowerups++;
 		}
@@ -58,9 +73,9 @@ bool AMapFileHandler::SaveMapFile(
 			ss << "Index: " << WaypointCounter << " PosX: " << powerups[i].coord.X << " PosY: " << powerups[i].coord.Y << "\n";
 			WaypointCounter++;
 		}
-	}
+	}*/
 
-	ss << 0 << "\n\n" << MapSize[0] << " " << MapSize[1] << "\n";
+	ss << "\n" << MapSize[0] << " " << MapSize[1] << "\n";
 
 	for (int i = 0; i < WallsNumber; i++) {
 		ss << 0 << " ";
@@ -70,6 +85,7 @@ bool AMapFileHandler::SaveMapFile(
 	}
 
 	WaypointCounter = 0;
+	// rozwi¹zaæ kwestiê poprawnych odnoœników do indeksów waypointów w sekcji powerupów
 	for (int i = 0; i < PowerupsNumber; i++) {
 		if (powerups[i].type != -1) { //nie jest waypointem
 			ss << powerups[i].type << " " << 0 << " ";
@@ -190,7 +206,8 @@ bool AMapFileHandler::ValidateMapFile(string Map) {
 bool AMapFileHandler::LoadMapFile(
 	FString filename,
 	TArray<int32> &MapSize,
-	TArray<FVector2D> &WaypointsCoords,
+	TArray<FWaypointInfo> &WaypointsCoords,
+	TArray<FWaypointsConnectionInfo> &WaypointsConnections,
 	TArray<FVector2Dpair> &WallsCoords,
 	TArray<FPowerupInfo> &PowerupsCoords
 	)
@@ -220,16 +237,17 @@ bool AMapFileHandler::LoadMapFile(
 	int WallsCounter = 0;
 
 	int NumberOfLines;
-	FVector2D Vec;
+	FWaypointInfo Waypoint;
 	ss >> NumberOfLines;
 	for (int i = 0; i < NumberOfLines; i++) {
-		ss >> temp >> temp >> temp >> Vec.X >> temp >> Vec.Y;
-		WaypointsCoords.Add(Vec);
+		ss >> temp >> Waypoint.uniqueIndex >> temp >> Waypoint.coord.X >> temp >> Waypoint.coord.Y;
+		WaypointsCoords.Add(Waypoint);
 	}
 	
 	ss >> NumberOfLines;
+	FWaypointsConnectionInfo connection;
 	for (int i = 0; i < NumberOfLines; i++) {
-		ss >> temp >> temp >> temp >> temp >> temp >> temp >> temp >> temp >> temp >> temp;
+		ss >> temp >> connection.from >> temp >> connection.to >> temp >> connection.cost >> temp >> temp >> temp >> temp;
 	}
 	
 	int32 MapCoord;
@@ -252,12 +270,12 @@ bool AMapFileHandler::LoadMapFile(
 			ss >> temp >> temp;
 		}
 		else if (ObjectType == 4) {
-			ss >> temp >> Powerup.coord.X >> Powerup.coord.Y >> temp >> temp >> temp;
+			ss >> temp >> Powerup.coord.X >> Powerup.coord.Y >> temp >> temp >> Powerup.uniqueIndex;
 			Powerup.type = 4;
 			PowerupsCoords.Add(Powerup);
 		}
 		else if (ObjectType == 6 || ObjectType == 7 || ObjectType == 8 || ObjectType == 9) {
-			ss >> temp >> Powerup.coord.X >> Powerup.coord.Y >> temp >> temp;
+			ss >> temp >> Powerup.coord.X >> Powerup.coord.Y >> temp >> Powerup.uniqueIndex;
 			Powerup.type = ObjectType;
 			PowerupsCoords.Add(Powerup);
 		}

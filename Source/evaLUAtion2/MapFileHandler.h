@@ -5,6 +5,8 @@
 #include "GameFramework/Actor.h"
 #include "Vector2Dpair.h"
 #include "PowerupInfo.h"
+#include "WaypointInfo.h"
+#include "WaypointsConnectionInfo.h"
 #include <iostream>
 #include <sstream>
 #include "MapFileHandler.generated.h"
@@ -29,14 +31,17 @@ public:
 		FString filename,
 		TArray<int32> MapSize,
 		TArray<FVector2Dpair> walls,
-		TArray<FPowerupInfo> powerups
+		TArray<FPowerupInfo> powerups,
+		TArray<FWaypointInfo> waypoints,
+		TArray<FWaypointsConnectionInfo> connections
 	);
 
 	UFUNCTION(BlueprintCallable, Category = "FilesHandling")
 	bool LoadMapFile(
 		FString filename,
 		TArray<int32> &MapSize,
-		TArray<FVector2D> &WaypointsCoords,
+		TArray<FWaypointInfo> &WaypointsCoords,
+		TArray<FWaypointsConnectionInfo> &WaypointsConnections,
 		TArray<FVector2Dpair> &WallsCoords,
 		TArray<FPowerupInfo> &PowerupsCoords
 	);
