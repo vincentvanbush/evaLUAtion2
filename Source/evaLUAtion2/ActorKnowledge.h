@@ -15,7 +15,7 @@ public:
 	Vector4d getDirection();
 	int getHealth();
 	int getArmour();
-	EWeaponType getWeaponType();
+	uint8 getWeaponType();
 	int getAmmo(EWeaponType type);
 	bool isLoaded(EWeaponType type);
 	unsigned short getTeam();
@@ -48,7 +48,6 @@ private:
 //private:
 //	std::set<ActorInfo> seenActors;
 //	std::set<ObjectInfo*> seenObjects;
-//	Actor * actor;
 };
 
 #endif //ACTOR_KNOWLEDGE_H

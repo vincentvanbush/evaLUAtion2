@@ -25,8 +25,8 @@ int ActorKnowledge::getArmour() {
 	return character->armour;
 }
 
-EWeaponType ActorKnowledge::getWeaponType() {
-	return character->currentWeapon;
+uint8 ActorKnowledge::getWeaponType() {
+	return static_cast<uint8>(character->currentWeapon);
 }
 
 int ActorKnowledge::getAmmo(EWeaponType type) {
