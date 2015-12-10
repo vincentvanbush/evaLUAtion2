@@ -42,8 +42,8 @@ public:
 	const char* getName() {
 		return name.c_str();
 	}
-	EWeaponType getWeaponType() {
-		return weaponType;
+	uint8 getWeaponType() { // actually is EWeaponType converted to uint8
+		return static_cast<uint8>(weaponType);
 	}
 	void setWeaponType(EWeaponType type) {
 		this->weaponType = type;

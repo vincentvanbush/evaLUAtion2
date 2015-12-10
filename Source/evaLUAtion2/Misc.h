@@ -25,6 +25,8 @@ enum class EWeaponType : uint8 {
 	WeaponSize
 };
 
+class Enumerations {};
+
 
 /** 4 dimentional vector class
 */
