@@ -3,6 +3,7 @@
 #include "evaLUAtion2.h"
 #include "LuaAgent.h"
 #include <iostream>
+#include "EvaGameState.h"
 
 extern "C" {
 	#include <lua.h>
@@ -154,7 +155,9 @@ AEvaCharacter* ULuaAgent::GetControlledCharacter()
 
 void ULuaAgent::Initialize(FString filename)
 {
-	lua_State *pL = ULuaAgent::createLuaEnv();
+	AEvaGameState *game = GetWorld()->GetGameState<AEvaGameState>();
+	lua_State *pL = game->GetLuaContextFor(GetControlledCharacter());
+		// ULuaAgent::createLuaEnv();
 
 	std::string name(TCHAR_TO_UTF8(*filename));
 
