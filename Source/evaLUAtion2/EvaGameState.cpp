@@ -14,3 +14,22 @@ lua_State* AEvaGameState::GetLuaContextFor(AEvaCharacter *character)
 	}
 	return it->second;
 }
+
+AEvaGameState::AEvaGameState(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+{
+	Settings = NewObject<UDict>();
+}
+
+void AEvaGameState::StartGame(FString ActorsFile, FString CfgFile)
+{
+	// tak z grubsza:
+
+	// za³adowanie danych o aktorach
+		// w tym: dla ka¿dego z nich za³adowanie w³aœciwego skryptu
+
+	// spawnowanie obiektów i postaci przez GetWorld()->SpawnActor(...)
+	
+	// za³adowanie zawartoœci pliku konfiguracyjnego i ustawienie opcji gry
+
+	// wyczyszczenie tablic i dodanie do nich wszystkiego co mamy :)
+}

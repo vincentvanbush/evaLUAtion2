@@ -8,6 +8,7 @@
 #include <lauxlib.h>
 #include <luabind/error.hpp>
 #include <map>
+#include "Dict.h"
 #include "EvaGameState.generated.h"
 
 /**
@@ -21,6 +22,8 @@ class EVALUATION2_API AEvaGameState : public AGameState
 	std::map<int32, lua_State*> TeamLuaContexts;
 	
 public:
+
+	AEvaGameState(const FObjectInitializer &PCIP);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = ExistingObjects)
 	TArray<AActor*> Powerups; // acculy iz IPowerupInterface*
@@ -37,10 +40,15 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = ExistingObjects)
 	TArray<AEvaCharacter*> Characters;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = ExistingObjects)
+	UDict* Settings;
+
 	/** Returns the lua_State* associated with the character's team.
 		lua_State objects are created per team, to enable communication between characters. */
 	lua_State* GetLuaContextFor(AEvaCharacter* character);
 
-	
+	/** Loads the game with information from specified files */
+	UFUNCTION(BlueprintCallable, Category = Game)
+	void StartGame(FString ActorsFile, FString CfgFile);
 
 };
