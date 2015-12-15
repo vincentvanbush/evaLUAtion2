@@ -91,19 +91,19 @@ bool AMapFileHandler::SaveMapFile(
 			ss << powerups[i].type << " " << 0 << " ";
 			ss << powerups[i].coord.X << " " << powerups[i].coord.Y << " ";
 			if (powerups[i].type != 4 && powerups[i].type != 5) {
-				ss << 0 << " " << WaypointCounter << "\n";
-				WaypointCounter++;
+				ss << 0 << " " << powerups[i].uniqueIndex << "\n";
+				//WaypointCounter++;
 			}
 			else if (powerups[i].type == 4) {
-				ss << 0 << " " << 0 << " " << WaypointCounter << "\n";
-				WaypointCounter++;
+				ss << 0 << " " << 0 << " " << powerups[i].uniqueIndex << "\n";
+				//WaypointCounter++;
 			}
 			else if (powerups[i].type == 5) {
 				ss << 0 << " " << -1 << "\n";
 			}
-		} else {
-			WaypointCounter++;
-		}
+		} //else {
+			//WaypointCounter++;
+		//}
 		
 	}
 
@@ -114,6 +114,7 @@ bool AMapFileHandler::SaveMapFile(
 bool AMapFileHandler::ValidateMapFile(string Map) {
 	stringstream ss(stringstream::in | stringstream::out);
 	stringstream line(stringstream::in | stringstream::out);
+	stringstream line1(stringstream::in | stringstream::out);
 	const int BUFFSIZE = 256;
 	char buff[BUFFSIZE];
 	int NumberOfLines;
@@ -127,11 +128,17 @@ bool AMapFileHandler::ValidateMapFile(string Map) {
 	line >> NumberOfLines;
 	if (line.fail())
 		return false;
+	line.clear();
 	for (int i = 0; i < NumberOfLines; i++) {
 		ss.getline(buff, BUFFSIZE);
 		line << buff;
 
-		line >> sTemp >> iTemp >> sTemp >> fTemp >> sTemp >> fTemp;
+		line >> sTemp;
+		line >> iTemp;
+		line >> sTemp;
+		line >> fTemp;
+		line >> sTemp;
+		line >> fTemp;
 		if (line.fail())
 			return false;
 		line >> sTemp;
@@ -145,6 +152,7 @@ bool AMapFileHandler::ValidateMapFile(string Map) {
 	line >> NumberOfLines;
 	if (line.fail())
 		return false;
+	line.clear();
 	for (int i = 0; i < NumberOfLines; i++) {
 		ss.getline(buff, BUFFSIZE);
 		line << buff;
@@ -248,6 +256,7 @@ bool AMapFileHandler::LoadMapFile(
 	FWaypointsConnectionInfo connection;
 	for (int i = 0; i < NumberOfLines; i++) {
 		ss >> temp >> connection.from >> temp >> connection.to >> temp >> connection.cost >> temp >> temp >> temp >> temp;
+		WaypointsConnections.Add(connection);
 	}
 	
 	int32 MapCoord;
