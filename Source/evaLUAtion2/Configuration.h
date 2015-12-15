@@ -3,7 +3,6 @@
 #pragma once
 
 #include "Object.h"
-#include "boost/any.hpp"
 #include <boost/program_options.hpp>
 #include "Configuration.generated.h"
 

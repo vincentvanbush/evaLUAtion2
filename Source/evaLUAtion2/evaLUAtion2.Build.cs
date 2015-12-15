@@ -9,7 +9,10 @@ public class evaLUAtion2 : ModuleRules
 	public evaLUAtion2(TargetInfo Target)
 	{
 	    bUseRTTI = true;
-	    bEnableExceptions = true;
+
+	    string evaLUAtionDir = ModuleDirectory;
+
+        // bEnableExceptions = true;
 
         string LuaPath = "D:/work/lib/lua5_1_3_Win32_dll8_lib";
 	    string LuabindPath = "D:/work/lib/luabind-0.9.1";
@@ -19,7 +22,8 @@ public class evaLUAtion2 : ModuleRules
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
-	    PublicIncludePaths.AddRange(new string[] {
+        PublicIncludePaths.AddRange(new string[] {
+            evaLUAtionDir,
             Path.Combine(LuaPath, "include"),
             LuabindPath,
             BoostPath
