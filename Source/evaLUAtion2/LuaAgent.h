@@ -5,6 +5,7 @@
 #include "Object.h"
 #include "EvaCharacter.h"
 #include "ActorInfo.h"
+#include <luaconf.h>
 #include <lua.h>
 #include "LuaAgent.generated.h"
 
