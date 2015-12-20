@@ -156,6 +156,8 @@ std::vector<ActorInfo> AEvaCharacter::SeenFoesInfo()
 bool AEvaCharacter::CanSee(FVector point)
 {
 	FVector location = this->GetActorLocation();
-	// TODO
-	return true;
+	FHitResult hit;
+	if (Trace(GetWorld(), nullptr, point, location, hit))
+		return true;
+	return false;
 }
