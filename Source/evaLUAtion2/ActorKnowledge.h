@@ -23,20 +23,13 @@ public:
 	/** get ActorInfo about oneself*/
 	ActorInfo getSelf();
 	Vector4d getLongDestination();
+	std::vector<ActorInfo> getSeenFriends();
+	std::vector<ActorInfo> getSeenFoes();
+	std::vector<ActorInfo> getSeenActors();
 private:
 	AEvaCharacter * character;
-//	void updateSpotting();
 //	Navigation * getNavigation();
 //	bool isMoving();
-//	/** get list of friends seen from current position
-//	*/
-//	std::vector<ActorInfo> getSeenFriends();
-//	/** get list of foes seen from current position
-//	*/
-//	std::vector<ActorInfo> getSeenFoes();
-//	/** get list of all actors seen from current position
-//	*/
-//	std::vector<ActorInfo> getSeenActors();
 //	Vector4d getShortDestination();
 //	int getId() const;
 //	/**

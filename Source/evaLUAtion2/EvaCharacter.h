@@ -8,6 +8,7 @@
 #include "ActorInfo.h"
 #include <string>
 #include "ActorInfo.h"
+#include <vector>
 #include "EvaCharacter.generated.h"
 
 class ActorInfo;
@@ -69,7 +70,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = CharacterState)
 		TArray<bool> loaded;
 
-	ActorInfo* ConstructActorInfo();
+	ActorInfo ConstructActorInfo();
 
 	Vector4d getLongDestination();
 
@@ -146,10 +147,25 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = EvaluationActions)
 		void continueAction();
 
+	/** Returns true if the character is dead */
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = CharacterState)
+		bool IsDead();
 
+	/** Returns an array of other characters in the sight of this character */
+	std::vector<ActorInfo> SeenAllInfo();
 
+	/** Returns an array of other characters in the sight of this character */
+	std::vector<ActorInfo> SeenFriendsInfo();
 
-private:
+	/** Returns an array of other characters in the sight of this character */
+	std::vector<ActorInfo> SeenFoesInfo();
 
+	std::vector<AEvaCharacter*> GetFriends();
+
+	std::vector<AEvaCharacter*> GetFoes();
+
+	/** Returns true if the character can see a given point from his location 
+		(in ANY direction, regardless of where he's looking at) */
+	bool CanSee(FVector point);
 	
 };

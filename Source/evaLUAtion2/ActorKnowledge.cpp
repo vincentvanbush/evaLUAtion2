@@ -52,3 +52,18 @@ ActorInfo ActorKnowledge::getSelf() {
 Vector4d ActorKnowledge::getLongDestination() {
 	return character->getLongDestination();
 }
+
+std::vector<ActorInfo> ActorKnowledge::getSeenActors()
+{
+	return character->SeenAllInfo();
+}
+
+std::vector<ActorInfo> ActorKnowledge::getSeenFriends()
+{
+	return character->SeenFriendsInfo();
+}
+
+std::vector<ActorInfo> ActorKnowledge::getSeenFoes()
+{
+	return character->SeenFoesInfo();
+}

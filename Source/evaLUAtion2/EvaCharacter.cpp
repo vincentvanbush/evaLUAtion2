@@ -3,6 +3,7 @@
 #include "evaLUAtion2.h"
 #include "EvaCharacter.h"
 #include "Misc.h"
+#include "EvaGameState.h"
 
 // Sets default values
 AEvaCharacter::AEvaCharacter()
@@ -88,8 +89,73 @@ void AEvaCharacter::continueAction_Implementation()
 	// TODO: implement here or in BP
 };
 
-ActorInfo* AEvaCharacter::ConstructActorInfo()
+bool AEvaCharacter::IsDead_Implementation()
 {
-	ActorInfo *ret = new ActorInfo(this);
+	return (currentAction != nullptr ? currentAction->ActionType == EActionType::Dying : false);
+}
+
+std::vector<AEvaCharacter*> AEvaCharacter::GetFoes()
+{
+	auto state = GetWorld()->GetGameState<AEvaGameState>();
+	auto characters = state->Characters;
+	std::vector<AEvaCharacter*> ret;
+	for (auto it = characters.CreateIterator(); it; ++it)
+		if ((*it)->team != this->team)
+			ret.push_back(*it);
 	return ret;
+}
+
+std::vector<AEvaCharacter*> AEvaCharacter::GetFriends()
+{
+	auto state = GetWorld()->GetGameState<AEvaGameState>();
+	auto characters = state->Characters;
+	std::vector<AEvaCharacter*> ret;
+	for (auto it = characters.CreateIterator(); it; ++it)
+		if ((*it)->team == this->team && this != *it)
+			ret.push_back(*it);
+	return ret;
+}
+
+std::vector<ActorInfo> AEvaCharacter::SeenAllInfo()
+{
+	auto state = GetWorld()->GetGameState<AEvaGameState>();
+	auto characters = state->Characters;
+	std::vector<ActorInfo> ret;
+	for (auto it = characters.CreateIterator(); it; ++it)
+	{
+		if (CanSee((*it)->GetActorLocation()))
+			ret.push_back((*it)->getActorInfo());
+	}
+	return ret;
+}
+
+std::vector<ActorInfo> AEvaCharacter::SeenFriendsInfo()
+{
+	auto characters = GetFriends();
+	std::vector<ActorInfo> ret;
+	for (auto it = characters.begin(); it != characters.end(); ++it)
+	{
+		if (CanSee((*it)->GetActorLocation()))
+			ret.push_back((*it)->getActorInfo());
+	}
+	return ret;
+}
+
+std::vector<ActorInfo> AEvaCharacter::SeenFoesInfo()
+{
+	auto characters = GetFoes();
+	std::vector<ActorInfo> ret;
+	for (auto it = characters.begin(); it != characters.end(); ++it)
+	{
+		if (CanSee((*it)->GetActorLocation()))
+			ret.push_back((*it)->getActorInfo());
+	}
+	return ret;
+}
+
+bool AEvaCharacter::CanSee(FVector point)
+{
+	FVector location = this->GetActorLocation();
+	// TODO
+	return true;
 }
