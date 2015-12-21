@@ -17,6 +17,7 @@ extern "C" {
 #include <vector>
 //#include "ActorInfo.h"
 #include "ActorKnowledge.h"
+#include "Navigation.h"
 
 #pragma warning(disable: 4541)
 using namespace luabind;
@@ -106,18 +107,17 @@ lua_State * ULuaAgent::createLuaEnv() {
 			.def("getType", &Trigger::getType)
 				.def("isActive", &Trigger::isActive)
 				.def("getPosition", &Trigger::getPosition)
-				.def("getBoundingRadius", &Trigger::getBoundingRadius)
-				,
+				.def("getBoundingRadius", &Trigger::getBoundingRadius)*/
 				class_<Navigation>("Navigation")
 				.def("anyRayCrateColision", &Navigation::anyRayCrateColision)
 				.def("getNodePosition", &Navigation::getNodePosition)
-				.def("searchWay", (std::vector<int>(Navigation:: *)(Vector4d, Vector4d)) &Navigation::searchWay)
+				//.def("searchWay", (std::vector<int>(Navigation:: *)(Vector4d, Vector4d)) &Navigation::searchWay)
 				.def("getNumberOfTriggers", &Navigation::getNumberOfTriggers)
 				.def("getTrigger", &Navigation::getTrigger)
 				.def("getNumberOfSpawnPoints", &Navigation::getNumberOfSpawnPoints)
 				.def("getSpawnPoint", &Navigation::getSpawnPoint)
 				.def("getNumberOfPoints", &Navigation::getNumberOfPoints)
-				*/
+				,
 				class_<ULuaAgent>("LuaAgent")
 				.def("randomDouble", &ULuaAgent::randomDouble)
 				.def("selectWeapon", &ULuaAgent::selectWeapon)
