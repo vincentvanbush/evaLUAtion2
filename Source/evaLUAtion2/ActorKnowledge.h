@@ -1,6 +1,7 @@
 #ifndef ACTOR_KNOWLEDGE_H
 #define ACTOR_KNOWLEDGE_H
 #include <vector>
+#include "Navigation.h"
 #include <set>
 #include "ActorInfo.h"
 #include "EvaCharacter.h"
@@ -26,9 +27,9 @@ public:
 	std::vector<ActorInfo> getSeenFriends();
 	std::vector<ActorInfo> getSeenFoes();
 	std::vector<ActorInfo> getSeenActors();
+	Navigation * getNavigation();
 private:
 	AEvaCharacter * character;
-//	Navigation * getNavigation();
 //	bool isMoving();
 //	Vector4d getShortDestination();
 //	int getId() const;
