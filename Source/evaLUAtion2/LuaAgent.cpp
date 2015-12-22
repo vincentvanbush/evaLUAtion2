@@ -64,15 +64,12 @@ lua_State * ULuaAgent::createLuaEnv() {
 				.def("getHealth", &ActorInfo::getHealth)
 				.def("getPosition", &ActorInfo::getPosition)
 				.def("getDirection", &ActorInfo::getDirection)
-				//			.def("getActionType", &ActorInfo::getActionType)
 				.def("getTeam", &ActorInfo::getTeam)
 				.def("getName", &ActorInfo::getName)
 				.def("getWeaponType", &ActorInfo::getWeaponType)
-
 				.def("setHealth", &ActorInfo::setHealth)
 				.def("setPosition", &ActorInfo::setPosition)
 				.def("setDirection", &ActorInfo::setDirection)
-				//			.def("setActionType", &ActorInfo::setActionType)
 				.def("setTeam", &ActorInfo::setTeam)
 				.def("setWeaponType", &ActorInfo::setWeaponType)
 				,
@@ -81,7 +78,6 @@ lua_State * ULuaAgent::createLuaEnv() {
 				.def("getName", &ActorKnowledge::getName)
 				.def("getPosition", &ActorKnowledge::getPosition)
 				.def("getDirection", &ActorKnowledge::getDirection)
-				//			.def("getActionType", &ActorKnowledge::getActionType)
 				.def("getTeam", &ActorKnowledge::getTeam)
 				.def("getWeaponType", &ActorKnowledge::getWeaponType)
 				.def("getHealth", &ActorKnowledge::getHealth)

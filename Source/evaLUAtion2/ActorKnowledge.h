@@ -28,9 +28,9 @@ public:
 	std::vector<ActorInfo> getSeenFoes();
 	std::vector<ActorInfo> getSeenActors();
 	Navigation * getNavigation();
+	bool isMoving();
 private:
 	AEvaCharacter * character;
-//	bool isMoving();
 //	Vector4d getShortDestination();
 //	int getId() const;
 //	/**

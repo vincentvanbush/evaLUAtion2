@@ -72,3 +72,8 @@ Navigation* ActorKnowledge::getNavigation()
 {
 	return &Navigation::getInstance();
 }
+
+bool ActorKnowledge::isMoving()
+{
+	return character->GetCharacterMovement()->IsWalking();
+}
