@@ -1,6 +1,6 @@
 #include "evaLUAtion2.h"
 #include "ActorKnowledge.h"
-#include <set>
+#include "Navigation.h"
 //#include "main/Configuration.h"
 //#include "entities/Actor.h"
 //#include "main/GameFactory.h"
@@ -66,4 +66,9 @@ std::vector<ActorInfo> ActorKnowledge::getSeenFriends()
 std::vector<ActorInfo> ActorKnowledge::getSeenFoes()
 {
 	return character->SeenFoesInfo();
+}
+
+Navigation* ActorKnowledge::getNavigation()
+{
+	return &Navigation::getInstance();
 }
