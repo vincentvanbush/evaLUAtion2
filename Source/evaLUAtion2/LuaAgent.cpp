@@ -88,7 +88,7 @@ lua_State * ULuaAgent::createLuaEnv() {
 				.def("getSelf", &ActorKnowledge::getSelf)
 				.def("getNavigation", &ActorKnowledge::getNavigation)
 				.def("getArmour", &ActorKnowledge::getArmour)
-				//.def("isMoving", &ActorKnowledge::isMoving)
+				.def("isMoving", &ActorKnowledge::isMoving)
 				.def("isLoaded", &ActorKnowledge::isLoaded)
 				.def("getLongDestination", &ActorKnowledge::getLongDestination)
 				//.def("getShortDestination", &ActorKnowledge::getShortDestination)
