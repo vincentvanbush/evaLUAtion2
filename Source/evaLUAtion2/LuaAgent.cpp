@@ -97,7 +97,7 @@ lua_State * ULuaAgent::createLuaEnv() {
 				.def("getLongDestination", &ActorKnowledge::getLongDestination)
 				//.def("getShortDestination", &ActorKnowledge::getShortDestination)
 				,
-				/*class_<Trigger>("Trigger")
+				class_<Trigger>("Trigger")
 				.enum_("TriggerType")
 				[
 					value("Weapon", 0),
@@ -107,7 +107,8 @@ lua_State * ULuaAgent::createLuaEnv() {
 			.def("getType", &Trigger::getType)
 				.def("isActive", &Trigger::isActive)
 				.def("getPosition", &Trigger::getPosition)
-				.def("getBoundingRadius", &Trigger::getBoundingRadius)*/
+				.def("getBoundingRadius", &Trigger::getBoundingRadius)
+				,
 				class_<Navigation>("Navigation")
 				.def("anyRayCrateColision", &Navigation::anyRayCrateColision)
 				.def("getNodePosition", &Navigation::getNodePosition)
