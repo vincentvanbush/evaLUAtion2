@@ -17,6 +17,7 @@ extern "C" {
 #include <vector>
 //#include "ActorInfo.h"
 #include "ActorKnowledge.h"
+#include "Navigation.h"
 
 #pragma warning(disable: 4541)
 using namespace luabind;
@@ -63,15 +64,12 @@ lua_State * ULuaAgent::createLuaEnv() {
 				.def("getHealth", &ActorInfo::getHealth)
 				.def("getPosition", &ActorInfo::getPosition)
 				.def("getDirection", &ActorInfo::getDirection)
-				//			.def("getActionType", &ActorInfo::getActionType)
 				.def("getTeam", &ActorInfo::getTeam)
 				.def("getName", &ActorInfo::getName)
 				.def("getWeaponType", &ActorInfo::getWeaponType)
-
 				.def("setHealth", &ActorInfo::setHealth)
 				.def("setPosition", &ActorInfo::setPosition)
 				.def("setDirection", &ActorInfo::setDirection)
-				//			.def("setActionType", &ActorInfo::setActionType)
 				.def("setTeam", &ActorInfo::setTeam)
 				.def("setWeaponType", &ActorInfo::setWeaponType)
 				,
@@ -80,23 +78,22 @@ lua_State * ULuaAgent::createLuaEnv() {
 				.def("getName", &ActorKnowledge::getName)
 				.def("getPosition", &ActorKnowledge::getPosition)
 				.def("getDirection", &ActorKnowledge::getDirection)
-				//			.def("getActionType", &ActorKnowledge::getActionType)
 				.def("getTeam", &ActorKnowledge::getTeam)
 				.def("getWeaponType", &ActorKnowledge::getWeaponType)
 				.def("getHealth", &ActorKnowledge::getHealth)
 				.def("getAmmo", &ActorKnowledge::getAmmo)
-				//.def("getSeenFriends", &ActorKnowledge::getSeenFriends)
-				//.def("getSeenFoes", &ActorKnowledge::getSeenFoes)
-				//.def("getEstimatedTimeToReach", &ActorKnowledge::getEstimatedTimeToReach)
+				.def("getSeenFriends", &ActorKnowledge::getSeenFriends)
+				.def("getSeenFoes", &ActorKnowledge::getSeenFoes)
+				.def("getEstimatedTimeToReach", &ActorKnowledge::getEstimatedTimeToReach)
 				.def("getSelf", &ActorKnowledge::getSelf)
-				//.def("getNavigation", &ActorKnowledge::getNavigation)
+				.def("getNavigation", &ActorKnowledge::getNavigation)
 				.def("getArmour", &ActorKnowledge::getArmour)
-				//.def("isMoving", &ActorKnowledge::isMoving)
+				.def("isMoving", &ActorKnowledge::isMoving)
 				.def("isLoaded", &ActorKnowledge::isLoaded)
 				.def("getLongDestination", &ActorKnowledge::getLongDestination)
-				//.def("getShortDestination", &ActorKnowledge::getShortDestination)
+				.def("getShortDestination", &ActorKnowledge::getShortDestination)
 				,
-				/*class_<Trigger>("Trigger")
+				class_<Trigger>("Trigger")
 				.enum_("TriggerType")
 				[
 					value("Weapon", 0),
@@ -111,13 +108,13 @@ lua_State * ULuaAgent::createLuaEnv() {
 				class_<Navigation>("Navigation")
 				.def("anyRayCrateColision", &Navigation::anyRayCrateColision)
 				.def("getNodePosition", &Navigation::getNodePosition)
-				.def("searchWay", (std::vector<int>(Navigation:: *)(Vector4d, Vector4d)) &Navigation::searchWay)
+				//.def("searchWay", (std::vector<int>(Navigation:: *)(Vector4d, Vector4d)) &Navigation::searchWay)
 				.def("getNumberOfTriggers", &Navigation::getNumberOfTriggers)
 				.def("getTrigger", &Navigation::getTrigger)
 				.def("getNumberOfSpawnPoints", &Navigation::getNumberOfSpawnPoints)
 				.def("getSpawnPoint", &Navigation::getSpawnPoint)
 				.def("getNumberOfPoints", &Navigation::getNumberOfPoints)
-				*/
+				,
 				class_<ULuaAgent>("LuaAgent")
 				.def("randomDouble", &ULuaAgent::randomDouble)
 				.def("selectWeapon", &ULuaAgent::selectWeapon)

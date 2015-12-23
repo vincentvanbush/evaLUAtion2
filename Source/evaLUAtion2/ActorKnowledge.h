@@ -1,6 +1,7 @@
 #ifndef ACTOR_KNOWLEDGE_H
 #define ACTOR_KNOWLEDGE_H
 #include <vector>
+#include "Navigation.h"
 #include <set>
 #include "ActorInfo.h"
 #include "EvaCharacter.h"
@@ -23,20 +24,15 @@ public:
 	/** get ActorInfo about oneself*/
 	ActorInfo getSelf();
 	Vector4d getLongDestination();
+	Vector4d getShortDestination();
+	std::vector<ActorInfo> getSeenFriends();
+	std::vector<ActorInfo> getSeenFoes();
+	std::vector<ActorInfo> getSeenActors();
+	Navigation * getNavigation();
+	bool isMoving();
+	float getEstimatedTimeToReach(Vector4d a, Vector4d b);
 private:
 	AEvaCharacter * character;
-//	void updateSpotting();
-//	Navigation * getNavigation();
-//	bool isMoving();
-//	/** get list of friends seen from current position
-//	*/
-//	std::vector<ActorInfo> getSeenFriends();
-//	/** get list of foes seen from current position
-//	*/
-//	std::vector<ActorInfo> getSeenFoes();
-//	/** get list of all actors seen from current position
-//	*/
-//	std::vector<ActorInfo> getSeenActors();
 //	Vector4d getShortDestination();
 //	int getId() const;
 //	/**

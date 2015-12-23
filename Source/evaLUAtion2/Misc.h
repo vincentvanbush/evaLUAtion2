@@ -32,6 +32,10 @@ class Enumerations {};
 */
 struct Vector4d {
 	double val[4];
+	FVector toFVector()
+	{
+		return FVector(val[0], val[1], val[2]);
+	}
 	Vector4d(double x = 0.0, double y = 0.0, double z = 0.0, double w = 0.0) {
 		val[0] = x;
 		val[1] = y;
@@ -134,3 +138,40 @@ struct Vector4d {
 	}
 };
 
+static FORCEINLINE bool Trace(
+	UWorld* World,
+	AActor* ActorToIgnore,
+	const FVector& Start,
+	const FVector& End,
+	FHitResult& HitOut,
+	ECollisionChannel CollisionChannel = ECC_Pawn,
+	bool ReturnPhysMat = false
+	) {
+	if (!World)
+	{
+		return false;
+	}
+
+	FCollisionQueryParams TraceParams(FName(TEXT("VictoreCore Trace")), true, ActorToIgnore);
+	TraceParams.bTraceComplex = true;
+	//TraceParams.bTraceAsyncScene = true;
+	TraceParams.bReturnPhysicalMaterial = ReturnPhysMat;
+
+	//Ignore Actors
+	TraceParams.AddIgnoredActor(ActorToIgnore);
+
+	//Re-initialize hit info
+	HitOut = FHitResult(ForceInit);
+
+	//Trace!
+	World->LineTraceSingle(
+		HitOut,		//result
+		Start,	//start
+		End, //end
+		CollisionChannel, //collision channel
+		TraceParams
+		);
+
+	//Hit any Actor?
+	return (HitOut.GetActor() != NULL);
+}

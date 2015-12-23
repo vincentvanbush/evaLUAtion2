@@ -2,9 +2,15 @@
 
 #include "evaLUAtion2.h"
 #include "Configuration.h"
+#include "EvaGameState.h"
 #include <fstream>
 
 using namespace boost::program_options;
+
+UConfiguration *UConfiguration::RetrieveFromGameState()
+{
+	return GEngine->GetWorld()->GetGameState<AEvaGameState>()->Configuration;
+}
 
 UConfiguration::UConfiguration(const FObjectInitializer &ObjectInitializer) : Super(ObjectInitializer)
 {

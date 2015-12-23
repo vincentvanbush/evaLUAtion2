@@ -17,4 +17,10 @@ class IPowerupInterface
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = Powerup)
 	int32 GetPowerupType();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = Powerup)
+	float GetBoundingRadius();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = Powerup)
+	bool IsActive();
 };

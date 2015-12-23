@@ -36,6 +36,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Config)
 		bool IsSet(FString opt);
 
+	static UConfiguration* RetrieveFromGameState();
+
 private:
 
 	boost::program_options::variables_map vm;
