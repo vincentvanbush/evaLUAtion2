@@ -24,6 +24,7 @@ public:
 	/** get ActorInfo about oneself*/
 	ActorInfo getSelf();
 	Vector4d getLongDestination();
+	Vector4d getShortDestination();
 	std::vector<ActorInfo> getSeenFriends();
 	std::vector<ActorInfo> getSeenFoes();
 	std::vector<ActorInfo> getSeenActors();

@@ -91,7 +91,7 @@ lua_State * ULuaAgent::createLuaEnv() {
 				.def("isMoving", &ActorKnowledge::isMoving)
 				.def("isLoaded", &ActorKnowledge::isLoaded)
 				.def("getLongDestination", &ActorKnowledge::getLongDestination)
-				//.def("getShortDestination", &ActorKnowledge::getShortDestination)
+				.def("getShortDestination", &ActorKnowledge::getShortDestination)
 				,
 				class_<Trigger>("Trigger")
 				.enum_("TriggerType")

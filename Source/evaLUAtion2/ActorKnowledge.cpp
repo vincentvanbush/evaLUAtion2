@@ -3,6 +3,8 @@
 #include "Navigation.h"
 #include "EvaGameState.h"
 #include "Configuration.h"
+#include "Navigation/PathFollowingComponent.h"
+
 //#include "main/Configuration.h"
 //#include "entities/Actor.h"
 //#include "main/GameFactory.h"
@@ -53,6 +55,14 @@ ActorInfo ActorKnowledge::getSelf() {
 
 Vector4d ActorKnowledge::getLongDestination() {
 	return character->getLongDestination();
+}
+
+Vector4d ActorKnowledge::getShortDestination()
+{
+	UPawnMovementComponent *pmc = character->GetMovementComponent();
+	auto pfc_p = pmc->PathFollowingComp;
+	UPathFollowingComponent& pfc = *pfc_p; // inaczej sie chyba nie da xD
+	return Vector4d(pfc.GetCurrentTargetLocation());
 }
 
 std::vector<ActorInfo> ActorKnowledge::getSeenActors()
