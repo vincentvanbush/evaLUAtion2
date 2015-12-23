@@ -29,6 +29,7 @@ public:
 	std::vector<ActorInfo> getSeenActors();
 	Navigation * getNavigation();
 	bool isMoving();
+	float getEstimatedTimeToReach(Vector4d a, Vector4d b);
 private:
 	AEvaCharacter * character;
 //	Vector4d getShortDestination();

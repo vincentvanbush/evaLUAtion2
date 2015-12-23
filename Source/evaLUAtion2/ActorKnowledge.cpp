@@ -1,6 +1,8 @@
 #include "evaLUAtion2.h"
 #include "ActorKnowledge.h"
 #include "Navigation.h"
+#include "EvaGameState.h"
+#include "Configuration.h"
 //#include "main/Configuration.h"
 //#include "entities/Actor.h"
 //#include "main/GameFactory.h"
@@ -76,4 +78,15 @@ Navigation* ActorKnowledge::getNavigation()
 bool ActorKnowledge::isMoving()
 {
 	return character->GetCharacterMovement()->IsWalking();
+}
+
+float ActorKnowledge::getEstimatedTimeToReach(Vector4d a, Vector4d b)
+{
+	FVector A = a.toFVector();
+	FVector B = b.toFVector();
+	UNavigationSystem* UNS = GEngine->GetWorld()->GetNavigationSystem();
+	float PathLengthInCm = -1.0f;
+	UNS->GetPathCost(A, B, PathLengthInCm);
+	float Speed = UConfiguration::RetrieveFromGameState()->GetFloat("actor.speed"); // TODO sprawdzic w jakich toto jednostkach jest
+	return PathLengthInCm / Speed;
 }
