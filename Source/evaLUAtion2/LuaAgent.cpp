@@ -180,7 +180,10 @@ void ULuaAgent::whatToDo()
 
 	// Call the function in the lua script.
 	try {
-		call_function<void>(luaEnv,	whatToName.c_str(),	this/* TODO: actorKnowledge, time */);
+		ActorKnowledge *ak = new ActorKnowledge(GetControlledCharacter());
+		float t = GetWorld()->GetTimeSeconds();
+		call_function<void>(luaEnv,	whatToName.c_str(),	this, ak, t);
+		delete ak;
 	}
 	catch (error& e) {
 		FString errMsg(e.what());
