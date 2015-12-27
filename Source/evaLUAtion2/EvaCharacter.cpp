@@ -69,10 +69,10 @@ void AEvaCharacter::rotate_Implementation(FRotator rotation)
 	// TODO: implement here or in BP
 };
 
-void AEvaCharacter::shootAt_Implementation(AEvaCharacter* enemy)
+/*void AEvaCharacter::shootAt_Implementation(AEvaCharacter* enemy)
 {
 	// TODO: implement here or in BP
-};
+};*/
 
 void AEvaCharacter::shootAtPoint_Implementation(FVector vect)
 {

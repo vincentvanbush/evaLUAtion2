@@ -132,8 +132,8 @@ public:
 		void rotate(FRotator rotation);
 
 	/** Shoot at a given enemy character. */
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = EvaluationActions)
-		void shootAt(AEvaCharacter* enemy);
+	//UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = EvaluationActions)
+	//	void shootAt(AEvaCharacter* enemy);
 
 	/** Shoot at a given point. */
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = EvaluationActions)
