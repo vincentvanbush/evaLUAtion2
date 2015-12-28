@@ -29,6 +29,10 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
+	
+	/** has the character alrdy started playing? */
+	UPROPERTY(BlueprintReadWrite, Category = CharacterState)
+		bool started = false;
 
 	/** the number of frags for the character */
 	UPROPERTY(BlueprintReadWrite, Category = CharacterState)
