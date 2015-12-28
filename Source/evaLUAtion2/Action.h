@@ -21,25 +21,25 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = ActionProperties)
 		AEvaCharacter *ControlledCharacter;
 
-	UPROPERTY(EditDefaultsOnly, Category = ActionProperties)
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = ActionProperties)
 		EActionType ActionType;
 
-	UPROPERTY(EditDefaultsOnly, Category = ActionProperties)
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = ActionProperties)
 		bool IsBreakable;
 
-	UPROPERTY(EditDefaultsOnly, Category = ActionProperties)
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = ActionProperties)
 		bool IsRepeatable;
 
 	UPROPERTY(BlueprintReadWrite, Category = ActionProperties)
 		float ActionStarted;
 	
-	UFUNCTION(BlueprintImplementableEvent, Category = ActionEvents)
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = ActionEvents)
 		void OnEnter();
 
-	UFUNCTION(BlueprintImplementableEvent, Category = ActionEvents)
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = ActionEvents)
 		bool CanExecuteExit(); // corresponds to Action::execute(...) in old evaLUAtion
 
-	UFUNCTION(BlueprintImplementableEvent, Category = ActionEvents)
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = ActionEvents)
 		void OnExit();
 	
 };
