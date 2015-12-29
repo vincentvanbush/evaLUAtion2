@@ -187,7 +187,8 @@ void ULuaAgent::whatToDo()
 	}
 	catch (error& e) {
 		FString errMsg(e.what());
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, errMsg);
+		FString fug(lua_tostring(luaEnv, -1));
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, fug);
 	}
 }
 
@@ -205,7 +206,8 @@ void ULuaAgent::onStart()
 	}
 	catch (error& e) {
 		FString errMsg(e.what());
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, errMsg);
+		FString fug(lua_tostring(luaEnv, -1));
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, fug);
 	}
 }
 
