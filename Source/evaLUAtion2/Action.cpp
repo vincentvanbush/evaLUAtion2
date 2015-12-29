@@ -5,5 +5,8 @@
 #include "Action.h"
 
 
-
-
+//function called unconditionally everytime an action is called
+void UAction::OnEnter_Implementation()
+{
+	ActionStarted = GetWorld()->GetTimeSeconds();
+}

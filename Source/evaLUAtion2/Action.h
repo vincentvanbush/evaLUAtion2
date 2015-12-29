@@ -32,8 +32,13 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = ActionProperties)
 		float ActionStarted;
+
+	//how long does an action last in seconds
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = ActionProperties)
+		float StandardCost;
 	
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = ActionEvents)
+	//UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = ActionEvents)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = ActionEvents)
 		void OnEnter();
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = ActionEvents)
