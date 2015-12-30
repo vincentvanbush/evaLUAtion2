@@ -107,8 +107,8 @@ public:
 		UAction *currentAction;
 
 	/** The character's next action */
-	UPROPERTY(BlueprintReadWrite, Category = CharacterState)
-		UAction *nextAction;
+	/*UPROPERTY(BlueprintReadWrite, Category = CharacterState)
+		UAction *nextAction;*/
 
 	/** Called when the character has nothing to do or is doing a breakable action.
 		Returns the next action to be performed.

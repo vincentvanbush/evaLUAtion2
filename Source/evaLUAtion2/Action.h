@@ -51,4 +51,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = Game)
 		AEvaGameState* GameState;
 
+	UPROPERTY(BlueprintReadWrite, Category = ActionProperties)
+		UAction *nextAction;
+
 };
