@@ -64,3 +64,37 @@ void AEvaGameState::StartGame(FString CfgFile)
 
 	// wyczyszczenie tablic i dodanie do nich wszystkiego co mamy :)
 }
+
+void AEvaGameState::Clear_Implementation()
+{
+	for (auto it = Powerups.CreateIterator(); it; it++)
+	{
+		auto x = *it;
+		x->Destroy();
+	}
+	Powerups.Empty();
+	for (auto it = Waypoints.CreateIterator(); it; it++)
+	{
+		auto x = *it;
+		x->Destroy();
+	}
+	Waypoints.Empty();
+	for (auto it = Spawnpoints.CreateIterator(); it; it++)
+	{
+		auto x = *it;
+		x->Destroy();
+	}
+	Spawnpoints.Empty();
+	for (auto it = Walls.CreateIterator(); it; it++)
+	{
+		auto x = *it;
+		x->Destroy();
+	}
+	Walls.Empty();
+	for (auto it = Characters.CreateIterator(); it; it++)
+	{
+		auto x = *it;
+		x->Destroy();
+	}
+	Characters.Empty();
+}

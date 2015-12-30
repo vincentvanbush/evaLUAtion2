@@ -25,6 +25,9 @@ class EVALUATION2_API AEvaGameState : public AGameState
 	
 public:
 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = Game)
+		void Clear();
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = ConstArrays)
 	TArray<bool> stopAtTarget;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = ConstArrays)
