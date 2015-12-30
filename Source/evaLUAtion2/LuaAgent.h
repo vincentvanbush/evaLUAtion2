@@ -50,6 +50,8 @@ public:
 	void wait();
 	void continueAction();
 
+	void printMessage(const char* msg);
+
 	static lua_State * createLuaEnv();
 	
 private:
@@ -66,5 +68,5 @@ private:
 	lua_State *luaEnv;
 	std::string onStartName;
 	std::string whatToName;
-	
+
 };

@@ -23,6 +23,7 @@ extern "C" {
 using namespace luabind;
 
 typedef std::vector<ActorInfo>::reference(std::vector<ActorInfo>:: *AtFunctionType)(std::vector<ActorInfo>::size_type);
+typedef std::vector<ActorInfo>::size_type(std::vector<ActorInfo>:: *SizeFunctionType)();
 
 
 lua_State * ULuaAgent::createLuaEnv() {
@@ -50,13 +51,13 @@ lua_State * ULuaAgent::createLuaEnv() {
 					value("WeaponSize", 4)
 				]
 			,
-				class_<std::vector<ActorInfo> >("vectorOfActorInfo")
-				.def("size", &std::vector<ActorInfo>::size)
-				.def("at", (AtFunctionType)&std::vector<ActorInfo>::at)
+				class_<ActorInfoVectorWrapper >("vectorOfActorInfo")
+				.def("size", &ActorInfoVectorWrapper::size)
+				.def("at", &ActorInfoVectorWrapper::at)
 				,
-				class_<std::vector<int> >("vectorOfInt")
-				.def("size", &std::vector<int>::size)
-				.def("at", (int&(std::vector<int>::*)(size_t))&std::vector<int>::at)
+				class_<IntVectorWrapper >("vectorOfInt")
+				.def("size", &IntVectorWrapper::size)
+				.def("at", &IntVectorWrapper::at)
 				,
 				class_<ActorInfo>("ActorInfo")
 				.def(constructor<>())
@@ -126,6 +127,7 @@ lua_State * ULuaAgent::createLuaEnv() {
 				.def("shootAtPoint", &ULuaAgent::shootAtPoint)
 				.def("wait", &ULuaAgent::wait)
 				.def("continueAction", &ULuaAgent::continueAction)
+				.def("printMessage", &ULuaAgent::printMessage)
 				,
 				class_<Vector4d>("Vector4d")
 				.def("value", &Vector4d::value)
@@ -176,17 +178,15 @@ void ULuaAgent::Initialize(FString filename)
 void ULuaAgent::whatToDo()
 {
 	FString wtn(UTF8_TO_TCHAR(whatToName.c_str()));
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, "Executing function: " + wtn);
+//	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, "Executing function: " + wtn);
 
 	// Call the function in the lua script.
 	try {
-		ActorKnowledge *ak = new ActorKnowledge(GetControlledCharacter());
+		ActorKnowledge ak = ActorKnowledge(GetControlledCharacter());
 		float t = GetWorld()->GetTimeSeconds();
 		call_function<void>(luaEnv,	whatToName.c_str(),	this, ak, t);
-		delete ak;
 	}
-	catch (error& e) {
-		FString errMsg(e.what());
+	catch (...) {
 		FString fug(lua_tostring(luaEnv, -1));
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, fug);
 	}
@@ -195,17 +195,15 @@ void ULuaAgent::whatToDo()
 void ULuaAgent::onStart()
 {
 	FString osn(UTF8_TO_TCHAR(onStartName.c_str()));
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, "Executing function: " + osn);
+//	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, "Executing function: " + osn);
 
 	// Call the function in the lua script.
 	try {
-		ActorKnowledge *ak = new ActorKnowledge(GetControlledCharacter());
+		ActorKnowledge ak = ActorKnowledge(GetControlledCharacter());
 		float t = GetWorld()->GetTimeSeconds();
 		call_function<void>(luaEnv, onStartName.c_str(), this, ak, t);
-		delete ak;
 	}
-	catch (error& e) {
-		FString errMsg(e.what());
+	catch (...) {
 		FString fug(lua_tostring(luaEnv, -1));
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, fug);
 	}
@@ -264,4 +262,9 @@ void ULuaAgent::wait()
 void ULuaAgent::continueAction()
 {
 	GetControlledCharacter()->continueAction();
+}
+
+void ULuaAgent::printMessage(const char* msg)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::White, msg);
 }
