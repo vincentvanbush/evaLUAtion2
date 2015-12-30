@@ -25,6 +25,27 @@ class EVALUATION2_API AEvaGameState : public AGameState
 	
 public:
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = ConstArrays)
+	TArray<bool> stopAtTarget;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = ConstArrays)
+	TArray<int32> numberOfParticles;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = ConstArrays)
+	TArray<float> arc;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = ConstArrays)
+	TArray<int32> ammoPacks;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = ConstArrays)
+	TArray<float> radius;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = ConstArrays)
+	TArray<int32> reloadTime;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = ConstArrays)
+	TArray<float> damage;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = ConstArrays)
+	TArray<int32> color;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = ConstArrays)
+	TArray<float> speed;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = ConstArrays)
+	TArray<int32> shootTime;
+
 	AEvaGameState(const FObjectInitializer &PCIP);
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = ExistingObjects)
