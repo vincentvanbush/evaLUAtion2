@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "Misc.h"
 
 class AEvaCharacter;
@@ -62,4 +63,34 @@ protected:
 	EWeaponType weaponType;
 	
 
+};
+
+// These are a sort of wrappers around vector template types
+// because for some weird reason Lua throws a "Trying to use
+// unregistered class" error when calling vector methods...
+
+class ActorInfoVectorWrapper
+{
+private:
+	std::vector<ActorInfo> _vec;
+public:
+	ActorInfoVectorWrapper(std::vector<ActorInfo> v)
+	{
+		_vec = v;
+	}
+	int size() { return _vec.size(); };
+	ActorInfo at(int index) { return _vec.at(index); };
+};
+
+class IntVectorWrapper
+{
+private:
+	std::vector<int> _vec;
+public:
+	IntVectorWrapper(std::vector<int> v)
+	{
+		_vec = v;
+	}
+	int size() { return _vec.size(); };
+	int at(int index) { return _vec.at(index); };
 };

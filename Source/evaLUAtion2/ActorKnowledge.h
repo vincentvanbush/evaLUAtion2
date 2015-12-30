@@ -25,9 +25,9 @@ public:
 	ActorInfo getSelf();
 	Vector4d getLongDestination();
 	Vector4d getShortDestination();
-	std::vector<ActorInfo> getSeenFriends();
-	std::vector<ActorInfo> getSeenFoes();
-	std::vector<ActorInfo> getSeenActors();
+	ActorInfoVectorWrapper getSeenFriends();
+	ActorInfoVectorWrapper getSeenFoes();
+	ActorInfoVectorWrapper getSeenActors();
 	Navigation * getNavigation();
 	bool isMoving();
 	float getEstimatedTimeToReach(Vector4d a, Vector4d b);

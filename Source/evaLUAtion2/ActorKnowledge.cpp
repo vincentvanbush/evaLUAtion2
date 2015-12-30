@@ -65,19 +65,19 @@ Vector4d ActorKnowledge::getShortDestination()
 	return Vector4d(pfc.GetCurrentTargetLocation());
 }
 
-std::vector<ActorInfo> ActorKnowledge::getSeenActors()
+ActorInfoVectorWrapper ActorKnowledge::getSeenActors()
 {
-	return character->SeenAllInfo();
+	return ActorInfoVectorWrapper(character->SeenAllInfo());
 }
 
-std::vector<ActorInfo> ActorKnowledge::getSeenFriends()
+ActorInfoVectorWrapper ActorKnowledge::getSeenFriends()
 {
-	return character->SeenFriendsInfo();
+	return ActorInfoVectorWrapper(character->SeenFriendsInfo());
 }
 
-std::vector<ActorInfo> ActorKnowledge::getSeenFoes()
+ActorInfoVectorWrapper ActorKnowledge::getSeenFoes()
 {
-	return character->SeenFoesInfo();
+	return ActorInfoVectorWrapper(character->SeenFoesInfo());
 }
 
 Navigation* ActorKnowledge::getNavigation()
