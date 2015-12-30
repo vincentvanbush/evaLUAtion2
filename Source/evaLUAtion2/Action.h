@@ -3,11 +3,12 @@
 #pragma once
 
 #include "Object.h"
-//#include "EvaCharacter.h"
+#include "EvaCharacter.h"
 #include "Misc.h"
+#include "EvaGameState.h"
 #include "Action.generated.h"
 
-class AEvaCharacter;
+// class AEvaCharacter;
 /**
  * 
  */
@@ -46,5 +47,8 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = ActionEvents)
 		void OnExit();
-	
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = Game)
+		AEvaGameState* GameState;
+
 };

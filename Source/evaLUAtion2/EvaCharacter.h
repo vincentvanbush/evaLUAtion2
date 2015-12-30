@@ -4,7 +4,7 @@
 
 #include "GameFramework/Character.h"
 #include "Misc.h"
-#include "Action.h"
+// #include "Action.h"
 #include "ActorInfo.h"
 #include <string>
 #include "ActorInfo.h"
@@ -12,6 +12,7 @@
 #include "EvaCharacter.generated.h"
 
 class ActorInfo;
+class Action;
 UCLASS()
 class EVALUATION2_API AEvaCharacter : public ACharacter
 {
