@@ -66,6 +66,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = ExistingObjects)
 	TArray<AEvaCharacter*> Characters;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = ExistingObjects)
+	AActor* FloorRef;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Config)
 	UConfiguration* Configuration;
 
