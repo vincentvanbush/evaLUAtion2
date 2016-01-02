@@ -11,6 +11,31 @@
 #include <sstream>
 #include "MapFileHandler.generated.h"
 
+
+/** Verify that the evaLUAtion2 directory in user's home folder exists.
+If not, try to create it. Returns false if there's an error, true otherwise. */
+static FORCEINLINE bool VerifyOrCreateGameDirectory(FString Folder, FString& OutFullPath)
+{
+	FString TestDir = FPlatformProcess::UserDir();
+	TestDir += Folder;
+
+	//Directory Exists?
+	if (!FPlatformFileManager::Get().GetPlatformFile().DirectoryExists(*TestDir))
+	{
+		FPlatformFileManager::Get().GetPlatformFile().CreateDirectory(*TestDir);
+
+		if (!FPlatformFileManager::Get().GetPlatformFile().DirectoryExists(*TestDir))
+		{
+			return false;
+			//~~~~~~~~~~~~~~
+		}
+	}
+
+	OutFullPath = TestDir;
+	return true;
+}
+
+
 UCLASS()
 class EVALUATION2_API AMapFileHandler : public AActor
 {
@@ -49,44 +74,55 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "FilesHandling")
 	TArray<FString> GetMapsInFolder();
 
+
+	UFUNCTION(BlueprintCallable, Category = "FilesHandling")
+	static bool VerifyMapsDirectory(FString &OutMapDirPath)
+	{
+		FString RetPath;
+
+		if (!VerifyOrCreateGameDirectory(FString("evaLUAtion2/"), RetPath))
+			return false;
+
+		if (!VerifyOrCreateGameDirectory(FString("evaLUAtion2/Maps/"), RetPath))
+			return false;
+
+		OutMapDirPath = RetPath;
+
+		return true;
+	}
+
+	UFUNCTION(BlueprintCallable, Category = VictoryFileFunctions)
+	static bool VerifyProfilesDirectory(FString &OutMapDirPath)
+	{
+		FString RetPath;
+
+		if (!VerifyOrCreateGameDirectory(FString("evaLUAtion2/"), RetPath))
+			return false;
+
+		if (!VerifyOrCreateGameDirectory(FString("evaLUAtion2/Profiles/"), RetPath))
+			return false;
+
+		OutMapDirPath = RetPath;
+
+		return true;
+	}
+
+	UFUNCTION(BlueprintCallable, Category = "FilesHandling")
+	static bool VerifyScriptsDirectory(FString &OutMapDirPath)
+	{
+		FString RetPath;
+
+		if (!VerifyOrCreateGameDirectory(FString("evaLUAtion2/"), RetPath))
+			return false;
+
+		if (!VerifyOrCreateGameDirectory(FString("evaLUAtion2/Scripts/"), RetPath))
+			return false;
+
+		OutMapDirPath = RetPath;
+
+		return true;
+	}
+
 	bool ValidateMapFile(std::string Map);
 
 };
-
-/** Verify that the evaLUAtion2 directory in user's home folder exists.
-If not, try to create it. Returns false if there's an error, true otherwise. */
-static FORCEINLINE bool VerifyOrCreateGameDirectory(FString Folder, FString& OutFullPath)
-{
-	FString TestDir = FPlatformProcess::UserDir();
-	TestDir += Folder;
-
-	//Directory Exists?
-	if (!FPlatformFileManager::Get().GetPlatformFile().DirectoryExists(*TestDir))
-	{
-		FPlatformFileManager::Get().GetPlatformFile().CreateDirectory(*TestDir);
-
-		if (!FPlatformFileManager::Get().GetPlatformFile().DirectoryExists(*TestDir))
-		{
-			return false;
-			//~~~~~~~~~~~~~~
-		}
-	}
-
-	OutFullPath = TestDir;
-	return true;
-}
-
-static FORCEINLINE bool VerifyMapsDirectory(FString &OutMapDirPath)
-{
-	FString RetPath;
-
-	if (!VerifyOrCreateGameDirectory(FString("evaLUAtion2/"), RetPath))
-		return false;
-
-	if (!VerifyOrCreateGameDirectory(FString("evaLUAtion2/Maps/"), RetPath))
-		return false;
-
-	OutMapDirPath = RetPath;
-
-	return true;
-}

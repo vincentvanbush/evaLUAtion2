@@ -44,7 +44,8 @@ public:
 	//  Victory Get All Files
 	//      Optional File Extension Filter!!!  by Rama
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	static FORCEINLINE bool GetFiles(const FString& FullPathOfBaseDir, TArray<FString>& FilenamesOut, bool Recursive = false, const FString& FilterByExtension = "")
+	UFUNCTION(BlueprintCallable, Category = VictoryFileFunctions)
+	static bool GetFiles(const FString& FullPathOfBaseDir, TArray<FString>& FilenamesOut, bool Recursive = false, const FString& FilterByExtension = "", bool IncludeDirectories = true, bool DirectoriesOnly = false)
 	{
 		//Format File Extension, remove the "." if present
 		const FString FileExt = FilterByExtension.Replace(TEXT("."), TEXT("")).ToLower();
@@ -54,7 +55,7 @@ public:
 			[&](const TCHAR* FilenameOrDirectory, bool bIsDirectory)
 		{
 			//Files
-			if (!bIsDirectory)
+			if ((!bIsDirectory && !DirectoriesOnly) || (bIsDirectory && IncludeDirectories))
 			{
 				//Filter by Extension
 				if (FileExt != "")
