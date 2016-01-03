@@ -9,6 +9,8 @@
 #include "WaypointsConnectionInfo.h"
 #include <iostream>
 #include <sstream>
+#include <fstream>
+#include <string>
 #include "MapFileHandler.generated.h"
 
 
@@ -62,7 +64,7 @@ public:
 	);
 
 	UFUNCTION(BlueprintCallable, Category = "FilesHandling")
-	bool LoadMapFile(
+	FString LoadMapFile(
 		FString filename,
 		TArray<int32> &MapSize,
 		TArray<FWaypointInfo> &WaypointsCoords,

@@ -52,7 +52,7 @@ bool AMapFileHandler::SaveMapFile(
 
 	ss << WaypointsNumber << "\n";
 	for (int i = 0; i < WaypointsNumber; i++) {
-		ss << "Index: " << waypoints[i].uniqueIndex << " PoxX: " << waypoints[i].coord.X << " PoxY: " << waypoints[i].coord.Y << "\n";
+		ss << "Index: " << waypoints[i].uniqueIndex << " PosX: " << waypoints[i].coord.X << " PosY: " << waypoints[i].coord.Y << "\n";
 	}
 
 	ss << ConnectionsNumber << "\n";
@@ -211,7 +211,7 @@ bool AMapFileHandler::ValidateMapFile(string Map) {
 	return true;
 }
 
-bool AMapFileHandler::LoadMapFile(
+FString AMapFileHandler::LoadMapFile(
 	FString filename,
 	TArray<int32> &MapSize,
 	TArray<FWaypointInfo> &WaypointsCoords,
@@ -221,78 +221,136 @@ bool AMapFileHandler::LoadMapFile(
 	)
 {
 	// Verify that the game's directory exists in the user's home folder.
-	FString LoadDirectory;
-	if (!VerifyMapsDirectory(LoadDirectory))
-		return false;
+	FString loadDirectory;
+	if (!VerifyMapsDirectory(loadDirectory))
+		return FString("Maps directory missing");
 
-	LoadDirectory += filename;
-	FString loaded;
-	if (!FFileHelper::LoadFileToString(loaded, *LoadDirectory))
-		return false;
+	loadDirectory += filename;
 
-	// TODO: Make this fail-safe. I mean, validate the input.
-	string LoadedText(TCHAR_TO_UTF8(*loaded));
+	ifstream mapSource;
+	string data, line;
 
-	if (!ValidateMapFile(LoadedText))
-		return false;
-
-	stringstream ss(stringstream::in | stringstream::out);
-	ss << LoadedText;
+	try {
+		mapSource.open(TCHAR_TO_ANSI(*loadDirectory));
+		if (mapSource.good()) {
+			int counter = 0;
 
 
-	string temp;
-	int ObjectType;
-	int WallsCounter = 0;
+			mapSource >> counter;
 
-	int NumberOfLines;
-	FWaypointInfo Waypoint;
-	ss >> NumberOfLines;
-	for (int i = 0; i < NumberOfLines; i++) {
-		ss >> temp >> Waypoint.uniqueIndex >> temp >> Waypoint.coord.X >> temp >> Waypoint.coord.Y;
-		WaypointsCoords.Add(Waypoint);
+			//Parse waypoints' positions
+			while (counter > 0) {
+				FWaypointInfo index;
+				mapSource >> data;
+				if (data != "Index:") return FString("Missing index value");
+				mapSource >> index.uniqueIndex;
+				mapSource >> data;
+				if (data != "PosX:") return FString("Missing posX in index");
+				mapSource >> index.coord.X;
+				mapSource >> data;
+				if (data != "PosY:") return FString("Missing posY in index");
+				mapSource >> index.coord.Y;
+				WaypointsCoords.Add(index);
+				counter--;
+			}
+
+			mapSource >> counter;
+
+			//Parse waypoints connections
+			while (counter > 0) {
+				FWaypointsConnectionInfo indexConnection;
+				mapSource >> data;
+				if (data != "m_iFrom:") return FString("Missing From in indexConnection");
+				mapSource >> indexConnection.from;
+				mapSource >> data;
+				if (data != "m_iTo:") return FString("Missing To in indexConnection");
+				mapSource >> indexConnection.to;
+				mapSource >> data;
+				if (data != "m_dCost:") return FString("Missing Cost in indexConnection");
+				mapSource >> indexConnection.cost;
+				//skip the rest of this garbage
+				mapSource >> data;
+				if (data != "m_iFlags:") return FString("Missing Flags in indexConnection");
+				mapSource >> data;
+				mapSource >> data;
+				if (data != "ID:") return FString("Missing Id in indexConnection");
+				mapSource >> data;
+
+				WaypointsConnections.Add(indexConnection);
+				counter--;
+			}
+
+			//get map size
+			int32 mapX, mapY;
+			mapSource >> mapX >> mapY;
+			MapSize.Add(mapX);
+			MapSize.Add(mapY);
+
+			//get powerups & walls
+			//this is the tricky part where we have no idea how many bags of this trash there are, so we just read until it crashes.
+			int type;
+			while (!mapSource.eof() && mapSource >> type) {
+				switch (type) {
+				case 0:
+				{
+					FVector2Dpair vecDoubleUberVector;
+					//'tis a wall
+					//from x,y
+					//to x,y
+					//garbage
+					//garbage
+					mapSource >> vecDoubleUberVector.Acoord.X >> vecDoubleUberVector.Acoord.Y >> vecDoubleUberVector.Bcoord.X >> vecDoubleUberVector.Bcoord.Y >> data >> data;
+					WallsCoords.Add(vecDoubleUberVector);
+					break;
+				}
+				case 4:
+				{
+					//medkit
+					FPowerupInfo unlimitedPower;
+					mapSource >> data >> unlimitedPower.coord.X >> unlimitedPower.coord.Y >> data >> data >> unlimitedPower.uniqueIndex;
+					unlimitedPower.type = 4;
+					PowerupsCoords.Add(unlimitedPower);
+					break;
+				}
+				case 5:
+				{
+					//spawn point
+					FPowerupInfo powerOverwhelming;
+					mapSource >> data >> powerOverwhelming.coord.X >> powerOverwhelming.coord.Y >> data >> powerOverwhelming.uniqueIndex;
+					PowerupsCoords.Add(powerOverwhelming);
+					break;
+				}
+				case 6:
+				case 7:
+				case 8:
+				case 9:
+				case 10:
+				{
+					//weapons & armor
+					//one of these can actually be important, dunno.
+					FPowerupInfo over9000;
+					mapSource >> data >> over9000.coord.X >> over9000.coord.Y >> data >> over9000.uniqueIndex;
+					over9000.type = type;
+					PowerupsCoords.Add(over9000);
+					break;
+				}
+				default:
+					//well, shit...
+					return FString("Powerup with the given type is invalid");
+				}
+			}
+		}
+		else {
+			return FString("Could not open the given map file");
+		}
 	}
-	
-	ss >> NumberOfLines;
-	FWaypointsConnectionInfo connection;
-	for (int i = 0; i < NumberOfLines; i++) {
-		ss >> temp >> connection.from >> temp >> connection.to >> temp >> connection.cost >> temp >> temp >> temp >> temp;
-		WaypointsConnections.Add(connection);
+	catch (...) {
+		mapSource.close();
+		return FString("Exception caught during map loading");
 	}
-	
-	int32 MapCoord;
-	ss >> MapCoord;
-	MapSize.Add(MapCoord);
-	ss >> MapCoord;
-	MapSize.Add(MapCoord);
-
-	FVector2Dpair VecPair;
-	FPowerupInfo Powerup;
-	while (ss) {
-		ss >> ObjectType;
-		if (ObjectType == 0) {
-			ss >> VecPair.Acoord.X;
-			ss >> VecPair.Acoord.Y;
-			ss >> VecPair.Bcoord.X;
-			ss >> VecPair.Bcoord.Y;
-			WallsCoords.Add(VecPair);
-			WallsCounter++;
-			ss >> temp >> temp;
-		}
-		else if (ObjectType == 4) {
-			ss >> temp >> Powerup.coord.X >> Powerup.coord.Y >> temp >> temp >> Powerup.uniqueIndex;
-			Powerup.type = 4;
-			PowerupsCoords.Add(Powerup);
-		}
-		else if (ObjectType == 6 || ObjectType == 7 || ObjectType == 8 || ObjectType == 9) {
-			ss >> temp >> Powerup.coord.X >> Powerup.coord.Y >> temp >> Powerup.uniqueIndex;
-			Powerup.type = ObjectType;
-			PowerupsCoords.Add(Powerup);
-		}
-		else if (ObjectType == 5 || ObjectType == 10) {
-			ss >> temp >> temp >> temp >> temp >> temp;
-		}
-	}
-	return true;
+	mapSource.close();
+	//that's all, go home
+	return "OK";
 }
 
 TArray<FString> AMapFileHandler::GetMapsInFolder()
