@@ -59,9 +59,24 @@ bool UConfiguration::GetBool(FString opt)
 	return (GetInt(opt) != 0);
 }
 
+//int32 UConfiguration::GetInt(FString opt)
+//{
+//	float x = GetFloat(opt);
+//	return x;
+//}
+
 int32 UConfiguration::GetInt(FString opt)
 {
-	return static_cast<int32>(GetFloat(opt));
+	std::string optionName(TCHAR_TO_UTF8(*opt));
+	boost::any::holder<int>* holder = static_cast<boost::any::holder<int>* >(vm[optionName].value().content);
+	if (holder)
+	{
+		return holder->held;
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 float UConfiguration::GetFloat(FString opt)
