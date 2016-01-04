@@ -20,7 +20,7 @@ UConfiguration::UConfiguration(const FObjectInitializer &ObjectInitializer) : Su
 		("width,w", value<int>()->default_value(800), "window width")
 		("map.actors.file", value<std::string>()->default_value("actors.eaf"), "file with actors definition")
 		("map.filename", value<std::string>()->default_value("random"), "map to use")
-		("respawns", "do agents respawn")
+		("respawns", value<int>()->default_value(1), "do agents respawn")
 		;
 
 	options_description config("Configuration file options");
