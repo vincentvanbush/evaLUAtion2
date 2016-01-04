@@ -40,6 +40,16 @@ class EVALUATION2_API UVictoryFileFunctions : public UBlueprintFunctionLibrary
 	
 public:
 
+	UFUNCTION(BlueprintCallable, Category = VictoryFileFunctions)
+	static bool LoadTextFile(FString Path, TArray<FString> &Lines)
+	{
+		FString FileStr;
+		bool ret = FFileHelper::LoadFileToString(FileStr, *Path);
+		if (ret)
+			FileStr.ParseIntoArrayLines(Lines);
+		return ret;
+	}
+
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	//  Victory Get All Files
 	//      Optional File Extension Filter!!!  by Rama
