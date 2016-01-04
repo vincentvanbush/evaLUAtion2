@@ -13,31 +13,6 @@
 #include <string>
 #include "MapFileHandler.generated.h"
 
-
-/** Verify that the evaLUAtion2 directory in user's home folder exists.
-If not, try to create it. Returns false if there's an error, true otherwise. */
-static FORCEINLINE bool VerifyOrCreateGameDirectory(FString Folder, FString& OutFullPath)
-{
-	FString TestDir = FPlatformProcess::UserDir();
-	TestDir += Folder;
-
-	//Directory Exists?
-	if (!FPlatformFileManager::Get().GetPlatformFile().DirectoryExists(*TestDir))
-	{
-		FPlatformFileManager::Get().GetPlatformFile().CreateDirectory(*TestDir);
-
-		if (!FPlatformFileManager::Get().GetPlatformFile().DirectoryExists(*TestDir))
-		{
-			return false;
-			//~~~~~~~~~~~~~~
-		}
-	}
-
-	OutFullPath = TestDir;
-	return true;
-}
-
-
 UCLASS()
 class EVALUATION2_API AMapFileHandler : public AActor
 {
@@ -52,6 +27,30 @@ public:
 
 	// Called every frame
 	virtual void Tick(float DeltaSeconds) override;
+
+	/** Verify that the evaLUAtion2 directory in user's home folder exists.
+	If not, try to create it. Returns false if there's an error, true otherwise. */
+	UFUNCTION(BlueprintCallable, Category = "FilesHandling")
+	static bool VerifyOrCreateGameDirectory(FString Folder, FString& OutFullPath)
+	{
+		FString TestDir = FPlatformProcess::UserDir();
+		TestDir += Folder;
+
+		//Directory Exists?
+		if (!FPlatformFileManager::Get().GetPlatformFile().DirectoryExists(*TestDir))
+		{
+			FPlatformFileManager::Get().GetPlatformFile().CreateDirectory(*TestDir);
+
+			if (!FPlatformFileManager::Get().GetPlatformFile().DirectoryExists(*TestDir))
+			{
+				return false;
+				//~~~~~~~~~~~~~~
+			}
+		}
+
+		OutFullPath = TestDir;
+		return true;
+	}
 
 	UFUNCTION(BlueprintCallable, Category = "FilesHandling")
 	bool SaveMapFile(
