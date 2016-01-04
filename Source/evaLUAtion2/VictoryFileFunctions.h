@@ -50,6 +50,12 @@ public:
 		return ret;
 	}
 
+	UFUNCTION(BlueprintCallable, Category = VictoryFileFunctions)
+	static bool SaveTextFile(FString Path, FString Text)
+	{
+		return FFileHelper::SaveStringToFile(Text, *Path);
+	}
+
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	//  Victory Get All Files
 	//      Optional File Extension Filter!!!  by Rama
