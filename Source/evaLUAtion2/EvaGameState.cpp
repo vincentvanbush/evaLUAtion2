@@ -8,6 +8,7 @@
 #include "EvaGameState.h"
 
 using namespace boost::program_options;
+using namespace std;
 
 lua_State* AEvaGameState::GetLuaContextFor(AEvaCharacter *character)
 {
@@ -50,12 +51,27 @@ AEvaGameState::AEvaGameState(const FObjectInitializer& ObjectInitializer) : Supe
 	shootTime.Append(shootTimeInit, ARRAY_COUNT(shootTimeInit));
 }
 
-void AEvaGameState::StartGame(FString CfgFile)
+bool AEvaGameState::StartGame(
+	FString CfgFile,
+	TArray<FNewCharacterInfo> &CharactersInfo,
+	FString &MapFile
+)
 {
-	// tak z grubsza:
-	
+	/*std::string a(TCHAR_TO_UTF8(*CfgFile));*/
+	FString ParentFolderPath;
+	FString CfgFilename;
+	if (!CfgFile.Split(TEXT("/"), &ParentFolderPath, &CfgFilename, ESearchCase::IgnoreCase, ESearchDir::FromEnd))
+		return false;
 	// za³adowanie zawartoœci pliku konfiguracyjnego i ustawienie opcji gry
 	Configuration->LoadOptionsFromFile(CfgFile);
+	FString EmfFilename = Configuration->GetString("map.filename");
+	FString EafFilename = Configuration->GetString("map.actors.file");
+
+	FString EafFile = ParentFolderPath + "/" + EafFilename;
+	//MapFile
+	if (!LoadActorsFile(EafFile, ParentFolderPath, CharactersInfo))
+		return false;
+
 
 	// za³adowanie danych o aktorach
 		// w tym: dla ka¿dego z nich za³adowanie w³aœciwego skryptu
@@ -63,6 +79,7 @@ void AEvaGameState::StartGame(FString CfgFile)
 	// spawnowanie obiektów i postaci przez GetWorld()->SpawnActor(...)
 
 	// wyczyszczenie tablic i dodanie do nich wszystkiego co mamy :)
+	return true;
 }
 
 void AEvaGameState::Clear_Implementation()
@@ -97,4 +114,62 @@ void AEvaGameState::Clear_Implementation()
 		x->Destroy();
 	}
 	Characters.Empty();
+}
+
+bool AEvaGameState::LoadActorsFile(
+	FString FileName,
+	FString ParentFolderPath,
+	TArray<FNewCharacterInfo> &CharactersInfo
+	)
+{
+	FString LoadDirectory = FileName;
+	FString loaded;
+
+	if (!FFileHelper::LoadFileToString(loaded, *LoadDirectory))
+		return false;
+
+	string LoadedText(TCHAR_TO_UTF8(*loaded));
+
+	stringstream ss(stringstream::in | stringstream::out);
+	ss << LoadedText;
+
+
+	const int BUFFSIZE = 256;
+	char buff[BUFFSIZE];
+	stringstream line(stringstream::in | stringstream::out);
+
+	string ActorName;
+	string Script;
+	int Team;
+	int Position[2];
+
+	FNewCharacterInfo CharacterInfo;
+	FString ProfilesFolderPath;
+	FString MainPath;
+	FString Temp;
+
+	while (ss.getline(buff, BUFFSIZE)) {
+		line << buff;
+		line >> ActorName >> Script >> Team >> Position[0] >> Position[1];
+
+		CharacterInfo.CharacterName = FString(ActorName.c_str());
+		if (Script.compare(0, 2, "ms") == 0) {
+			CharacterInfo.ScriptFile = FString();
+		}
+		else if (Script.compare(0, 3, "sc:") == 0) {
+			if (!ParentFolderPath.Split(TEXT("/"), &ProfilesFolderPath, &Temp, ESearchCase::IgnoreCase, ESearchDir::FromEnd))
+				return false;
+			if (!ProfilesFolderPath.Split(TEXT("/"), &MainPath, &Temp, ESearchCase::IgnoreCase, ESearchDir::FromEnd))
+				return false;
+			
+			CharacterInfo.ScriptFile = MainPath + "/Scripts/" + FString(Script.substr(3).c_str());
+		}
+		else {
+			// case when invalid file
+		}
+		CharacterInfo.Team = Team;
+		CharacterInfo.Position = FVector2D((float)Position[0], (float)Position[1]);
+		CharactersInfo.Add(CharacterInfo);
+	}
+	return true;
 }

@@ -8,6 +8,9 @@
 #include <lauxlib.h>
 #include <luabind/error.hpp>
 #include <map>
+#include <iostream>
+#include <sstream>
+#include "NewCharacterInfo.h"
 #include "Configuration.h"
 #include "EvaGameState.generated.h"
 
@@ -81,6 +84,15 @@ public:
 
 	/** Loads the game with information from specified files */
 	UFUNCTION(BlueprintCallable, Category = Game)
-	void StartGame(FString CfgFile);
+	bool StartGame(
+		FString CfgFile,
+		TArray<FNewCharacterInfo> &CharactersInfo,
+		FString &MapFile
+	);
 
+	bool LoadActorsFile(
+		FString filename,
+		FString ParentFolderPath,
+		TArray<FNewCharacterInfo> &CharactersInfo
+	);
 };
