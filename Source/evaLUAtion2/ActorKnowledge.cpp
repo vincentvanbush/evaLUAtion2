@@ -46,7 +46,10 @@ unsigned short ActorKnowledge::getTeam() {
 }
 
 const char * ActorKnowledge::getName() {
-	return character->getName().c_str();
+	// TODO: this may be causing memory leaks but how to really handle this?
+	char *ret = new char[256];
+	strcpy(ret, character->getName().c_str());
+	return ret;
 }
 
 ActorInfo ActorKnowledge::getSelf() {

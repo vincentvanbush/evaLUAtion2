@@ -268,7 +268,7 @@ FString AMapFileHandler::LoadMapFile(
 				mapSource >> data;
 				if (data != "m_dCost:") return FString("Missing Cost in indexConnection");
 				mapSource >> indexConnection.cost;
-				//skip the rest of this garbage
+				//skip the rest
 				mapSource >> data;
 				if (data != "m_iFlags:") return FString("Missing Flags in indexConnection");
 				mapSource >> data;
@@ -287,37 +287,35 @@ FString AMapFileHandler::LoadMapFile(
 			MapSize.Add(mapY);
 
 			//get powerups & walls
-			//this is the tricky part where we have no idea how many bags of this trash there are, so we just read until it crashes.
+			//this is the tricky part where we have no idea how many elements there are, so we just read until the end of the file
 			int type;
 			while (!mapSource.eof() && mapSource >> type) {
 				switch (type) {
 				case 0:
 				{
-					FVector2Dpair vecDoubleUberVector;
-					//'tis a wall
+					FVector2Dpair vec;
+					//wall
 					//from x,y
 					//to x,y
-					//garbage
-					//garbage
-					mapSource >> vecDoubleUberVector.Acoord.X >> vecDoubleUberVector.Acoord.Y >> vecDoubleUberVector.Bcoord.X >> vecDoubleUberVector.Bcoord.Y >> data >> data;
-					WallsCoords.Add(vecDoubleUberVector);
+					mapSource >> vec.Acoord.X >> vec.Acoord.Y >> vec.Bcoord.X >> vec.Bcoord.Y >> data >> data;
+					WallsCoords.Add(vec);
 					break;
 				}
 				case 4:
 				{
 					//medkit
-					FPowerupInfo unlimitedPower;
-					mapSource >> data >> unlimitedPower.coord.X >> unlimitedPower.coord.Y >> data >> data >> unlimitedPower.uniqueIndex;
-					unlimitedPower.type = 4;
-					PowerupsCoords.Add(unlimitedPower);
+					FPowerupInfo vec;
+					mapSource >> data >> vec.coord.X >> vec.coord.Y >> data >> data >> vec.uniqueIndex;
+					vec.type = 4;
+					PowerupsCoords.Add(vec);
 					break;
 				}
 				case 5:
 				{
 					//spawn point
-					FPowerupInfo powerOverwhelming;
-					mapSource >> data >> powerOverwhelming.coord.X >> powerOverwhelming.coord.Y >> data >> powerOverwhelming.uniqueIndex;
-					PowerupsCoords.Add(powerOverwhelming);
+					FPowerupInfo vec;
+					mapSource >> data >> vec.coord.X >> vec.coord.Y >> data >> vec.uniqueIndex;
+					PowerupsCoords.Add(vec);
 					break;
 				}
 				case 6:
@@ -327,15 +325,13 @@ FString AMapFileHandler::LoadMapFile(
 				case 10:
 				{
 					//weapons & armor
-					//one of these can actually be important, dunno.
-					FPowerupInfo over9000;
-					mapSource >> data >> over9000.coord.X >> over9000.coord.Y >> data >> over9000.uniqueIndex;
-					over9000.type = type;
-					PowerupsCoords.Add(over9000);
+					FPowerupInfo vec;
+					mapSource >> data >> vec.coord.X >> vec.coord.Y >> data >> vec.uniqueIndex;
+					vec.type = type;
+					PowerupsCoords.Add(vec);
 					break;
 				}
 				default:
-					//well, shit...
 					return FString("Powerup with the given type is invalid");
 				}
 			}
@@ -349,7 +345,6 @@ FString AMapFileHandler::LoadMapFile(
 		return FString("Exception caught during map loading");
 	}
 	mapSource.close();
-	//that's all, go home
 	return "OK";
 }
 

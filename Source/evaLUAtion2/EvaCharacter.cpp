@@ -100,9 +100,13 @@ std::vector<AEvaCharacter*> AEvaCharacter::GetFoes()
 	auto state = GetWorld()->GetGameState<AEvaGameState>();
 	auto characters = state->Characters;
 	std::vector<AEvaCharacter*> ret;
+	// sprawdzic to
 	for (auto it = characters.CreateIterator(); it; ++it)
-		if ((*it)->team != this->team)
+	{
+		if (!(*it)->IsDead() && (*it)->team != this->team)
 			ret.push_back(*it);
+	}
+		
 	return ret;
 }
 
@@ -111,8 +115,9 @@ std::vector<AEvaCharacter*> AEvaCharacter::GetFriends()
 	auto state = GetWorld()->GetGameState<AEvaGameState>();
 	auto characters = state->Characters;
 	std::vector<AEvaCharacter*> ret;
+	// sprawdzic to
 	for (auto it = characters.CreateIterator(); it; ++it)
-		if ((*it)->team == this->team && this != *it)
+	if (!(*it)->IsDead() && (*it)->team == this->team && this != *it)
 			ret.push_back(*it);
 	return ret;
 }
