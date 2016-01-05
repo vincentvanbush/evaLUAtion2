@@ -83,6 +83,7 @@ lua_State * ULuaAgent::createLuaEnv() {
 				.def("getWeaponType", &ActorKnowledge::getWeaponType)
 				.def("getHealth", &ActorKnowledge::getHealth)
 				.def("getAmmo", &ActorKnowledge::getAmmo)
+				.def("getSeenActors", &ActorKnowledge::getSeenActors)
 				.def("getSeenFriends", &ActorKnowledge::getSeenFriends)
 				.def("getSeenFoes", &ActorKnowledge::getSeenFoes)
 				.def("getEstimatedTimeToReach", &ActorKnowledge::getEstimatedTimeToReach)
