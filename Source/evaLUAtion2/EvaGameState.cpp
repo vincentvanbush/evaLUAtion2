@@ -66,6 +66,7 @@ bool AEvaGameState::StartGame(
 	if (!CfgFile.Split(TEXT("/"), &ProfileFolderPath, &CfgFilename, ESearchCase::IgnoreCase, ESearchDir::FromEnd))
 		return false;
 	// za³adowanie zawartoœci pliku konfiguracyjnego i ustawienie opcji gry
+	Configuration = NewObject<UConfiguration>();
 	Configuration->LoadOptionsFromFile(CfgFile);
 	FString EmfFilename = Configuration->GetString("map.filename");
 	FString EafFilename = Configuration->GetString("map.actors.file");
