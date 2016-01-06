@@ -72,12 +72,7 @@ bool AEvaGameState::StartGame(
 
 	FString EafFile = ProfileFolderPath + "/" + EafFilename;
 
-	if (!ProfileFolderPath.Split(TEXT("/"), &ProfilesFolderPath, &Temp, ESearchCase::IgnoreCase, ESearchDir::FromEnd))
-		return false;
-	if (!ProfilesFolderPath.Split(TEXT("/"), &MainPath, &Temp, ESearchCase::IgnoreCase, ESearchDir::FromEnd))
-		return false;
-	//MapFile
-	MapFile = MainPath + "/Maps/" + EmfFilename;
+	MapFile = EmfFilename;
 
 	if (!LoadActorsFile(EafFile, ProfileFolderPath, CharactersInfo))
 		return false;
