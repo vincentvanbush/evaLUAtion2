@@ -90,7 +90,7 @@ Navigation* ActorKnowledge::getNavigation()
 
 bool ActorKnowledge::isMoving()
 {
-	return character->GetCharacterMovement()->IsWalking();
+	return character->GetVelocity().Size() != 0.0;
 }
 
 float ActorKnowledge::getEstimatedTimeToReach(Vector4d a, Vector4d b)
