@@ -173,3 +173,8 @@ bool AEvaGameState::LoadActorsFile(
 	}
 	return true;
 }
+
+float AEvaGameState::GetFloatTimeInSeconds_Implementation()
+{
+	return GetWorld()->GetTimeSeconds();
+}
