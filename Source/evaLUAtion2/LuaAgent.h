@@ -51,7 +51,7 @@ public:
 	void continueAction();
 
 	void printMessage(const char* msg);
-
+	FRandomStream SRand;
 	static lua_State * createLuaEnv();
 	
 private:

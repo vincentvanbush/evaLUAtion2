@@ -129,7 +129,9 @@ std::vector<ActorInfo> AEvaCharacter::SeenAllInfo()
 	std::vector<ActorInfo> ret;
 	for (auto it = characters.CreateIterator(); it; ++it)
 	{
-		if (CanSee((*it)->GetActorLocation()))
+		bool canSee;
+		CanSee((*it)->GetActorLocation(), canSee);
+		if (canSee)
 			ret.push_back((*it)->getActorInfo());
 	}
 	return ret;
@@ -141,7 +143,9 @@ std::vector<ActorInfo> AEvaCharacter::SeenFriendsInfo()
 	std::vector<ActorInfo> ret;
 	for (auto it = characters.begin(); it != characters.end(); ++it)
 	{
-		if (CanSee((*it)->GetActorLocation()))
+		bool canSee;
+		CanSee((*it)->GetActorLocation(), canSee);
+		if (canSee)
 			ret.push_back((*it)->getActorInfo());
 	}
 	return ret;
@@ -153,17 +157,14 @@ std::vector<ActorInfo> AEvaCharacter::SeenFoesInfo()
 	std::vector<ActorInfo> ret;
 	for (auto it = characters.begin(); it != characters.end(); ++it)
 	{
-		if (CanSee((*it)->GetActorLocation()))
+		bool canSee;
+		CanSee((*it)->GetActorLocation(), canSee);
+		if (canSee)
 			ret.push_back((*it)->getActorInfo());
 	}
 	return ret;
 }
 
-bool AEvaCharacter::CanSee(FVector point)
+void AEvaCharacter::CanSee_Implementation(FVector point, bool &canSee)
 {
-	FVector location = this->GetActorLocation();
-	FHitResult hit;
-	if (Trace(GetWorld(), nullptr, point, location, hit))
-		return true;
-	return false;
 }
