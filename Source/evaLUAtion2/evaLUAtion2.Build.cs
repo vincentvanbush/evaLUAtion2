@@ -12,7 +12,7 @@ public class evaLUAtion2 : ModuleRules
 
 	    string evaLUAtionDir = ModuleDirectory;
 
-        // bEnableExceptions = true;
+        bEnableExceptions = true;
 
         string LuaPath = "D:/work/lib/lua5_1_3_Win32_dll8_lib";
 	    string LuabindPath = "D:/work/lib/luabind-0.9.1";
