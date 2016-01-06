@@ -58,18 +58,28 @@ bool AEvaGameState::StartGame(
 )
 {
 	/*std::string a(TCHAR_TO_UTF8(*CfgFile));*/
-	FString ParentFolderPath;
+	FString ProfileFolderPath;
 	FString CfgFilename;
-	if (!CfgFile.Split(TEXT("/"), &ParentFolderPath, &CfgFilename, ESearchCase::IgnoreCase, ESearchDir::FromEnd))
+	FString ProfilesFolderPath;
+	FString MainPath;
+	FString Temp;
+	if (!CfgFile.Split(TEXT("/"), &ProfileFolderPath, &CfgFilename, ESearchCase::IgnoreCase, ESearchDir::FromEnd))
 		return false;
 	// za³adowanie zawartoœci pliku konfiguracyjnego i ustawienie opcji gry
 	Configuration->LoadOptionsFromFile(CfgFile);
 	FString EmfFilename = Configuration->GetString("map.filename");
 	FString EafFilename = Configuration->GetString("map.actors.file");
 
-	FString EafFile = ParentFolderPath + "/" + EafFilename;
+	FString EafFile = ProfileFolderPath + "/" + EafFilename;
+
+	if (!ProfileFolderPath.Split(TEXT("/"), &ProfilesFolderPath, &Temp, ESearchCase::IgnoreCase, ESearchDir::FromEnd))
+		return false;
+	if (!ProfilesFolderPath.Split(TEXT("/"), &MainPath, &Temp, ESearchCase::IgnoreCase, ESearchDir::FromEnd))
+		return false;
 	//MapFile
-	if (!LoadActorsFile(EafFile, ParentFolderPath, CharactersInfo))
+	MapFile = MainPath + "/Maps/" + EmfFilename;
+
+	if (!LoadActorsFile(EafFile, ProfileFolderPath, CharactersInfo))
 		return false;
 
 
