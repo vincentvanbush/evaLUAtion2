@@ -4,6 +4,7 @@
 #include "Action.h"
 #include "EvaCharacter.h"
 #include "Misc.h"
+#include "ActorKnowledge.h"
 #include "EvaGameState.h"
 
 // Sets default values
@@ -11,7 +12,13 @@ AEvaCharacter::AEvaCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+}
 
+ActorKnowledge* AEvaCharacter::getActorKnowledge()
+{
+	if (actorKnowledge == nullptr)
+		actorKnowledge = new ActorKnowledge(this);
+	return actorKnowledge;
 }
 
 // Called when the game starts or when spawned

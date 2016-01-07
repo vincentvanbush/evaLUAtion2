@@ -11,6 +11,7 @@
 //#include "main/RandomGenerator.h"
 
 ActorKnowledge::ActorKnowledge(AEvaCharacter * character) : character(character) {
+	navigation = new Navigation(character->GetWorld()->GetGameState<AEvaGameState>());
 }
 
 Vector4d ActorKnowledge::getPosition() {
@@ -85,7 +86,7 @@ ActorInfoVectorWrapper ActorKnowledge::getSeenFoes()
 
 Navigation* ActorKnowledge::getNavigation()
 {
-	return &Navigation::getInstance();
+	return navigation;
 }
 
 bool ActorKnowledge::isMoving()

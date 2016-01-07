@@ -183,7 +183,7 @@ void ULuaAgent::whatToDo()
 
 	// Call the function in the lua script.
 	try {
-		ActorKnowledge ak = ActorKnowledge(GetControlledCharacter());
+		ActorKnowledge *ak = GetControlledCharacter()->getActorKnowledge();
 		float t = GetWorld()->GetTimeSeconds();
 		call_function<void>(luaEnv,	whatToName.c_str(),	this, ak, t);
 	}
@@ -200,7 +200,7 @@ void ULuaAgent::onStart()
 
 	// Call the function in the lua script.
 	try {
-		ActorKnowledge ak = ActorKnowledge(GetControlledCharacter());
+		ActorKnowledge *ak = GetControlledCharacter()->getActorKnowledge();
 		float t = GetWorld()->GetTimeSeconds();
 		call_function<void>(luaEnv, onStartName.c_str(), this, ak, t);
 	}

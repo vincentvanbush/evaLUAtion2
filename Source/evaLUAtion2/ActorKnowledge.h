@@ -33,6 +33,7 @@ public:
 	float getEstimatedTimeToReach(Vector4d a, Vector4d b);
 private:
 	AEvaCharacter * character;
+	Navigation * navigation;
 //	Vector4d getShortDestination();
 //	int getId() const;
 //	/**
