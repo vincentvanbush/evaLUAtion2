@@ -76,6 +76,7 @@ lua_State * ULuaAgent::createLuaEnv() {
 				,
 				// TODO uncomment when ready
 				class_<ActorKnowledge>("ActorKnowledge")
+				.def("getActionType", &ActorKnowledge::getActionType)
 				.def("getName", &ActorKnowledge::getName)
 				.def("getPosition", &ActorKnowledge::getPosition)
 				.def("getDirection", &ActorKnowledge::getDirection)

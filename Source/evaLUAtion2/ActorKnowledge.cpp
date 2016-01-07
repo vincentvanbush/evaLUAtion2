@@ -104,3 +104,8 @@ float ActorKnowledge::getEstimatedTimeToReach(Vector4d a, Vector4d b)
 	float Speed = UConfiguration::RetrieveFromGameState()->GetFloat("actor.speed"); // TODO sprawdzic w jakich toto jednostkach jest
 	return PathLengthInCm / Speed;
 }
+
+uint8 ActorKnowledge::getActionType()
+{
+	return (uint8)character->currentAction->ActionType;
+}
