@@ -57,6 +57,7 @@ bool AEvaGameState::StartGame(
 	FString &MapFile
 )
 {
+	GameStartedAt = GetWorld()->GetTimeSeconds();
 	/*std::string a(TCHAR_TO_UTF8(*CfgFile));*/
 	FString ProfileFolderPath;
 	FString CfgFilename;
@@ -182,5 +183,5 @@ bool AEvaGameState::LoadActorsFile(
 
 float AEvaGameState::GetFloatTimeInSeconds_Implementation()
 {
-	return GetWorld()->GetTimeSeconds();
+	return GetWorld()->GetTimeSeconds() - GameStartedAt;
 }
