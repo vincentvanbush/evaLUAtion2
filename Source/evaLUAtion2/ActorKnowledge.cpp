@@ -11,6 +11,7 @@
 //#include "main/RandomGenerator.h"
 
 ActorKnowledge::ActorKnowledge(AEvaCharacter * character) : character(character) {
+	navigation = new Navigation(character->GetWorld()->GetGameState<AEvaGameState>());
 }
 
 Vector4d ActorKnowledge::getPosition() {
@@ -85,7 +86,7 @@ ActorInfoVectorWrapper ActorKnowledge::getSeenFoes()
 
 Navigation* ActorKnowledge::getNavigation()
 {
-	return &Navigation::getInstance();
+	return navigation;
 }
 
 bool ActorKnowledge::isMoving()
@@ -102,4 +103,9 @@ float ActorKnowledge::getEstimatedTimeToReach(Vector4d a, Vector4d b)
 	UNS->GetPathCost(A, B, PathLengthInCm);
 	float Speed = UConfiguration::RetrieveFromGameState()->GetFloat("actor.speed"); // TODO sprawdzic w jakich toto jednostkach jest
 	return PathLengthInCm / Speed;
+}
+
+uint8 ActorKnowledge::getActionType()
+{
+	return (uint8)character->currentAction->ActionType;
 }

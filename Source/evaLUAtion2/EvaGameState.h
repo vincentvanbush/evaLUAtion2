@@ -25,6 +25,8 @@ class EVALUATION2_API AEvaGameState : public AGameState
 	std::map<int32, lua_State*> TeamLuaContexts;
 
 	void LoadSettingsFromFile(FString CfgFile);
+
+	float GameStartedAt;
 	
 public:
 

@@ -13,14 +13,19 @@
 
 class ActorInfo;
 class Action;
+class ActorKnowledge;
 UCLASS()
 class EVALUATION2_API AEvaCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+	ActorKnowledge *actorKnowledge;
+
 public:
 	// Sets default values for this character's properties
 	AEvaCharacter();
+
+	ActorKnowledge *getActorKnowledge();
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

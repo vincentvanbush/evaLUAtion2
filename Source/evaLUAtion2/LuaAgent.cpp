@@ -76,6 +76,7 @@ lua_State * ULuaAgent::createLuaEnv() {
 				,
 				// TODO uncomment when ready
 				class_<ActorKnowledge>("ActorKnowledge")
+				.def("getActionType", &ActorKnowledge::getActionType)
 				.def("getName", &ActorKnowledge::getName)
 				.def("getPosition", &ActorKnowledge::getPosition)
 				.def("getDirection", &ActorKnowledge::getDirection)
@@ -183,8 +184,8 @@ void ULuaAgent::whatToDo()
 
 	// Call the function in the lua script.
 	try {
-		ActorKnowledge ak = ActorKnowledge(GetControlledCharacter());
-		float t = GetWorld()->GetTimeSeconds();
+		ActorKnowledge *ak = GetControlledCharacter()->getActorKnowledge();
+		float t = GetWorld()->GetGameState<AEvaGameState>()->GetFloatTimeInSeconds();
 		call_function<void>(luaEnv,	whatToName.c_str(),	this, ak, t);
 	}
 	catch (...) {
@@ -200,8 +201,8 @@ void ULuaAgent::onStart()
 
 	// Call the function in the lua script.
 	try {
-		ActorKnowledge ak = ActorKnowledge(GetControlledCharacter());
-		float t = GetWorld()->GetTimeSeconds();
+		ActorKnowledge *ak = GetControlledCharacter()->getActorKnowledge();
+		float t = GetWorld()->GetGameState<AEvaGameState>()->GetFloatTimeInSeconds();
 		call_function<void>(luaEnv, onStartName.c_str(), this, ak, t);
 	}
 	catch (...) {

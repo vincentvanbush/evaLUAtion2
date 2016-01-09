@@ -5,6 +5,7 @@
 #include <set>
 #include "ActorInfo.h"
 #include "EvaCharacter.h"
+#include "Action.h"
 
 /** Self knowlage of actor
 */
@@ -31,8 +32,10 @@ public:
 	Navigation * getNavigation();
 	bool isMoving();
 	float getEstimatedTimeToReach(Vector4d a, Vector4d b);
+	uint8 getActionType();
 private:
 	AEvaCharacter * character;
+	Navigation * navigation;
 //	Vector4d getShortDestination();
 //	int getId() const;
 //	/**
