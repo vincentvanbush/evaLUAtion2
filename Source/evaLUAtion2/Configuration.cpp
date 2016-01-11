@@ -21,6 +21,7 @@ UConfiguration::UConfiguration(const FObjectInitializer &ObjectInitializer) : Su
 		("map.actors.file", value<std::string>()->default_value("actors.eaf"), "file with actors definition")
 		("map.filename", value<std::string>()->default_value("random"), "map to use")
 		("respawns", value<int>()->default_value(1), "do agents respawn")
+		("matchtime", value<int>()->default_value(180), "match time (seconds)")
 		;
 
 	options_description config("Configuration file options");
