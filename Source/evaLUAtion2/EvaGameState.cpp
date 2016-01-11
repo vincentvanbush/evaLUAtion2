@@ -4,6 +4,7 @@
 #include "LuaAgent.h"
 #include <boost/program_options.hpp>
 #include <fstream>
+#include <set>
 #include <string>
 #include "EvaGameState.h"
 
@@ -86,6 +87,37 @@ bool AEvaGameState::StartGame(
 	// spawnowanie obiektów i postaci przez GetWorld()->SpawnActor(...)
 
 	// wyczyszczenie tablic i dodanie do nich wszystkiego co mamy :)
+	return true;
+}
+
+bool AEvaGameState::GameFinished_Implementation()
+{
+	std::set<int> teamNumbers;
+	bool alreadyFoundAliveTeam = false;
+	for (auto it = Characters.CreateIterator(); it; it++)
+	{
+		auto character = *it;
+		teamNumbers.insert(character->team);
+	}
+	auto alive = Characters.FilterByPredicate([](AEvaCharacter *character){ return !character->IsDead(); });
+
+	// No sense declaring the game finished just if there's only one team.
+	// Check if there's only one or no character left in that case.
+	if (teamNumbers.size() < 2)
+	{
+		if (alive.Num() < 2) return true;
+		return false;
+	}
+		
+	for (auto it = teamNumbers.begin(); it != teamNumbers.end(); it++)
+	{
+		bool teamAlive = alive.ContainsByPredicate([&](AEvaCharacter *character){ return character->team == *it; });
+		if (teamAlive)
+		{
+			if (alreadyFoundAliveTeam) return false;
+			else alreadyFoundAliveTeam = true;
+		}
+	}
 	return true;
 }
 

@@ -36,6 +36,9 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = Game)
 		float GetFloatTimeInSeconds();
 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = Game)
+		bool GameFinished();
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = ConstArrays)
 	TArray<bool> stopAtTarget;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = ConstArrays)
