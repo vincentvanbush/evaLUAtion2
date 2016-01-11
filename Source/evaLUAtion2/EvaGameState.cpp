@@ -92,6 +92,17 @@ bool AEvaGameState::StartGame(
 
 bool AEvaGameState::GameFinished_Implementation()
 {
+	bool respawnsEnabled = Configuration->GetBool("respawns");
+	
+	// Respawns enabled - compare the current timer value with the specified game time.
+	if (respawnsEnabled)
+	{
+		int matchTime = Configuration->GetInt("matchtime");
+		if (GetFloatTimeInSeconds() >= matchTime) return true;
+		return false;
+	}
+
+	// No respawns - count teams:
 	std::set<int> teamNumbers;
 	bool alreadyFoundAliveTeam = false;
 	for (auto it = Characters.CreateIterator(); it; it++)
