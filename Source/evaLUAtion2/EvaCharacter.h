@@ -177,6 +177,6 @@ public:
 	/** Returns true if the character can see a given point from his location 
 		(in ANY direction, regardless of where he's looking at) */
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = CharacterState)
-		void CanSee(FVector point, AEvaCharacter* target, bool &canSee);
+		void CanSee(FVector point, AEvaCharacter *target, bool &canSee);
 	
 };
