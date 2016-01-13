@@ -137,7 +137,7 @@ std::vector<ActorInfo> AEvaCharacter::SeenAllInfo()
 	for (auto it = characters.CreateIterator(); it; ++it)
 	{
 		bool canSee;
-		CanSee((*it)->GetActorLocation(), canSee);
+		CanSee((*it)->GetActorLocation(), (*it), canSee);
 		if (canSee)
 			ret.push_back((*it)->getActorInfo());
 	}
@@ -151,7 +151,7 @@ std::vector<ActorInfo> AEvaCharacter::SeenFriendsInfo()
 	for (auto it = characters.begin(); it != characters.end(); ++it)
 	{
 		bool canSee;
-		CanSee((*it)->GetActorLocation(), canSee);
+		CanSee((*it)->GetActorLocation(), (*it), canSee);
 		if (canSee)
 			ret.push_back((*it)->getActorInfo());
 	}
@@ -165,13 +165,13 @@ std::vector<ActorInfo> AEvaCharacter::SeenFoesInfo()
 	for (auto it = characters.begin(); it != characters.end(); ++it)
 	{
 		bool canSee;
-		CanSee((*it)->GetActorLocation(), canSee);
+		CanSee((*it)->GetActorLocation(), (*it), canSee);
 		if (canSee)
 			ret.push_back((*it)->getActorInfo());
 	}
 	return ret;
 }
 
-void AEvaCharacter::CanSee_Implementation(FVector point, bool &canSee)
+void AEvaCharacter::CanSee_Implementation(FVector point, AEvaCharacter *target, bool &canSee)
 {
 }
