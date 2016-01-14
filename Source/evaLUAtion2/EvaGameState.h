@@ -27,14 +27,26 @@ class EVALUATION2_API AEvaGameState : public AGameState
 	void LoadSettingsFromFile(FString CfgFile);
 
 	float GameStartedAt;
+
+	bool GameHasEnded = false;
 	
 public:
+	
+	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = Game)
 		void Clear();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = Game)
 		float GetFloatTimeInSeconds();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = Game)
+		bool GameFinished();
+
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGameEnd);
+
+	UPROPERTY(BlueprintAssignable)
+		FGameEnd OnGameEnd;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = ConstArrays)
 	TArray<bool> stopAtTarget;

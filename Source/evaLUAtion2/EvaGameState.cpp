@@ -4,11 +4,23 @@
 #include "LuaAgent.h"
 #include <boost/program_options.hpp>
 #include <fstream>
+#include <set>
 #include <string>
 #include "EvaGameState.h"
 
 using namespace boost::program_options;
 using namespace std;
+
+void AEvaGameState::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	if (!GameHasEnded && GameFinished())
+	{
+		GameHasEnded = true;
+		OnGameEnd.Broadcast();
+		// GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Ebin :D"); // call the event dispatcher here
+	}
+}
 
 lua_State* AEvaGameState::GetLuaContextFor(AEvaCharacter *character)
 {
@@ -23,6 +35,9 @@ lua_State* AEvaGameState::GetLuaContextFor(AEvaCharacter *character)
 
 AEvaGameState::AEvaGameState(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
+	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bStartWithTickEnabled = true;
+
 	Configuration = NewObject<UConfiguration>();
 
 	/*
@@ -89,6 +104,50 @@ bool AEvaGameState::StartGame(
 	return true;
 }
 
+bool AEvaGameState::GameFinished_Implementation()
+{
+	if (Characters.Num() == 0) return false;
+
+	bool respawnsEnabled = Configuration->GetBool("respawns");
+	
+	// Respawns enabled - compare the current timer value with the specified game time.
+	if (respawnsEnabled)
+	{
+		int matchTime = Configuration->GetInt("matchtime");
+		if (GetFloatTimeInSeconds() >= matchTime) return true;
+		return false;
+	}
+
+	// No respawns - count teams:
+	std::set<int> teamNumbers;
+	bool alreadyFoundAliveTeam = false;
+	for (auto it = Characters.CreateIterator(); it; it++)
+	{
+		auto character = *it;
+		teamNumbers.insert(character->team);
+	}
+	auto alive = Characters.FilterByPredicate([](AEvaCharacter *character){ return !character->IsDead(); });
+
+	// No sense declaring the game finished just if there's only one team.
+	// Check if there's only one or no character left in that case.
+	if (teamNumbers.size() < 2)
+	{
+		if (alive.Num() < 2) return true;
+		return false;
+	}
+		
+	for (auto it = teamNumbers.begin(); it != teamNumbers.end(); it++)
+	{
+		bool teamAlive = alive.ContainsByPredicate([&](AEvaCharacter *character){ return character->team == *it; });
+		if (teamAlive)
+		{
+			if (alreadyFoundAliveTeam) return false;
+			else alreadyFoundAliveTeam = true;
+		}
+	}
+	return true;
+}
+
 void AEvaGameState::Clear_Implementation()
 {
 	for (auto it = Powerups.CreateIterator(); it; it++)
@@ -121,6 +180,7 @@ void AEvaGameState::Clear_Implementation()
 		x->Destroy();
 	}
 	Characters.Empty();
+	GameHasEnded = false;
 }
 
 bool AEvaGameState::LoadActorsFile(
