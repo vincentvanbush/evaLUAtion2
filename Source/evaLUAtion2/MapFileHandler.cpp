@@ -315,6 +315,7 @@ FString AMapFileHandler::LoadMapFile(
 					//spawn point
 					FPowerupInfo vec;
 					mapSource >> data >> vec.coord.X >> vec.coord.Y >> data >> vec.uniqueIndex;
+					vec.type = type;
 					PowerupsCoords.Add(vec);
 					break;
 				}
