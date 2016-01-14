@@ -29,11 +29,13 @@ UConfiguration::UConfiguration(const FObjectInitializer &ObjectInitializer) : Su
 		("actor.speed", value<double>()->default_value(10.0))
 		("actor.maxHealth", value<int>()->default_value(100))
 		("actor.maxArmour", value<int>()->default_value(100))
+		("actor.respawntime", value<int>()->default_value(5))
 		("weapon.chaingun.ammo", value<int>()->default_value(50))
 		("weapon.railgun.ammo", value<int>()->default_value(3))
 		("weapon.rocket.ammo", value<int>()->default_value(5))
 		("weapon.shotgun.ammo", value<int>()->default_value(4))
 		("trigger.addHealth", value<int>()->default_value(25))
+		("trigger.respawntime", value<int>()->default_value(10))
 		("graphics.showHealthNumber", value<int>()->default_value(0))
 		("graphics.showHealthBar", value<int>()->default_value(1))
 		;
