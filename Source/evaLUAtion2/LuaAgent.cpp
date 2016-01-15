@@ -218,6 +218,11 @@ double ULuaAgent::randomDouble()
 
 void ULuaAgent::selectWeapon(EWeaponType weapon)
 {
+	if ((int)weapon < 0 || (int)weapon > 3)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, "selectWeapon: attempted to select out of range");
+		return;
+	}
 	GetControlledCharacter()->selectWeapon(weapon);
 }
 

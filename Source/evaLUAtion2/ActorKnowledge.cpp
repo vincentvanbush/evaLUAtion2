@@ -35,10 +35,20 @@ uint8 ActorKnowledge::getWeaponType() {
 }
 
 int ActorKnowledge::getAmmo(EWeaponType type) {
+	if ((int)type < 0 || (int)type > 3)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, "getAmmo: attempted to select out of range");
+		return 0;
+	}
 	return character->ammo[(int)type];
 }
 
 bool ActorKnowledge::isLoaded(EWeaponType type) {
+	if ((int)type < 0 || (int)type > 3)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, "getAmmo: attempted to select out of range");
+		return 0;
+	}
 	return character->loaded[(int)type];
 }
 
