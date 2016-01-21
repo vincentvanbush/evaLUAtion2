@@ -44,7 +44,7 @@ int Navigation::getNumberOfSpawnPoints()
 
 Vector4d Navigation::getSpawnPoint(int index)
 {
-	return Vector4d(State->Waypoints[index]->GetActorLocation());
+	return Vector4d(State->Spawnpoints[index]->GetActorLocation());
 }
 
 
