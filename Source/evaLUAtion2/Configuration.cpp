@@ -26,7 +26,7 @@ UConfiguration::UConfiguration(const FObjectInitializer &ObjectInitializer) : Su
 
 	options_description config("Configuration file options");
 	config.add_options()
-		("actor.speed", value<double>()->default_value(10.0))
+		("actor.speed", value<double>()->default_value(1.0))
 		("actor.maxHealth", value<int>()->default_value(100))
 		("actor.maxArmour", value<int>()->default_value(100))
 		("actor.respawntime", value<int>()->default_value(5))
