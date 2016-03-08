@@ -33,7 +33,31 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "FilesHandling")
 	static bool VerifyOrCreateGameDirectory(FString Folder, FString& OutFullPath)
 	{
-		FString TestDir = FPlatformProcess::UserDir();
+
+		FString ValueReceived;
+		bool res = GConfig && GConfig->GetString(
+			TEXT("Paths"),
+			TEXT("UserData"),
+			ValueReceived,
+			GGameIni
+		);
+
+		FString TestDir;
+
+		if (!res || ValueReceived == "Home")
+		{
+			TestDir = FPlatformProcess::UserDir();
+		}
+		else if (ValueReceived == "GameDir")
+		{
+			TestDir = FPaths::ConvertRelativePathToFull(FPaths::GameDir());
+		}
+		else
+		{
+			TestDir = ValueReceived;
+		}
+		
+		// 
 		TestDir += Folder;
 
 		//Directory Exists?
