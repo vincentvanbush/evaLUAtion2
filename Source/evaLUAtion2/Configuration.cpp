@@ -34,6 +34,7 @@ UConfiguration::UConfiguration(const FObjectInitializer &ObjectInitializer) : Su
 		("weapon.railgun.ammo", value<int>()->default_value(3))
 		("weapon.rocket.ammo", value<int>()->default_value(5))
 		("weapon.shotgun.ammo", value<int>()->default_value(4))
+		("weapon.dispersion", value<double>()->default_value(1.0))
 		("trigger.addHealth", value<int>()->default_value(25))
 		("trigger.respawntime", value<int>()->default_value(10))
 		("graphics.showHealthNumber", value<int>()->default_value(0))
