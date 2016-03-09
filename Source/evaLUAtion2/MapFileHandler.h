@@ -7,6 +7,7 @@
 #include "PowerupInfo.h"
 #include "WaypointInfo.h"
 #include "WaypointsConnectionInfo.h"
+#include "AppConfig.h"
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -35,12 +36,7 @@ public:
 	{
 
 		FString ValueReceived;
-		bool res = GConfig && GConfig->GetString(
-			TEXT("Paths"),
-			TEXT("UserData"),
-			ValueReceived,
-			GGameIni
-		);
+		bool res = UAppConfig::GetGameIniStr("Paths", "UserData", ValueReceived);
 
 		FString TestDir;
 
