@@ -72,6 +72,7 @@ bool AEvaGameState::StartGame(
 	FString &MapFile
 )
 {
+	TeamLuaContexts.clear();
 	GameStartedAt = GetWorld()->GetTimeSeconds();
 	/*std::string a(TCHAR_TO_UTF8(*CfgFile));*/
 	FString ProfileFolderPath;

@@ -3,6 +3,7 @@
 #include "evaLUAtion2.h"
 #include "LuaAgent.h"
 #include <iostream>
+#include <sstream>
 #include "EvaGameState.h"
 
 extern "C" {
@@ -164,8 +165,10 @@ void ULuaAgent::Initialize(FString filename)
 
 	int error = luaL_loadfile(pL, name.c_str()) || lua_pcall(pL, 0, LUA_MULTRET, 0);
 	if (error) {
-		std::cerr << "[Lua] Error " << error << ": " << lua_tostring(pL, -1) << " - during execution of script: " << name << "\n";
-		lua_pop(pL, 1);  /* pop error message from the stack */
+		std::ostringstream err_stream;
+		err_stream << "[Lua] Error " << error << ": " << lua_tostring(pL, -1) << " - during execution of script: " << name << "\n";
+		FString err(err_stream.str().c_str());
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, err);
 	}
 	this->luaEnv = pL;
 	
