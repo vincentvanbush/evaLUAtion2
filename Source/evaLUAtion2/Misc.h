@@ -25,8 +25,6 @@ enum class EWeaponType : uint8 {
 	WeaponSize
 };
 
-class Enumerations {};
-
 
 /** 4 dimentional vector class
 */
@@ -164,7 +162,7 @@ static FORCEINLINE bool Trace(
 	HitOut = FHitResult(ForceInit);
 
 	//Trace!
-	World->LineTraceSingle(
+	World->LineTraceSingleByChannel(
 		HitOut,		//result
 		Start,	//start
 		End, //end

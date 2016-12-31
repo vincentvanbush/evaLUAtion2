@@ -31,10 +31,11 @@ int ActorKnowledge::getArmour() {
 }
 
 uint8 ActorKnowledge::getWeaponType() {
-	return static_cast<uint8>(character->currentWeapon);
+	int32 result = character->currentWeapon;
+	return result;
 }
 
-int ActorKnowledge::getAmmo(EWeaponType type) {
+int ActorKnowledge::getAmmo(int32 type) {
 	if ((int)type < 0 || (int)type > 3)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, "getAmmo: attempted to select out of range");
@@ -43,7 +44,7 @@ int ActorKnowledge::getAmmo(EWeaponType type) {
 	return character->ammo[(int)type];
 }
 
-bool ActorKnowledge::isLoaded(EWeaponType type) {
+bool ActorKnowledge::isLoaded(int32 type) {
 	if ((int)type < 0 || (int)type > 3)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, "getAmmo: attempted to select out of range");

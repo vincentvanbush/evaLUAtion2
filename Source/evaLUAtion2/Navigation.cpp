@@ -30,13 +30,16 @@ int Navigation::getNumberOfPoints()
 {
 	return State->Waypoints.Num();
 }
-
+#pragma optimize("", off)
 Trigger* Navigation::getTrigger(int index)
 {
-	AActor* Powerup = State->Powerups[index];
-	return new Trigger(Powerup);
+	if (State->Powerups.IsValidIndex((uint32)index)) {
+		AActor* Powerup = State->Powerups[index];
+		return new Trigger(Powerup);
+	}
+	return NULL;
 }
-
+#pragma optimize("", on)
 int Navigation::getNumberOfSpawnPoints()
 {
 	return State->Spawnpoints.Num();

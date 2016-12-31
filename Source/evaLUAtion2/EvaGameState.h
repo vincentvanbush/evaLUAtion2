@@ -5,8 +5,7 @@
 #include "GameFramework/GameState.h"
 #include "Interfaces/PowerupInterface.h"
 #include "EvaCharacter.h"
-#include <lauxlib.h>
-#include <luabind/error.hpp>
+#include "Lib/Lua-5.3.3/include/lauxlib.h"
 #include <map>
 #include <iostream>
 #include <sstream>

@@ -52,7 +52,7 @@ UAction* AEvaCharacter::decideNextAction_Implementation()
 	return nullptr;
 };
 
-void AEvaCharacter::selectWeapon_Implementation(EWeaponType weapon)
+void AEvaCharacter::selectWeapon_Implementation(int32 weapon)
 {
 	// TODO: implement here or in BP
 };

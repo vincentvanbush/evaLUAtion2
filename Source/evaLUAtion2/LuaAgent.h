@@ -5,8 +5,8 @@
 #include "Object.h"
 #include "EvaCharacter.h"
 #include "ActorInfo.h"
-#include <luaconf.h>
-#include <lua.h>
+#include "Lib/lua-5.3.3/include/lua.hpp"
+#include "Lib/LuaBridge/LuaBridge.h"
 #include "LuaAgent.generated.h"
 
 /**
@@ -20,6 +20,7 @@ class EVALUATION2_API ULuaAgent : public UActorComponent
 
 	
 public:
+	~ULuaAgent();
 
 	/** Corresponds to old evaLUAtion's constructor of LuaAgent.
 		Should create all the Lua environment, bind classes, etc. */
@@ -40,7 +41,7 @@ public:
 	// The following methods should be exposed to the scripting api
 
 	double randomDouble();
-	void selectWeapon(EWeaponType weapon);
+	void selectWeapon(int weapon);
 	void moveDirection(Vector4d direction);
 	void moveTo(Vector4d target);
 	void reload();
@@ -53,6 +54,8 @@ public:
 	void printMessage(const char* msg);
 	FRandomStream SRand;
 	static lua_State * createLuaEnv();
+	luabridge::LuaRef* whatToHandle;
+	luabridge::LuaRef* onStartHandle;
 	
 private:
 	

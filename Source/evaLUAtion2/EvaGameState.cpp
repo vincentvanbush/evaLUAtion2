@@ -2,7 +2,7 @@
 
 #include "evaLUAtion2.h"
 #include "LuaAgent.h"
-#include <boost/program_options.hpp>
+#include <../Lib/boost_1_62_0/boost/program_options.hpp>
 #include <fstream>
 #include <set>
 #include <string>
@@ -28,7 +28,8 @@ lua_State* AEvaGameState::GetLuaContextFor(AEvaCharacter *character)
 	std::map<int32, lua_State*>::const_iterator it = TeamLuaContexts.find(team);
 	if (it == TeamLuaContexts.end())
 	{
-		return TeamLuaContexts[team] = ULuaAgent::createLuaEnv();
+		TeamLuaContexts[team] = ULuaAgent::createLuaEnv();
+		return TeamLuaContexts[team];
 	}
 	return it->second;
 }

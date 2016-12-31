@@ -44,9 +44,9 @@ public:
 		return name.c_str();
 	}
 	uint8 getWeaponType() { // actually is EWeaponType converted to uint8
-		return static_cast<uint8>(weaponType);
+		return weaponType;
 	}
-	void setWeaponType(EWeaponType type) {
+	void setWeaponType(uint8 type) {
 		this->weaponType = type;
 	}
 	virtual ~ActorInfo() {}
@@ -60,7 +60,7 @@ protected:
 	Vector4d direction;
 	unsigned short team;
 	int health;
-	EWeaponType weaponType;
+	uint8 weaponType;
 	
 
 };

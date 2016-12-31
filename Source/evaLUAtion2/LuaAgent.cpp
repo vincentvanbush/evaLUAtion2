@@ -4,33 +4,131 @@
 #include "LuaAgent.h"
 #include <iostream>
 #include <sstream>
+#include <LuaBridge.h>
 #include "EvaGameState.h"
 
 extern "C" {
-	#include <lua.h>
-	#include <lualib.h>
-	#include <lauxlib.h>
+	#include "Lib/Lua-5.3.3/include/lua.h"
+	#include "Lib/Lua-5.3.3/include/lualib.h"
+	#include "Lib/Lua-5.3.3/include/lauxlib.h"
 }
 
-#include <luabind/luabind.hpp>
-#include <luabind/operator.hpp>
 #include "Misc.h"
 #include <vector>
 //#include "ActorInfo.h"
 #include "ActorKnowledge.h"
 #include "Navigation.h"
 
-#pragma warning(disable: 4541)
-using namespace luabind;
-
 typedef std::vector<ActorInfo>::reference(std::vector<ActorInfo>:: *AtFunctionType)(std::vector<ActorInfo>::size_type);
 typedef std::vector<ActorInfo>::size_type(std::vector<ActorInfo>:: *SizeFunctionType)();
-
 
 lua_State * ULuaAgent::createLuaEnv() {
 	lua_State * pL = luaL_newstate();
 	luaL_openlibs(pL);
-	open(pL);
+	luabridge::getGlobalNamespace(pL)
+		.beginClass<ActorInfoVectorWrapper>("vectorOfActorInfo")
+			.addFunction("size", &ActorInfoVectorWrapper::size)
+			.addFunction("at", &ActorInfoVectorWrapper::at)
+		.endClass()
+		.beginClass<IntVectorWrapper>("vectorOfInt")
+			.addFunction("size", &IntVectorWrapper::size)
+			.addFunction("at", &IntVectorWrapper::at)
+		.endClass()
+		.beginClass<ActorInfo>("ActorInfo")
+			.addConstructor<void(*)()>()
+			.addFunction("getHealth", &ActorInfo::getHealth)
+			.addFunction("getPosition", &ActorInfo::getPosition)
+			.addFunction("getDirection", &ActorInfo::getDirection)
+			.addFunction("getTeam", &ActorInfo::getTeam)
+			.addFunction("getName", &ActorInfo::getName)
+			.addFunction("getWeaponType", &ActorInfo::getWeaponType)
+			.addFunction("setHealth", &ActorInfo::setHealth)
+			.addFunction("setPosition", &ActorInfo::setPosition)
+			.addFunction("setDirection", &ActorInfo::setDirection)
+			.addFunction("setTeam", &ActorInfo::setTeam)
+			.addFunction("setWeaponType", &ActorInfo::setWeaponType)
+		.endClass()
+		// TODO uncomment when ready
+		.beginClass<ActorKnowledge>("ActorKnowledge")
+			.addFunction("getActionType", &ActorKnowledge::getActionType)
+			.addFunction("getName", &ActorKnowledge::getName)
+			.addFunction("getPosition", &ActorKnowledge::getPosition)
+			.addFunction("getDirection", &ActorKnowledge::getDirection)
+			.addFunction("getTeam", &ActorKnowledge::getTeam)
+			.addFunction("getWeaponType", &ActorKnowledge::getWeaponType)
+			.addFunction("getHealth", &ActorKnowledge::getHealth)
+			.addFunction("getAmmo", &ActorKnowledge::getAmmo)
+			.addFunction("getSeenActors", &ActorKnowledge::getSeenActors)
+			.addFunction("getSeenFriends", &ActorKnowledge::getSeenFriends)
+			.addFunction("getSeenFoes", &ActorKnowledge::getSeenFoes)
+			.addFunction("getEstimatedTimeToReach", &ActorKnowledge::getEstimatedTimeToReach)
+			.addFunction("getSelf", &ActorKnowledge::getSelf)
+			.addFunction("getNavigation", &ActorKnowledge::getNavigation)
+			.addFunction("getArmour", &ActorKnowledge::getArmour)
+			.addFunction("isMoving", &ActorKnowledge::isMoving)
+			.addFunction("isLoaded", &ActorKnowledge::isLoaded)
+			.addFunction("getLongDestination", &ActorKnowledge::getLongDestination)
+			.addFunction("getShortDestination", &ActorKnowledge::getShortDestination)
+			.addStaticProperty("Chaingun", &ActorKnowledge::chaingun)
+			.addStaticProperty("Railgun", &ActorKnowledge::railgun)
+			.addStaticProperty("RocketLauncher", &ActorKnowledge::rocketlauncher)
+			.addStaticProperty("Shotgun", &ActorKnowledge::shotgun)
+			.addStaticProperty("WeaponSize", &ActorKnowledge::weaponsize)
+			.addStaticProperty("Moving", &ActorKnowledge::moving)
+			.addStaticProperty("Shootinh", &ActorKnowledge::shooting)
+			.addStaticProperty("ChangingWeapon", &ActorKnowledge::changingweapon)
+			.addStaticProperty("Dying", &ActorKnowledge::dying)
+			.addStaticProperty("Reloading", &ActorKnowledge::reloading)
+			.addStaticProperty("Waiting", &ActorKnowledge::waiting)
+		.endClass()
+		.beginClass<Trigger>("Trigger")
+			.addStaticProperty("Weapon", &Trigger::weapon)
+			.addStaticProperty("Armour", &Trigger::armour)
+			.addStaticProperty("Health", &Trigger::health)
+			.addFunction("getType", &Trigger::getType)
+			.addFunction("isActive", &Trigger::isActive)
+			.addFunction("getPosition", &Trigger::getPosition)
+			.addFunction("getBoundingRadius", &Trigger::getBoundingRadius)
+		.endClass()
+		.beginClass<Navigation>("Navigation")
+			.addFunction("anyRayCrateColision", &Navigation::anyRayCrateColision)
+			.addFunction("getNodePosition", &Navigation::getNodePosition)
+			//.addFunction("searchWay", (std::vector<int>(Navigation:: *)(Vector4d, Vector4d)) &Navigation::searchWay)
+			.addFunction("getNumberOfTriggers", &Navigation::getNumberOfTriggers)
+			.addFunction("getTrigger", &Navigation::getTrigger)
+			.addFunction("getNumberOfSpawnPoints", &Navigation::getNumberOfSpawnPoints)
+			.addFunction("getSpawnPoint", &Navigation::getSpawnPoint)
+			.addFunction("getNumberOfPoints", &Navigation::getNumberOfPoints)
+		.endClass()
+		.beginClass<ULuaAgent>("LuaAgent")
+			.addFunction("randomDouble", &ULuaAgent::randomDouble)
+			.addFunction("selectWeapon", &ULuaAgent::selectWeapon)
+			.addFunction("moveDirection", &ULuaAgent::moveDirection)
+			.addFunction("moveTo", &ULuaAgent::moveTo)
+			.addFunction("reload", &ULuaAgent::reload)
+			.addFunction("rotate", &ULuaAgent::rotate)
+			.addFunction("shootAt", &ULuaAgent::shootAt)
+			.addFunction("shootAtPoint", &ULuaAgent::shootAtPoint)
+			.addFunction("wait", &ULuaAgent::wait)
+			.addFunction("continueAction", &ULuaAgent::continueAction)
+			.addFunction("printMessage", &ULuaAgent::printMessage)
+		.endClass()
+		.beginClass<Vector4d>("Vector4d")
+			.addFunction("value", &Vector4d::value)
+			.addConstructor<void(*)(double, double, double, double)>()
+			.addFunction("dot", &Vector4d::dot)
+			.addFunction("length", &Vector4d::length)
+			.addFunction("lengthSquared", &Vector4d::lengthSquared)
+			.addFunction("normal", &Vector4d::normal)
+			.addFunction("normalize", &Vector4d::normalize)
+			.addFunction("__mul", &Vector4d::operator*)
+			.addFunction("__div", &Vector4d::operator/)
+			.addFunction("__add", &Vector4d::operator+)
+			.addFunction("__sub", &Vector4d::operator-)
+			.addFunction("__eq", &Vector4d::operator==)
+		.endClass()
+	.endNamespace();
+	/*open(pL);
 	module(pL)
 		[
 			class_<Enumerations>("Enumerations")
@@ -53,49 +151,49 @@ lua_State * ULuaAgent::createLuaEnv() {
 				]
 			,
 				class_<ActorInfoVectorWrapper >("vectorOfActorInfo")
-				.def("size", &ActorInfoVectorWrapper::size)
-				.def("at", &ActorInfoVectorWrapper::at)
+				.addFunction("size", &ActorInfoVectorWrapper::size)
+				.addFunction("at", &ActorInfoVectorWrapper::at)
 				,
 				class_<IntVectorWrapper >("vectorOfInt")
-				.def("size", &IntVectorWrapper::size)
-				.def("at", &IntVectorWrapper::at)
+				.addFunction("size", &IntVectorWrapper::size)
+				.addFunction("at", &IntVectorWrapper::at)
 				,
 				class_<ActorInfo>("ActorInfo")
-				.def(constructor<>())
+				.addFunction(constructor<>())
 
-				.def("getHealth", &ActorInfo::getHealth)
-				.def("getPosition", &ActorInfo::getPosition)
-				.def("getDirection", &ActorInfo::getDirection)
-				.def("getTeam", &ActorInfo::getTeam)
-				.def("getName", &ActorInfo::getName)
-				.def("getWeaponType", &ActorInfo::getWeaponType)
-				.def("setHealth", &ActorInfo::setHealth)
-				.def("setPosition", &ActorInfo::setPosition)
-				.def("setDirection", &ActorInfo::setDirection)
-				.def("setTeam", &ActorInfo::setTeam)
-				.def("setWeaponType", &ActorInfo::setWeaponType)
+				.addFunction("getHealth", &ActorInfo::getHealth)
+				.addFunction("getPosition", &ActorInfo::getPosition)
+				.addFunction("getDirection", &ActorInfo::getDirection)
+				.addFunction("getTeam", &ActorInfo::getTeam)
+				.addFunction("getName", &ActorInfo::getName)
+				.addFunction("getWeaponType", &ActorInfo::getWeaponType)
+				.addFunction("setHealth", &ActorInfo::setHealth)
+				.addFunction("setPosition", &ActorInfo::setPosition)
+				.addFunction("setDirection", &ActorInfo::setDirection)
+				.addFunction("setTeam", &ActorInfo::setTeam)
+				.addFunction("setWeaponType", &ActorInfo::setWeaponType)
 				,
 				// TODO uncomment when ready
 				class_<ActorKnowledge>("ActorKnowledge")
-				.def("getActionType", &ActorKnowledge::getActionType)
-				.def("getName", &ActorKnowledge::getName)
-				.def("getPosition", &ActorKnowledge::getPosition)
-				.def("getDirection", &ActorKnowledge::getDirection)
-				.def("getTeam", &ActorKnowledge::getTeam)
-				.def("getWeaponType", &ActorKnowledge::getWeaponType)
-				.def("getHealth", &ActorKnowledge::getHealth)
-				.def("getAmmo", &ActorKnowledge::getAmmo)
-				.def("getSeenActors", &ActorKnowledge::getSeenActors)
-				.def("getSeenFriends", &ActorKnowledge::getSeenFriends)
-				.def("getSeenFoes", &ActorKnowledge::getSeenFoes)
-				.def("getEstimatedTimeToReach", &ActorKnowledge::getEstimatedTimeToReach)
-				.def("getSelf", &ActorKnowledge::getSelf)
-				.def("getNavigation", &ActorKnowledge::getNavigation)
-				.def("getArmour", &ActorKnowledge::getArmour)
-				.def("isMoving", &ActorKnowledge::isMoving)
-				.def("isLoaded", &ActorKnowledge::isLoaded)
-				.def("getLongDestination", &ActorKnowledge::getLongDestination)
-				.def("getShortDestination", &ActorKnowledge::getShortDestination)
+				.addFunction("getActionType", &ActorKnowledge::getActionType)
+				.addFunction("getName", &ActorKnowledge::getName)
+				.addFunction("getPosition", &ActorKnowledge::getPosition)
+				.addFunction("getDirection", &ActorKnowledge::getDirection)
+				.addFunction("getTeam", &ActorKnowledge::getTeam)
+				.addFunction("getWeaponType", &ActorKnowledge::getWeaponType)
+				.addFunction("getHealth", &ActorKnowledge::getHealth)
+				.addFunction("getAmmo", &ActorKnowledge::getAmmo)
+				.addFunction("getSeenActors", &ActorKnowledge::getSeenActors)
+				.addFunction("getSeenFriends", &ActorKnowledge::getSeenFriends)
+				.addFunction("getSeenFoes", &ActorKnowledge::getSeenFoes)
+				.addFunction("getEstimatedTimeToReach", &ActorKnowledge::getEstimatedTimeToReach)
+				.addFunction("getSelf", &ActorKnowledge::getSelf)
+				.addFunction("getNavigation", &ActorKnowledge::getNavigation)
+				.addFunction("getArmour", &ActorKnowledge::getArmour)
+				.addFunction("isMoving", &ActorKnowledge::isMoving)
+				.addFunction("isLoaded", &ActorKnowledge::isLoaded)
+				.addFunction("getLongDestination", &ActorKnowledge::getLongDestination)
+				.addFunction("getShortDestination", &ActorKnowledge::getShortDestination)
 				,
 				class_<Trigger>("Trigger")
 				.enum_("TriggerType")
@@ -104,55 +202,66 @@ lua_State * ULuaAgent::createLuaEnv() {
 					value("Armour", 1),
 					value("Health", 2)
 				]
-			.def("getType", &Trigger::getType)
-				.def("isActive", &Trigger::isActive)
-				.def("getPosition", &Trigger::getPosition)
-				.def("getBoundingRadius", &Trigger::getBoundingRadius)
+			.addFunction("getType", &Trigger::getType)
+				.addFunction("isActive", &Trigger::isActive)
+				.addFunction("getPosition", &Trigger::getPosition)
+				.addFunction("getBoundingRadius", &Trigger::getBoundingRadius)
 				,
 				class_<Navigation>("Navigation")
-				.def("anyRayCrateColision", &Navigation::anyRayCrateColision)
-				.def("getNodePosition", &Navigation::getNodePosition)
-				//.def("searchWay", (std::vector<int>(Navigation:: *)(Vector4d, Vector4d)) &Navigation::searchWay)
-				.def("getNumberOfTriggers", &Navigation::getNumberOfTriggers)
-				.def("getTrigger", &Navigation::getTrigger)
-				.def("getNumberOfSpawnPoints", &Navigation::getNumberOfSpawnPoints)
-				.def("getSpawnPoint", &Navigation::getSpawnPoint)
-				.def("getNumberOfPoints", &Navigation::getNumberOfPoints)
+				.addFunction("anyRayCrateColision", &Navigation::anyRayCrateColision)
+				.addFunction("getNodePosition", &Navigation::getNodePosition)
+				//.addFunction("searchWay", (std::vector<int>(Navigation:: *)(Vector4d, Vector4d)) &Navigation::searchWay)
+				.addFunction("getNumberOfTriggers", &Navigation::getNumberOfTriggers)
+				.addFunction("getTrigger", &Navigation::getTrigger)
+				.addFunction("getNumberOfSpawnPoints", &Navigation::getNumberOfSpawnPoints)
+				.addFunction("getSpawnPoint", &Navigation::getSpawnPoint)
+				.addFunction("getNumberOfPoints", &Navigation::getNumberOfPoints)
 				,
 				class_<ULuaAgent>("LuaAgent")
-				.def("randomDouble", &ULuaAgent::randomDouble)
-				.def("selectWeapon", &ULuaAgent::selectWeapon)
-				.def("moveDirection", &ULuaAgent::moveDirection)
-				.def("moveTo", &ULuaAgent::moveTo)
-				.def("reload", &ULuaAgent::reload)
-				.def("rotate", &ULuaAgent::rotate)
-				.def("shootAt", &ULuaAgent::shootAt)
-				.def("shootAtPoint", &ULuaAgent::shootAtPoint)
-				.def("wait", &ULuaAgent::wait)
-				.def("continueAction", &ULuaAgent::continueAction)
-				.def("printMessage", &ULuaAgent::printMessage)
+				.addFunction("randomDouble", &ULuaAgent::randomDouble)
+				.addFunction("selectWeapon", &ULuaAgent::selectWeapon)
+				.addFunction("moveDirection", &ULuaAgent::moveDirection)
+				.addFunction("moveTo", &ULuaAgent::moveTo)
+				.addFunction("reload", &ULuaAgent::reload)
+				.addFunction("rotate", &ULuaAgent::rotate)
+				.addFunction("shootAt", &ULuaAgent::shootAt)
+				.addFunction("shootAtPoint", &ULuaAgent::shootAtPoint)
+				.addFunction("wait", &ULuaAgent::wait)
+				.addFunction("continueAction", &ULuaAgent::continueAction)
+				.addFunction("printMessage", &ULuaAgent::printMessage)
 				,
 				class_<Vector4d>("Vector4d")
-				.def("value", &Vector4d::value)
-				.def(constructor<double, double, double, double>())
-				.def("dot", &Vector4d::dot)
-				.def("length", &Vector4d::length)
-				.def("lengthSquared", &Vector4d::lengthSquared)
-				.def("normal", &Vector4d::normal)
-				.def("normalize", &Vector4d::normalize)
-				.def(self * double())
-				.def(self / double())
-				.def(self + other<Vector4d>())
-				.def(self - other<Vector4d>())
-				.def(self == other<Vector4d>())
-		];
-	return pL;
+				.addFunction("value", &Vector4d::value)
+				.addFunction(constructor<double, double, double, double>())
+				.addFunction("dot", &Vector4d::dot)
+				.addFunction("length", &Vector4d::length)
+				.addFunction("lengthSquared", &Vector4d::lengthSquared)
+				.addFunction("normal", &Vector4d::normal)
+				.addFunction("normalize", &Vector4d::normalize)
+				.addFunction(self * double())
+				.addFunction(self / double())
+				.addFunction(self + other<Vector4d>())
+				.addFunction(self - other<Vector4d>())
+				.addFunction(self == other<Vector4d>())
+		];*/
 	return pL;
 }
 
 AEvaCharacter* ULuaAgent::GetControlledCharacter()
 {
 	return Cast<AEvaCharacter>(GetOwner());
+}
+
+ULuaAgent::~ULuaAgent()
+{
+	if (whatToHandle) {
+		delete whatToHandle;
+		whatToHandle = NULL;
+	}
+	if (onStartHandle) {
+		delete onStartHandle;
+		onStartHandle = NULL;
+	}
 }
 
 void ULuaAgent::Initialize(FString filename)
@@ -163,13 +272,14 @@ void ULuaAgent::Initialize(FString filename)
 
 	std::string name(TCHAR_TO_UTF8(*filename));
 
-	int error = luaL_loadfile(pL, name.c_str()) || lua_pcall(pL, 0, LUA_MULTRET, 0);
+	int error = luaL_dofile(pL, name.c_str());
 	if (error) {
 		std::ostringstream err_stream;
-		err_stream << "[Lua] Error " << error << ": " << lua_tostring(pL, -1) << " - during execution of script: " << name << "\n";
+		err_stream << "[Lua] Error " << error << ": " << lua_tostring(pL, -1) << " - during loading of script: " << name << "\n";
 		FString err(err_stream.str().c_str());
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, err);
 	}
+
 	this->luaEnv = pL;
 	
 	name.resize(name.length() - 4);
@@ -178,18 +288,22 @@ void ULuaAgent::Initialize(FString filename)
 	std::string stdBaseName(TCHAR_TO_UTF8(*baseName));
 	whatToName = std::string(stdBaseName + "whatTo");
 	onStartName = std::string(stdBaseName + "onStart");
+	whatToHandle = new luabridge::LuaRef(luaEnv);
+	(*whatToHandle) = luabridge::getGlobal(luaEnv, whatToName.c_str());
+	onStartHandle = new luabridge::LuaRef(luaEnv);
+	(*onStartHandle) = luabridge::getGlobal(luaEnv, onStartName.c_str());
 }
 
 void ULuaAgent::whatToDo()
 {
 	FString wtn(UTF8_TO_TCHAR(whatToName.c_str()));
-//	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, "Executing function: " + wtn);
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, "Executing function: " + wtn);
 
 	// Call the function in the lua script.
 	try {
 		ActorKnowledge *ak = GetControlledCharacter()->getActorKnowledge();
 		float t = GetWorld()->GetGameState<AEvaGameState>()->GetFloatTimeInSeconds();
-		call_function<void>(luaEnv,	whatToName.c_str(),	this, ak, t);
+		(*whatToHandle)(this, ak, t);
 	}
 	catch (...) {
 		FString fug(lua_tostring(luaEnv, -1));
@@ -200,13 +314,15 @@ void ULuaAgent::whatToDo()
 void ULuaAgent::onStart()
 {
 	FString osn(UTF8_TO_TCHAR(onStartName.c_str()));
-//	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, "Executing function: " + osn);
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, "Executing function: " + osn);
 
 	// Call the function in the lua script.
 	try {
 		ActorKnowledge *ak = GetControlledCharacter()->getActorKnowledge();
 		float t = GetWorld()->GetGameState<AEvaGameState>()->GetFloatTimeInSeconds();
-		call_function<void>(luaEnv, onStartName.c_str(), this, ak, t);
+		(*onStartHandle)(this, ak, t);
+		
+		//call_function<void>(luaEnv, onStartName.c_str(), this, ak, t);
 	}
 	catch (...) {
 		FString fug(lua_tostring(luaEnv, -1));
@@ -219,14 +335,15 @@ double ULuaAgent::randomDouble()
 	return FMath::FRand();
 }
 
-void ULuaAgent::selectWeapon(EWeaponType weapon)
+void ULuaAgent::selectWeapon(int weapon)
 {
-	if ((int)weapon < 0 || (int)weapon > 3)
+	if (weapon < 0 || weapon > 3)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, "selectWeapon: attempted to select out of range");
 		return;
 	}
-	GetControlledCharacter()->selectWeapon(weapon);
+	uint32 type = (uint32)weapon;
+	GetControlledCharacter()->selectWeapon(type);
 }
 
 void ULuaAgent::moveDirection(Vector4d direction)

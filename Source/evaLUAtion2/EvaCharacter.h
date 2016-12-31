@@ -105,7 +105,7 @@ public:
 
 	/** The character's current weapon */
 	UPROPERTY(BlueprintReadWrite, Category = CharacterState)
-		EWeaponType currentWeapon;
+		int32 currentWeapon;
 
 	/** The character's current action */
 	UPROPERTY(BlueprintReadWrite, Category = CharacterState)
@@ -123,7 +123,7 @@ public:
 
 	/** Change the character's weapon. */
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = EvaluationActions)
-		void selectWeapon(EWeaponType weapon);
+		void selectWeapon(int32 weapon);
 
 	/** Start moving the character in a given direction. */
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = EvaluationActions)

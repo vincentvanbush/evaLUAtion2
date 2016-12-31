@@ -17,11 +17,11 @@ A [detailed user's guide](http://docdro.id/NiUYXnC) (in Polish) is available, ex
 
 All of the libraries mentioned below were used in their 64-bit versions.
 
- * Unreal Engine 4.9
- * Visual C++ 2013
- * Lua 5.1.4
- * Luabind 0.9.1
- * Boost 1.55.0
+ * Unreal Engine 4.13.2
+ * Visual C++ 2015
+ * Lua 5.3.3
+ * LuaBridge
+ * Boost 1.62.0
 
 To build the application, edit the paths in `Source\evaLUAtion2\evaLUAtion2.build.cs` to point to the aforementioned libraries' folders. Afterwards, you should be able to build the app and package it.
 
