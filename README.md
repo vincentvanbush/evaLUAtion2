@@ -4,7 +4,7 @@ evaLUAtion2 is a shooter game providing a test platform for artificial intellige
 
 ## Features
 
- * Lua 5.1-based scripting API providing information about the current state of the game and methods for controlling characters.
+ * Lua 5.3-based scripting API providing information about the current state of the game and methods for controlling characters.
  * Gameplay allowing to control characters either by Lua scripts or user's mouse & keyboard.
  * A tool for editing game maps.
  * A profile manager allowing to bundle customized sets of game preferences and character lists.
