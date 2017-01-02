@@ -21,7 +21,7 @@ void AEvaGameState::Tick(float DeltaTime)
 		// GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Ebin :D"); // call the event dispatcher here
 	}
 }
-
+#pragma optimize("", off)
 lua_State* AEvaGameState::GetLuaContextFor(AEvaCharacter *character)
 {
 	int32 team = character->team;
@@ -33,7 +33,7 @@ lua_State* AEvaGameState::GetLuaContextFor(AEvaCharacter *character)
 	}
 	return it->second;
 }
-
+#pragma optimize("", on)
 AEvaGameState::AEvaGameState(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
