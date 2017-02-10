@@ -19,9 +19,9 @@ public class evaLUAtion2 : ModuleRules
 
         bEnableExceptions = true;
 
-        string LuaPath = "D:/Libraries/lua5_1_3_Win32_dll8_lib";
+        string LuaPath = Path.Combine(evaLUAtionDir, "../Lib/Lua-5.3.3");
         string LuaBridge = Path.Combine(evaLUAtionDir, "../Lib/LuaBridge");
-        string BoostPath = "D:/Unreal Projects/evaLUAtion2.1-master/Source/Lib/boost_1_62_0";
+        string BoostPath = Path.Combine(evaLUAtionDir, "../Lib/boost_1_62_0");
 
         PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
 
@@ -36,7 +36,7 @@ public class evaLUAtion2 : ModuleRules
 
         string BoostLibPath = Path.Combine(BoostPath, "lib64-msvc-14.0");
 
-        PublicAdditionalLibraries.Add("D:/Unreal Projects/evaLUAtion2.1-master/Source/Lib/Lua-5.3.3/lua53.lib");
+        PublicAdditionalLibraries.Add(Path.Combine(LuaPath, "lua53.lib"));
         PublicAdditionalLibraries.Add(Path.Combine(BoostLibPath, "libboost_atomic-vc140-mt-1_62.lib"));
         PublicAdditionalLibraries.Add(Path.Combine(BoostLibPath, "libboost_bzip2-vc140-mt-1_62.lib"));
         PublicAdditionalLibraries.Add(Path.Combine(BoostLibPath, "libboost_chrono-vc140-mt-1_62.lib"));

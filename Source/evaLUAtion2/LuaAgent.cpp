@@ -69,17 +69,17 @@ lua_State * ULuaAgent::createLuaEnv() {
 			.addFunction("isLoaded", &ActorKnowledge::isLoaded)
 			.addFunction("getLongDestination", &ActorKnowledge::getLongDestination)
 			.addFunction("getShortDestination", &ActorKnowledge::getShortDestination)
-			.addStaticProperty("Chaingun", &ActorKnowledge::chaingun)
-			.addStaticProperty("Railgun", &ActorKnowledge::railgun)
-			.addStaticProperty("RocketLauncher", &ActorKnowledge::rocketlauncher)
-			.addStaticProperty("Shotgun", &ActorKnowledge::shotgun)
-			.addStaticProperty("WeaponSize", &ActorKnowledge::weaponsize)
-			.addStaticProperty("Moving", &ActorKnowledge::moving)
-			.addStaticProperty("Shootinh", &ActorKnowledge::shooting)
-			.addStaticProperty("ChangingWeapon", &ActorKnowledge::changingweapon)
-			.addStaticProperty("Dying", &ActorKnowledge::dying)
-			.addStaticProperty("Reloading", &ActorKnowledge::reloading)
-			.addStaticProperty("Waiting", &ActorKnowledge::waiting)
+			.addFunction("Chaingun", &ActorKnowledge::chaingun)
+			.addFunction("Railgun", &ActorKnowledge::railgun)
+			.addFunction("RocketLauncher", &ActorKnowledge::rocketlauncher)
+			.addFunction("Shotgun", &ActorKnowledge::shotgun)
+			.addFunction("WeaponSize", &ActorKnowledge::weaponsize)
+			.addFunction("Moving", &ActorKnowledge::moving)
+			.addFunction("Shooting", &ActorKnowledge::shooting)
+			.addFunction("ChangingWeapon", &ActorKnowledge::changingweapon)
+			.addFunction("Dying", &ActorKnowledge::dying)
+			.addFunction("Reloading", &ActorKnowledge::reloading)
+			.addFunction("Waiting", &ActorKnowledge::waiting)
 		.endClass()
 		.beginClass<Trigger>("Trigger")
 			.addStaticProperty("Weapon", &Trigger::weapon)
@@ -326,7 +326,7 @@ void ULuaAgent::onStart()
 	}
 	catch (...) {
 		FString fug(lua_tostring(luaEnv, -1));
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, fug);
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Orange, fug);
 	}
 }
 

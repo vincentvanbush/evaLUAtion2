@@ -33,18 +33,18 @@ public:
 	bool isMoving();
 	float getEstimatedTimeToReach(Vector4d a, Vector4d b);
 	uint8 getActionType();
-	static int8 moving() { return 0; };
-	static int8 shooting() { return 1; };
-	static int8 changingweapon() { return 2; };
-	static int8 dying() { return 3; };
-	static int8 reloading() { return 4; };
-	static int8 waiting() { return 5; };
+	int moving() const { return 0; };
+	int shooting() const { return 1; };
+	int changingweapon() const { return 2; };
+	int dying() const { return 3; };
+	int reloading() const { return 4; };
+	int waiting() const { return 5; };
 
-	static int8 chaingun() { return 0; };
-	static int8 railgun() { return 1; };
-	static int8 rocketlauncher() { return 2; };
-	static int8 shotgun() { return 3; };
-	static int8 weaponsize() { return 4; };
+	int chaingun() const { return 0; };
+	int railgun() const { return 1; };
+	int rocketlauncher() const { return 2; };
+	int shotgun() const { return 3; };
+	int weaponsize() const { return 4; };
 
 private:
 	AEvaCharacter * character;
